@@ -1,5 +1,7 @@
-fibo.o: fibo.c
-	gcc -c fibo.c
+all: fibo.o main.o
 
-main.o: main.c fibo.o
-	gcc -c main.c -I ../include/
+fibo.o: fibo.c
+	gcc -c fibo.c -I../include -o fibo.o
+
+main.o: main.c
+	gcc -c main.c -I../include -o main.o
