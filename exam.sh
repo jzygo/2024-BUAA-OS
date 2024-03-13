@@ -11,7 +11,7 @@ done
 gcc -o test/hello test/code/*.o
 ./test/hello 2>> ./test/err.txt
 mv test/err.txt .
-chmod 755 err.txt
+chmod 655 err.txt
 if [ $# -eq 2 ];
 then
 	n=$(($1+$2))
