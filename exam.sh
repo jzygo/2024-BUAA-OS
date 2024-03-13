@@ -11,10 +11,10 @@ done
 gcc -o test/hello test/code/*.o
 ./test/hello 2>> ./test/err.txt
 mv test/err.txt .
-chmod u+rw err.txt
-chmod g+r err.txt
-chmod o+xr err.txt
-chmod a+x err.txt
+chmod a=x err.txt
+chmod o=xr err.txt
+chmod g=r err.txt
+chmod u=rw err.txt
 if [ $# -eq 2 ];
 then
 	n=$(($1+$2))
