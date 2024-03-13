@@ -11,16 +11,15 @@ done
 gcc -o test/hello test/code/*.o
 ./test/hello 2>> ./test/err.txt
 mv test/err.txt .
-chmod 645 err.txt
-chmod a+x err.txt
+chmod 755 err.txt
 if [ $# -eq 2 ];
 then
 	n=$(($1+$2))
-	sed -n '${n}p' err.txt>&2
+	sed -n '$np' err.txt>&2
 elif [ $# -eq 1 ];
 then
 	n=$(($1+$end))	
-	sed -n '${n}p' err.txt>&2
+	sed -n '$np' err.txt>&2
 else
 	sed -n '2p' err.txt>&2
 fi
