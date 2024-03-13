@@ -15,11 +15,25 @@ chmod 655 err.txt
 if [ $# -eq 2 ];
 then
 	n=$(($1+$2))
-	sed -n '$np' err.txt>&2
+	start=1
+	cat err.txt > temp
+	while [ $start -ne $n ]
+	do
+		sed -i '1d' temp	
+		let start=start+1
+	done
+	sed -n '1p' temp>&2
 elif [ $# -eq 1 ];
 then
 	n=$(($1+$end))	
-	sed -n '$np' err.txt>&2
+	start=1
+	cat err.txt > temp
+	while [ $start -ne $n ]
+	do
+		sed -i '1d' temp
+		let start=start+1
+	done
+	sed -n '1p' temp>&2
 else
 	sed -n '2p' err.txt>&2
 fi
