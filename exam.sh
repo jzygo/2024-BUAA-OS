@@ -3,7 +3,7 @@ cp -r code test/
 cat code/14.c
 x=0
 end=15
-while [ $x -ne 10 ]
+while [ $x -ne 16 ]
 do
 	gcc -c test/code/${x}.c -o test/code/${x}.o
 	let x=x+1
