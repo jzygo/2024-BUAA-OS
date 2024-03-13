@@ -1,0 +1,7 @@
+root           1       0  17 sshd: /usr/sbin/sshd -De [listener] 0 of 10-100 startups
+root         217       1  18 sshd: git [priv]
+git          227     217  18 sshd: git@pts/0
+git          228     227  19 -bash
+git          277     228  19 python3
+git          293     228  19 ps -o user,pid,ppid,pri,command -ax
+git          294     228  17 -bash
