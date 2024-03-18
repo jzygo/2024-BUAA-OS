@@ -102,10 +102,12 @@ void vprintfmt(fmt_callback_t out, void *data, const char *fmt, va_list ap) {
 			if (num < 0)
 			{
 				if (long_flag) {
-					num = 18446744073709551615 - num + 1;
+					//num = 18446744073709551615 - num + 1;
+					num = -num;
 				}
 				else {
-					num = 17179869183 -num + 1;
+					//num = 17179869183 -num + 1;
+					num = -num;
 				}
 				neg_flag = 1;
 
