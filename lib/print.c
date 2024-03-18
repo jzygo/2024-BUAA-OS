@@ -100,7 +100,16 @@ void vprintfmt(fmt_callback_t out, void *data, const char *fmt, va_list ap) {
 			 */
 			/* Exercise 1.4: Your code here. (8/8) */
 			if (num < 0)
-				neg_flag=1;
+			{
+				if (long_flag) {
+					num = 18446744073709551615 - num + 1;
+				}
+				else {
+					num = 17179869183 -num + 1;
+				}
+				neg_flag = 1;
+
+			}
 			print_num(out, data, num, 10, neg_flag, width, ladjust, padc, 0);
 			break;
 
