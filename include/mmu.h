@@ -25,7 +25,7 @@
 #define PTE_HARDFLAG_SHIFT 6
 
 // TLB EntryLo and Memory Page Table Entry Bit Structure Diagram.
-// entrylo.value == pte.value << 6
+// entrylo.value == pte.value >> 6
 /*
  * +----------------------------------------------------------------+
  * |                     TLB EntryLo Structure                      |
@@ -71,7 +71,6 @@
 #define KSEG1 0xA0000000U
 #define KSEG2 0xC0000000U
 
-/* Lab 1 Key Code "load-kernel" */
 /*
  * Part 2.  Our conventions.
  */
@@ -120,7 +119,6 @@
  a     0 ------------>  +----------------------------+ ----------------------------
  o
 */
-/* End of Key Code "load-kernel" */
 
 #define KERNBASE 0x80020000
 
