@@ -27,6 +27,8 @@ void mips_detect_memory(u_int _memsize) {
 	/* Step 2: Calculate the corresponding 'npage' value. */
 	/* Exercise 2.1: Your code here. */
 
+	npage = memsize / PAGE_SIZE;
+
 	printk("Memory size: %lu KiB, number of pages: %lu\n", memsize / 1024, npage);
 }
 
@@ -93,16 +95,29 @@ void page_init(void) {
 	/* Step 1: Initialize page_free_list. */
 	/* Hint: Use macro `LIST_INIT` defined in include/queue.h. */
 	/* Exercise 2.3: Your code here. (1/4) */
-
+	LIST_INIT(&page_free_list);
 	/* Step 2: Align `freemem` up to multiple of PAGE_SIZE. */
 	/* Exercise 2.3: Your code here. (2/4) */
+	freemem = ROUND(freemem,PAGE_SIZE);
 
 	/* Step 3: Mark all memory below `freemem` as used (set `pp_ref` to 1) */
 	/* Exercise 2.3: Your code here. (3/4) */
+	struct Page *point=pages;
+	for (int i = 0;i < freemem/PAGE_SIZE; i++) {
+		point->pp_ref = 1;
+		point = point->pp_link.le_next;
+	}
 
 	/* Step 4: Mark the other memory as free. */
 	/* Exercise 2.3: Your code here. (4/4) */
 
+	while(point != NULL) {
+		point->pp_ref = 0;
+		LIST_INSERT_HEAD(&page_free_list,point,pp_link);
+		point = point->pp_link.le_next;
+		if(point->pp_link.le_next == NULL)
+			break;
+	}
 }
 
 /* Overview:
@@ -122,13 +137,15 @@ int page_alloc(struct Page **new) {
 	/* Step 1: Get a page from free memory. If fails, return the error code.*/
 	struct Page *pp;
 	/* Exercise 2.4: Your code here. (1/2) */
-
+	if (LIST_EMPTY(&page_free_list)) 
+		return ERROR_NOT_ENOUGH_MEMORY;
+	pp = page_free_list.lh_first;
 	LIST_REMOVE(pp, pp_link);
 
 	/* Step 2: Initialize this page with zero.
 	 * Hint: use `memset`. */
 	/* Exercise 2.4: Your code here. (2/2) */
-
+	memset(page2kva(pp),0,PAGE_SIZE);
 	*new = pp;
 	return 0;
 }
@@ -143,7 +160,7 @@ void page_free(struct Page *pp) {
 	assert(pp->pp_ref == 0);
 	/* Just insert it into 'page_free_list'. */
 	/* Exercise 2.5: Your code here. */
-
+	LIST_INSERT_HEAD(&page_free_list,pp,pp_link);
 }
 
 /* Overview:
