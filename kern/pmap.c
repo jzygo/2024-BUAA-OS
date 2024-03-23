@@ -111,7 +111,7 @@ void page_init(void) {
 	/* Step 4: Mark the other memory as free. */
 	/* Exercise 2.3: Your code here. (4/4) */
 
-	while(point != NULL) {
+	while(page2kva(point) < memsize) {
 		point->pp_ref = 0;
 		LIST_INSERT_HEAD(&page_free_list,point,pp_link);
 		point = point->pp_link.le_next;
