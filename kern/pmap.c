@@ -103,7 +103,7 @@ void page_init(void) {
 	/* Step 3: Mark all memory below `freemem` as used (set `pp_ref` to 1) */
 	/* Exercise 2.3: Your code here. (3/4) */
 	struct Page *point=pages;
-	for (int i = 0;i < (freemem-(u_long)end) /PAGE_SIZE; i++) {
+	for (int i = 0;i < (freemem-0x80400000) /PAGE_SIZE; i++) {
 		point->pp_ref = 1;
 		point = point->pp_link.le_next;
 	}
