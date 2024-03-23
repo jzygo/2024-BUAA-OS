@@ -138,7 +138,7 @@ int page_alloc(struct Page **new) {
 	struct Page *pp;
 	/* Exercise 2.4: Your code here. (1/2) */
 	if (LIST_EMPTY(&page_free_list)) 
-		return ERROR_NOT_ENOUGH_MEMORY;
+		return 4;
 	pp = page_free_list.lh_first;
 	LIST_REMOVE(pp, pp_link);
 
