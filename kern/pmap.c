@@ -104,10 +104,12 @@ void page_init(void) {
 	/* Exercise 2.3: Your code here. (3/4) */
 	struct Page *point=pages;
 	int cnt=0;
-	while(point < freemem) {
+	u_long addr = point;
+	while(addr < freemem) {
 		point->pp_ref = 1;
 		point++;
 		cnt++;
+		addr+=PAGE_SIZE;
 	}
 
 	/* Step 4: Mark the other memory as free. */
