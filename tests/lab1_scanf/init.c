@@ -1,10 +1,16 @@
 void scanf_1_check() {
 	printk("Running scanf_1_check\n");
-	int num = 0;
-	char ch = '0';
-	scanf("%d%c", &num, &ch);
-	printk("Finished 1st scanf\n");
-	printk("%c %d\n", ch, num);
+	char arr[128];
+	int dec, hex;
+	char ch;
+	scanf("%d",  &dec);
+	printk("%d",dec);
+	scanf("%x",&hex);
+	printk("%x",hex);
+	scanf("%c",&ch);
+	printk("%c",ch);
+	scanf("%s",arr);
+	printk("%s",arr);
 }
 
 void mips_init(u_int argc, char **argv, char **penv, u_int ram_low_size) {

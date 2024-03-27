@@ -44,6 +44,7 @@ int scanf(const char *fmt, ...) {
 	// Lab 1-Extra: Your code here. (1/5)
 	va_list ap;
 	va_start(ap, fmt);
-	vscanfmt(inputk, NULL, fmt, ap);
+	int result = vscanfmt(inputk, NULL, fmt, ap);
 	va_end(ap);
+	return result;
 }

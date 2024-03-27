@@ -62,6 +62,7 @@ int vscanfmt(scan_callback_t in, void *data, const char *fmt, va_list ap) {
 					}
 					num=num*base;
 					num=num+reg;
+					in(data,&ch,1);
 				}
 				if (neg == 1)
 					num=-num;
