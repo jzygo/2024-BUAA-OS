@@ -83,6 +83,7 @@ int vscanfmt(scan_callback_t in, void *data, const char *fmt, va_list ap) {
 					in(data,&ch,1);
 					num++;		
 				}
+				cp[num]='\0';
 				break;
 			}
 			fmt++;
