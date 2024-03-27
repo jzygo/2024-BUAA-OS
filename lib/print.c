@@ -326,4 +326,23 @@ void print_num(fmt_callback_t out, void *data, unsigned long u, int base, int ne
 			buf[i] = padc;
 		}
 	}
+		int begin = 0;
+	int end;
+	if (ladjust) {
+		end = actualLength - 1;
+	} else {
+		end = length - 1;
+	}
 
+	/* adjust the string pointer */
+	while (end > begin) {
+		char tmp = buf[begin];
+		buf[begin] = buf[end];
+		buf[end] = tmp;
+		begin++;
+		end--;
+	}
+
+	out(data, buf, length);
+
+}
