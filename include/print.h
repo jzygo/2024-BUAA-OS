@@ -5,7 +5,8 @@
 #include <types.h>
 
 typedef void (*fmt_callback_t)(void *data, const char *buf, size_t len);
-
+typedef void (*scan_callback_t)(void *data, char *buf, size_t len);
+int vscanfmt(scan_callback_t in, void *data, const char *fmt, va_list ap);
 /* Lab 1 Key Code "vprintfmt-overview" */
 /*
  * 'vprintfmt' is a formatting function that allows different backends (i.e., output sinks)
