@@ -9,6 +9,9 @@ void vprintfmt(fmt_callback_t out, void *data, const char *fmt, va_list ap) {
 	char c;
 	const char *s;
 	long num;
+	long x,y,z;
+	long tempX,tempY,tempZ;
+	char *temp;
 
 	int width;
 	int long_flag; // output is long (rather than int)
@@ -114,7 +117,58 @@ void vprintfmt(fmt_callback_t out, void *data, const char *fmt, va_list ap) {
 			}
 			print_num(out, data, num, 10, neg_flag, width, ladjust, padc, 0);
 			break;
+		case 'P':
+		case 'p':
+			if (long_flag) {
+                                 x = va_arg(ap, long int);
+                         } else {
+                                 x = va_arg(ap, int);
+                         }
+			 tempX=x;
+                         if (x < 0)
+                         {
+                                 if (long_flag) {
+                                         x = -x;
+                                 }
+                                 else {
+                                         x = -x;
+                                 }
+                                 neg_flag = 1;
+ 
+                         }
+			 temp = "(";
+		       	 out(data,temp,1);
+                         print_num(out, data, x, 10, neg_flag, width, ladjust, padc, 0);
+			 if (long_flag) {
+                                  y = va_arg(ap, long int);
+                          } else {
+                                  y = va_arg(ap, int);
+                          }
+			  tempY=y;
+			  neg_flag=0;
+                          if (y < 0)
+                          {
+                                  if (long_flag) {
+                                          y = -y;
+                                  }
+                                  else {
+                                          y = -y;
+                                  }
+                                  neg_flag = 1;
 
+                          }
+                          temp = ",";
+                          out(data,temp,1);
+                          print_num(out, data, y, 10, neg_flag, width, ladjust, padc, 0);
+			  int z = (tempX + tempY) * (tempX - tempY);
+			  z = z < 0 ? -z : z;
+			  neg_flag=0;
+			  temp = ",";
+			  out(data,temp,1);
+			  print_num(out,data,z,10,neg_flag,width,ladjust,padc,0);
+			  temp = ")";
+			  out(data,temp,1);
+                         break;
 		case 'o':
 		case 'O':
 			if (long_flag) {
@@ -166,7 +220,6 @@ void vprintfmt(fmt_callback_t out, void *data, const char *fmt, va_list ap) {
 		case '\0':
 			fmt--;
 			break;
-
 		default:
 			/* output this char as it is */
 			out(data, fmt, 1);
@@ -274,23 +327,3 @@ void print_num(fmt_callback_t out, void *data, unsigned long u, int base, int ne
 		}
 	}
 
-	/* prepare to reverse the string */
-	int begin = 0;
-	int end;
-	if (ladjust) {
-		end = actualLength - 1;
-	} else {
-		end = length - 1;
-	}
-
-	/* adjust the string pointer */
-	while (end > begin) {
-		char tmp = buf[begin];
-		buf[begin] = buf[end];
-		buf[end] = tmp;
-		begin++;
-		end--;
-	}
-
-	out(data, buf, length);
-}
