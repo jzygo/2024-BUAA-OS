@@ -21,6 +21,7 @@ LEAF(tlb_out)
 	/* Step 3: Use 'tlbwi' to write CP0.EntryHi/Lo into TLB at CP0.Index  */
 	/* Exercise 2.8: Your code here. (2/2) */
 	tlbwi
+	nop
 .set reorder
 
 NO_SUCH_ENTRY:
@@ -47,6 +48,6 @@ do_tlb_refill_call:
 	nop
 	/* Hint: use 'tlbwr' to write CP0.EntryHi/Lo into a random tlb entry. */
 	/* Exercise 2.10: Your code here. */
-
+	tlbwr
 	jr      ra
 END(do_tlb_refill)
