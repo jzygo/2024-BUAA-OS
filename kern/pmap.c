@@ -194,7 +194,7 @@ static int pgdir_walk(Pde *pgdir, u_long va, int create, Pte **ppte) {
 	 *   * Otherwise, assign NULL to '*ppte' and return 0.
 	 */
 	/* Exercise 2.6: Your code here. (2/3) */
-	if (PTE_V&(*pgdir_entryp)==0)
+	if ((PTE_V&(*pgdir_entryp))==0)
 	{
 		if (create != 0)
 		{
