@@ -51,8 +51,7 @@ int elf_load_seg(Elf32_Phdr *ph, const void *bin, elf_mapper_t map_page, void *d
 
 	/* Step 2: alloc pages to reach `sgsize` when `bin_size` < `sgsize`. */
 	while (i < sgsize) {
-		if ((r = map_page(data, va + i, 0, perm, NULL, MIN(bin_size - i, PAGE_SIZE))) !=
-		    0) {
+		if ((r = map_page(data, va + i, 0, perm, NULL, MIN(sgsize - i, PAGE_SIZE))) != 0) {
 			return r;
 		}
 		i += PAGE_SIZE;
