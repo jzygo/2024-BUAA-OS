@@ -45,12 +45,9 @@ void schedule(int yield) {
 		if (TAILQ_EMPTY(&env_sched_list)) {
 			panic("schedule: no runnable envs");
 		}
-		struct Env *next=TAILQ_FIRST(&env_sched_list);
-		count=next->env_pri;
-		env_run(next);
+		e=TAILQ_FIRST(&env_sched_list);
+		count=e->env_pri;
 	}
-	else {
-		count--;
-		env_run(e);
-	}
+	count--;
+	env_run(e);
 }
