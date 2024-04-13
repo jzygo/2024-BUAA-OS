@@ -47,6 +47,10 @@ void schedule(int yield) {
 		}
 		struct Env *next=TAILQ_FIRST(&env_sched_list);
 		count=next->env_pri;
+		env_run(next);
+	}
+	else {
+		count--;
 		env_run(e);
 	}
 }

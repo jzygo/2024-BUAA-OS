@@ -67,7 +67,7 @@ void mips_init(u_int argc, char **argv, char **penv, u_int ram_low_size) {
 	// ENV_CREATE(user_devtst);
 
 	// lab3:
-	// schedule(0);
+	schedule(0);
 }
 
 #endif
