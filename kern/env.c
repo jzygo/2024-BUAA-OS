@@ -235,7 +235,9 @@ int env_alloc(struct Env **new, u_int parent_id) {
 	e=LIST_FIRST(&env_free_list);
 	/* Step 2: Call a 'env_setup_vm' to initialize the user address space for this new Env. */
 	/* Exercise 3.4: Your code here. (2/4) */
-	env_setup_vm(e);
+	 if ((r=env_setup_vm(e))!=0) {
+		return r;
+	 }
 	/* Step 3: Initialize these fields for the new Env with appropriate values:
 	 *   'env_user_tlb_mod_entry' (lab4), 'env_runs' (lab6), 'env_id' (lab3), 'env_asid' (lab3),
 	 *   'env_parent_id' (lab3)
