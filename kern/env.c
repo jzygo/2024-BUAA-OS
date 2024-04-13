@@ -303,7 +303,7 @@ static int load_icode_mapper(void *data, u_long va, size_t offset, u_int perm, c
 	// Hint: You may want to use 'memcpy'.
 	if (src != NULL) {
 		/* Exercise 3.5: Your code here. (2/2) */
-		memcpy((void*)(page2pa(p)+offset),src,len);
+		memcpy((void*)(page2kva(p)+offset),src,len);
 	}
 
 	/* Step 3: Insert 'p' into 'env->env_pgdir' at 'va' with 'perm'. */
