@@ -189,7 +189,7 @@ static int env_setup_vm(struct Env *e) {
 	try(page_alloc(&p));
 	/* Exercise 3.3: Your code here. */
 	p->pp_ref++;
-	e->env_pgdir = page2kva(p);
+	e->env_pgdir = (Pde *)page2kva(p);
 	/* Step 2: Copy the template page directory 'base_pgdir' to 'e->env_pgdir'. */
 	/* Hint:
 	 *   As a result, the address space of all envs is identical in [UTOP, UVPT).
@@ -229,6 +229,9 @@ int env_alloc(struct Env **new, u_int parent_id) {
 
 	/* Step 1: Get a free Env from 'env_free_list' */
 	/* Exercise 3.4: Your code here. (1/4) */
+	if (LIST_EMPTY(&env_free_list)) {
+		return -E_NO_FREE_ENV;
+	}
 	e=LIST_FIRST(&env_free_list);
 	/* Step 2: Call a 'env_setup_vm' to initialize the user address space for this new Env. */
 	/* Exercise 3.4: Your code here. (2/4) */
