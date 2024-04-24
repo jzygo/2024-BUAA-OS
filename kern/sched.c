@@ -37,6 +37,8 @@ void schedule(int yield) {
 	/* Exercise 3.12: Your code here. */
 	if ((yield==0)&&(e!=NULL)) {
 		e->env_runs++;		
+	}
+	if (count<=0 && e!=NULL) {
 		e->env_clocks+=((struct Trapframe *)KSTACKTOP - 1)->cp0_count;
 	}
 	if (yield==1||count<=0||e==NULL||e->env_status!=ENV_RUNNABLE) {

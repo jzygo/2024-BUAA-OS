@@ -570,6 +570,6 @@ void envid2env_check() {
 void env_stat(struct Env *e, u_int *pri, u_int *scheds, u_int *runs, u_int *clocks) {
 	*pri = e->env_pri;
 	*scheds=e->env_scheds;
-	*runs=e->env_runs;
+	*runs=e->env_runs/2;
 	*clocks=e->env_clocks;
 }
