@@ -16,6 +16,7 @@ struct Trapframe {
 	unsigned long cp0_badvaddr;
 	unsigned long cp0_cause;
 	unsigned long cp0_epc;
+	unsigned long cp0_count;
 };
 
 void print_tf(struct Trapframe *tf);

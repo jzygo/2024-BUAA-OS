@@ -14,7 +14,7 @@
  *   2. Use variable 'env_sched_list', which contains and only contains all runnable envs.
  *   3. You shouldn't use any 'return' statement because this function is 'noreturn'.
  */
-void schedule(int yield,int cp0_count) {
+void schedule(int yield) {
 	static int count = 0; // remaining time slices of current env
 	struct Env *e = curenv;
 
@@ -35,7 +35,7 @@ void schedule(int yield,int cp0_count) {
 	 *   'TAILQ_FIRST', 'TAILQ_REMOVE', 'TAILQ_INSERT_TAIL'
 	 */
 	/* Exercise 3.12: Your code here. */
-	e->env_clocks+=cp0_count;
+	e->env_clocks+=((struct Trapframe *)KSTACKTOP - 1)->cp0_count;
 	if (cp0_count>10) {
 		e->env_runs++;
 	}
