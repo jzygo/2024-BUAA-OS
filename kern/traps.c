@@ -61,7 +61,7 @@ void do_ri(struct Trapframe *tf) {
             u_int tmp = *(int *)rs_value;
             u_int rd = 0;
             if (*(int *)rs_value == rt_value) {
-                *(int *)rs_value = rd;
+                *(int *)rs_value = tf->regs[rd_index];
             }
             rd = tmp;
             tf->regs[rd_index]=rd;
