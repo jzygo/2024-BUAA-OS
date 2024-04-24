@@ -39,8 +39,8 @@ void do_ri(struct Trapframe *tf) {
     int rd_index=instr&0xF800;
     if (instr&0xFC000000==0) {
         if ((instr&63)==63) {//pmaxub
-            u_int rs_value=tf->reg[rs];
-            u_int rt_value=tf->reg[rt];
+            u_int rs_value=tf->regs[rs];
+            u_int rt_value=tf->regs[rt];
             u_int rd = 0;
             for (i = 0; i < 32; i += 8) {
                 u_int rs_i = rs_value & (0xff << i);
@@ -51,18 +51,18 @@ void do_ri(struct Trapframe *tf) {
                     rd = rd | rs_i;
                 }
             }
-            tf->reg[rd_index]=rd;
+            tf->regs[rd_index]=rd;
         }
         if ((instr&62)==62) {//cas
-            u_int rs_value=tf->reg[rs];
-            u_int rt_value=tf->reg[rt];
+            u_int rs_value=tf->regs[rs];
+            u_int rt_value=tf->regs[rt];
             tmp = *(int *)rs_value;
             u_int rd = 0;
             if (*(int *)rs_value == rt_value) {
                 *(int *)rs_value = rd;
             }
             rd = tmp;
-            tf->reg[rd_index]=rd;
+            tf->regs[rd_index]=rd;
         }
     }
     tf->cp0_epc+=4;
