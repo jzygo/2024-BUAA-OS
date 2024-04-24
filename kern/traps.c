@@ -34,10 +34,10 @@ void do_ri(struct Trapframe *tf) {
     u_int *epc;
     epc=tf->cp0_epc;
     u_int instr=*epc;
-    int rs=instr&0x3E00000;
-    int rt=instr&0x1F0000;
-    int rd_index=instr&0xF800;
-    if (instr&0xFC000000==0) {
+    int rs=(instr&0x3E00000);
+    int rt=(instr&0x1F0000);
+    int rd_index=(instr&0xF800);
+    if ((instr&0xFC000000)==0) {
         if ((instr&63)==63) {//pmaxub
             u_int rs_value=tf->regs[rs];
             u_int rt_value=tf->regs[rt];
