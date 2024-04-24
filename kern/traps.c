@@ -42,6 +42,7 @@ void do_ri(struct Trapframe *tf) {
             u_int rs_value=tf->regs[rs];
             u_int rt_value=tf->regs[rt];
             u_int rd = 0;
+            int i;
             for (i = 0; i < 32; i += 8) {
                 u_int rs_i = rs_value & (0xff << i);
                 u_int rt_i = rt_value & (0xff << i);
@@ -56,7 +57,7 @@ void do_ri(struct Trapframe *tf) {
         if ((instr&62)==62) {//cas
             u_int rs_value=tf->regs[rs];
             u_int rt_value=tf->regs[rt];
-            tmp = *(int *)rs_value;
+            u_int tmp = *(int *)rs_value;
             u_int rd = 0;
             if (*(int *)rs_value == rt_value) {
                 *(int *)rs_value = rd;
