@@ -25,6 +25,7 @@ NESTED(handle_int, TF_SIZE, zero)
 	bnez    t1, timer_irq
 timer_irq:
 	li      a0, 0
+	lw 		a1, TF_COUNT(sp)
 	j       schedule
 END(handle_int)
 
