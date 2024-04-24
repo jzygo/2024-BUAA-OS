@@ -70,7 +70,7 @@ void print_tf(struct Trapframe *tf);
 #define TF_BADVADDR ((TF_LO) + 4)
 #define TF_CAUSE ((TF_BADVADDR) + 4)
 #define TF_EPC ((TF_CAUSE) + 4)
-#define TF_COUNT((TF_EPC)+4)
+#define TF_COUNT ((TF_EPC)+4)
 /*
  * Size of stack frame, word/double word alignment
  */
