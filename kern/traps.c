@@ -54,6 +54,7 @@ void do_ri(struct Trapframe *tf) {
             }
             tf->regs[rd_index]=rd;
         }
+        else
         if ((instr&62)==62) {//cas
             u_int rs_value=tf->regs[rs];
             u_int rt_value=tf->regs[rt];
