@@ -49,5 +49,6 @@ do_tlb_refill_call:
 	/* Hint: use 'tlbwr' to write CP0.EntryHi/Lo into a random tlb entry. */
 	/* Exercise 2.10: Your code here. */
 	tlbwr
+	
 	jr      ra
 END(do_tlb_refill)

@@ -14,9 +14,6 @@ exc_gen_entry:
 	* To keep the processor in kernel mode and enable exception reentrancy,
 	* we unset UM and EXL, and unset IE to globally disable interrupts.
 	*/
-	mfc0    t0, CP0_STATUS
-	and     t0, t0, ~(STATUS_UM | STATUS_EXL | STATUS_IE)
-	mtc0    t0, CP0_STATUS
 /* Exercise 3.9: Your code here. */
 	mfc0 t0, CP0_CAUSE
 	andi t0, 0x7c
