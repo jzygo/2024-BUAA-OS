@@ -35,7 +35,7 @@ void schedule(int yield,int cp0_count) {
 	 *   'TAILQ_FIRST', 'TAILQ_REMOVE', 'TAILQ_INSERT_TAIL'
 	 */
 	/* Exercise 3.12: Your code here. */
-	e->env_count+=cp0_count;
+	e->env_counts+=cp0_count;
 	if (cp0_count>10) {
 		e->env_runs++;
 	}
