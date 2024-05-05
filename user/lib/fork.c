@@ -84,8 +84,7 @@ static void duppage(u_int envid, u_int vpn) {
 	/* Exercise 4.10: Your code here. (2/2) */
 	int flag=0;
 	if((perm&PTE_D)&&!(perm&PTE_LIBRARY)) {
-		perm=perm&(~PTE_D);
-		perm=perm&PTE_COW;
+		perm=perm&(~PTE_D)|PTE_COW;
 		flag=1;
 	}
 	syscall_mem_map(0,addr,envid,addr,perm);
