@@ -59,7 +59,7 @@ u_int sys_getenvid(void) {
 void __attribute__((noreturn)) sys_yield(void) {
 	// Hint: Just use 'schedule' with 'yield' set.
 	/* Exercise 4.7: Your code here. */
-	schedule(0);
+	schedule(1);
 }
 
 /* Overview:
