@@ -403,7 +403,7 @@ int sys_ipc_try_send(u_int envid, u_int value, u_int srcva, u_int perm) {
 	 * 'env_sched_list'. */
 	/* Exercise 4.8: Your code here. (7/8) */
 	e->env_status=ENV_RUNNABLE;
-	TAILQ_INSERT_HEAD(&env_sched_list,e,env_sched_link);
+	TAILQ_INSERT_TAIL(&env_sched_list,e,env_sched_link);
 	/* Step 6: If 'srcva' is not zero, map the page at 'srcva' in 'curenv' to 'e->env_ipc_dstva'
 	 * in 'e'. */
 	/* Return -E_INVAL if 'srcva' is not zero and not mapped in 'curenv'. */
