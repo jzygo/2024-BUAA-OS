@@ -284,7 +284,7 @@ int sys_set_env_status(u_int envid, u_int status) {
 		TAILQ_REMOVE(&env_sched_list,env,env_sched_link);
 	}
 	else if(env->env_status!=ENV_RUNNABLE&&status==ENV_RUNNABLE) {
-		TAILQ_INSERT_HEAD(&env_sched_list,env,env_sched_link);
+		TAILQ_INSERT_TAIL(&env_sched_list,env,env_sched_link);
 	}
 	/* Step 4: Set the 'env_status' of 'env'. */
 	env->env_status = status;
