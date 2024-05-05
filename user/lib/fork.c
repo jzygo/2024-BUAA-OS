@@ -37,7 +37,7 @@ static void __attribute__((noreturn)) cow_entry(struct Trapframe *tf) {
 	memcpy((void*)UCOW,(void *)ROUNDDOWN(va,PAGE_SIZE),PAGE_SIZE);
 	// Step 5: Map the page at 'UCOW' to 'va' with the new 'perm'.
 	/* Exercise 4.13: Your code here. (5/6) */
-	syscall_mem_map(0,(void*)UCOW,(void*)va,perm);
+	syscall_mem_map(0,(void*)UCOW,0,(void*)va,perm);
 	// Step 6: Unmap the page at 'UCOW'.
 	/* Exercise 4.13: Your code here. (6/6) */
 	syscall_mem_unmap(0,(void*)UCOW);
