@@ -22,7 +22,7 @@ static void __attribute__((noreturn)) cow_entry(struct Trapframe *tf) {
 	 * 'PTE_COW', launch a 'user_panic'. */
 	/* Exercise 4.13: Your code here. (1/6) */
 	perm=vpt[VPN(va)]&0xfff;
-	if(perm&PTE_COW==0) {
+	if((perm&PTE_COW)==0) {
 		user_panic("perm doesn't have PTE_COW");
 	}
 	/* Step 2: Remove 'PTE_COW' from the 'perm', and add 'PTE_D' to it. */
@@ -125,8 +125,9 @@ int fork(void) {
 	/* Step 3: Map all mapped pages below 'USTACKTOP' into the child's address space. */
 	// Hint: You should use 'duppage'.
 	/* Exercise 4.15: Your code here. (1/2) */
-	for (i = 0; i < VPN(USTACKTOP); i++) {
-		if ((vpd[i >> 10] & PTE_V) && (vpt[i] & PTE_V)) {
+	u_long maxSize=VPN(USTACKTOP);
+	for (i = 0; i < maxSize; i++) {
+		if (vpd[i >> 10] & vpt[i] & PTE_V) {
 			duppage(child, i);
 		}
 	}
