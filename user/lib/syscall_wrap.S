@@ -5,5 +5,5 @@ LEAF(msyscall)
 
 	/* Exercise 4.1: Your code here. */
 	syscall
-	jal ra
+	jr ra
 END(msyscall)

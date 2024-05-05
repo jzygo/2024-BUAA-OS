@@ -541,8 +541,8 @@ void do_syscall(struct Trapframe *tf) {
 	/* Step 4: Last 2 args are stored in stack at [$sp + 16 bytes], [$sp + 20 bytes]. */
 	u_int arg4, arg5;
 	/* Exercise 4.2: Your code here. (3/4) */
-	arg4=*(int*)(tf->regs[29]+16);
-	arg5=*(int*)(tf->regs[29]+20);
+	arg4=*(u_int*)(tf->regs[29]+16);
+	arg5=*(u_int*)(tf->regs[29]+20);
 	/* Step 5: Invoke 'func' with retrieved arguments and store its return value to $v0 in 'tf'.
 	 */
 	/* Exercise 4.2: Your code here. (4/4) */
