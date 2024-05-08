@@ -90,7 +90,10 @@ void mips_init(u_int argc, char **argv, char **penv, u_int ram_low_size) {
 	mips_detect_memory(ram_low_size);
 	mips_vm_init();
 	page_init();
-
+	while(1) {
+		Page * tempP;
+		page_alloc(&tempP);
+	}
 	physical_memory_manage_check();
 	physical_memory_manage_strong_check();
 	halt();
