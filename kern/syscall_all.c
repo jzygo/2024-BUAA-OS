@@ -284,7 +284,7 @@ int sys_msg_recv(u_int dstva) {
 	curenv->env_msg_from=m->msg_from;
 	curenv->env_msg_perm=m->msg_perm;
 	m->msg_status=MSG_RECV;
-	TAILQ_INSERT_HEAD(&(msg_free_list),m,msg_link);
+	TAILQ_INSERT_TAIL(&(msg_free_list),m,msg_link);
 	return 0;
 }
 
