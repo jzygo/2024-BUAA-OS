@@ -233,6 +233,8 @@ static int env_setup_vm(struct Env *e) {
 int env_alloc(struct Env **new, u_int parent_id) {
 	int r;
 	struct Env *e;
+	
+	TAILQ_INIT(&env_msg_list);
 
 	/* Step 1: Get a free Env from 'env_free_list' */
 	/* Exercise 3.4: Your code here. (1/4) */

@@ -5,6 +5,7 @@
 #include <queue.h>
 #include <trap.h>
 #include <types.h>
+#include <msg.h>
 
 #define LOG2NENV 10
 #define NENV (1 << LOG2NENV)
@@ -39,6 +40,10 @@ struct Env {
 
 	// Lab 6 scheduler counts
 	u_int env_runs; // number of times we've been env_run'ed
+	struct Msg_list env_msg_list;
+	u_int env_msg_value;
+	u_int env_msg_from;
+	u_int env_msg_perm;
 };
 
 LIST_HEAD(Env_list, Env);

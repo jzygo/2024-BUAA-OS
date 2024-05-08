@@ -37,3 +37,28 @@ u_int ipc_recv(u_int *whom, void *dstva, u_int *perm) {
 
 	return env->env_ipc_value;
 }
+
+int msg_send(u_int whom, u_int val, const void *srcva, u_int perm) {
+	return syscall_msg_send(whom, val, srcva, perm);
+}
+
+int msg_recv(u_int *whom, u_int *val, void *dstva, u_int *perm) {
+	int r = syscall_msg_recv(dstva);
+	if (r != 0) {
+		return r;
+	}
+	if (whom) {
+		*whom = env->env_msg_from;
+	}
+	if (perm) {
+		*perm = env->env_msg_perm;
+	}
+	if (val) {
+		*val = env->env_msg_value;
+	}
+	return 0;
+}
+
+int msg_status(u_int msgid) {
+	return syscall_msg_status(msgid);
+}

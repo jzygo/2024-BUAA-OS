@@ -69,6 +69,13 @@ int syscall_cgetc(void);
 int syscall_write_dev(void *va, u_int dev, u_int len);
 int syscall_read_dev(void *va, u_int dev, u_int len);
 
+int syscall_msg_send(u_int envid, u_int value, const void *srcva, u_int perm);
+int syscall_msg_recv(void *dstva);
+int syscall_msg_status(u_int msgid);
+
+int msg_send(u_int whom, u_int val, const void *srcva, u_int perm);
+int msg_recv(u_int *whom, u_int *value, void *dstva, u_int *perm);
+int msg_status(u_int msgid);
 // ipc.c
 void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm);
 u_int ipc_recv(u_int *whom, void *dstva, u_int *perm);
@@ -136,5 +143,6 @@ int sync(void);
 // Unimplemented open modes
 #define O_EXCL 0x0400  /* error if already exists */
 #define O_MKDIR 0x0800 /* create directory, not regular file */
+
 
 #endif

@@ -74,3 +74,15 @@ int syscall_read_dev(void *va, u_int dev, u_int size) {
 	/* Exercise 5.2: Your code here. (2/2) */
 
 }
+
+int syscall_msg_send(u_int envid, u_int value, const void *srcva, u_int perm) {
+	return msyscall(SYS_msg_send, envid, value, srcva, perm);
+}
+
+int syscall_msg_recv(void *dstva) {
+	return msyscall(SYS_msg_recv, dstva);
+}
+
+int syscall_msg_status(u_int msgid) {
+	return msyscall(SYS_msg_status, msgid);
+}
