@@ -14,6 +14,7 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 	while ((r = syscall_ipc_try_send(whom, val, srcva, perm)) == -E_IPC_NOT_RECV) {
 		syscall_yield();
 	}
+	user_halt("%d\n", r);
 	user_assert(r == 0);
 }
 
@@ -46,7 +47,7 @@ int sem_wait(int sem_id) {
 	int r;
 	// Lab 4-1-Exam: Your code here. (1/9)
 	// Implement process blocking
-	while(r=syscall_sem_wait(sem_id)>0) {
+	while((r=syscall_sem_wait(sem_id))>0) {
 		syscall_yield();
 	}
 	return r;
