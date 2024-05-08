@@ -138,7 +138,7 @@ int page_alloc(struct Page **new) {
 	/* Exercise 2.4: Your code here. (1/2) */
 	if (LIST_EMPTY(&page_free_list)) 
 		return -4;
-	pp = page_free_list.lh_first;
+	pp = LIST_FIRST(&page_free_list);
 	printk("page alloc 3 pp = %u\n", (uint32_t)pp->pp_link.le_prev);
 	LIST_REMOVE(pp, pp_link);
 
