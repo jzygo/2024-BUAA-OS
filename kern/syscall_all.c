@@ -277,7 +277,7 @@ int sys_msg_recv(u_int dstva) {
 		try(page_insert(curenv->env_pgdir,curenv->env_asid,m->msg_page,dstva,m->msg_perm));
 	}
 	if(m->msg_page!=NULL) {
-		(m->msg_page)->ref-=1;
+		(m->msg_page)->pp_ref-=1;
 	}
 	curenv->env_msg_value=m->msg_value;
 	curenv->env_msg_from=m->msg_from;
