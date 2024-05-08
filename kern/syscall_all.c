@@ -79,7 +79,7 @@ int sys_sem_wait(int sem_id) {
 	}
 	if(sems[sem_id]==0)
 		return 1;
-	sem[sem_id]-=1;
+	sems[sem_id]-=1;
 	return 0;
 }
 
