@@ -69,6 +69,7 @@ void sys_sem_open(int sem_id, int n) {
 	// Lab 4-1-Exam: Your code here. (6/9)
 	if(sems_valid[sem_id]==0) {
 		sems[sem_id]=n;
+		sems_valid[sem_id]=1;
 	}
 }
 
