@@ -14,7 +14,7 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 	while ((r = syscall_ipc_try_send(whom, val, srcva, perm)) == -E_IPC_NOT_RECV) {
 		syscall_yield();
 	}
-	user_halt("%d\n", r);
+	printf("%d\n", r);
 	user_assert(r == 0);
 }
 
