@@ -237,7 +237,7 @@ int sys_msg_send(u_int envid, u_int value, u_int srcva, u_int perm) {
 	/* Your Code Here (1/3) */
 	m=TAILQ_FIRST(&msg_free_list);
 	TAILQ_REMOVE(&(msg_free_list),m,msg_link);
-	m->msg_tier+=1;
+	m->msg_tier=(m->msg_tier)+1;
 	m->msg_status=MSG_SENT;
 	m->msg_value=value;
 	m->msg_from=curenv->env_id;
@@ -278,7 +278,7 @@ int sys_msg_recv(u_int dstva) {
 		try(page_insert(curenv->env_pgdir,curenv->env_asid,m->msg_page,dstva,m->msg_perm));
 	}
 	if(m->msg_page!=NULL) {
-		(m->msg_page)->pp_ref-=1;
+		page_decref (m->msg_page);
 	}
 	curenv->env_msg_value=m->msg_value;
 	curenv->env_msg_from=m->msg_from;
