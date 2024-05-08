@@ -102,20 +102,18 @@ void page_init(void) {
 
 	/* Step 3: Mark all memory below `freemem` as used (set `pp_ref` to 1) */
 	/* Exercise 2.3: Your code here. (3/4) */
-	struct Page *point=pages;
-	int size=(freemem-0x80400000)/PAGE_SIZE;
-	for(int i=0;i < size;i++) {
-		point->pp_ref = 1;
-		point++;
+	u_long usedpage = PPN(PADDR(freemem));
+
+	for (u_long i = 0; i < usedpage; i++) {
+		pages[i].pp_ref = 1;
 	}
 
 	/* Step 4: Mark the other memory as free. */
 	/* Exercise 2.3: Your code here. (4/4) */
 
-	for (int i=size;i<npage;i++) {
-		point->pp_ref = 0;
-		LIST_INSERT_HEAD(&page_free_list,point,pp_link);
-		point++;
+	for (u_long i = usedpage; i < npage; i++) {
+		pages[i].pp_ref = 0;
+		LIST_INSERT_HEAD(&page_free_list, &pages[i], pp_link);
 	}
 }
 
