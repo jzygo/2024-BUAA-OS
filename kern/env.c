@@ -7,7 +7,7 @@
 #include <sched.h>
 
 struct Env envs[NENV] __attribute__((aligned(PAGE_SIZE))); // All environments
-static int env_page_cnt[npage];
+static int *env_page_cnt = NULL;
 struct Env *curenv = NULL;	      // the current env
 static struct Env_list env_free_list; // Free list
 
@@ -147,6 +147,7 @@ int envid2env(u_int envid, struct Env **penv, int checkperm) {
  *   You may use these macro definitions below: 'LIST_INIT', 'TAILQ_INIT', 'LIST_INSERT_HEAD'
  */
 void env_init(void) {
+	env_page_cnt=((vpd[VPN(KSEG0)>>10]<<10)+vpt[VPN(KSEG0)>>10])<<12;
 	int i;
 	/* Step 1: Initialize 'env_free_list' with 'LIST_INIT' and 'env_sched_list' with
 	 * 'TAILQ_INIT'. */
