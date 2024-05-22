@@ -25,7 +25,7 @@ void strace_send(int sysno) {
 	ipc_send((envs + ENVX(syscall_getenvid()))->env_parent_id,sysno,0,0);
 	syscall_set_env_status(0,ENV_NOT_RUNNABLE);
 	straced = temp;
-	syscall_yield();
+	//syscall_yield();
 }
 
 void strace_recv() {
@@ -35,7 +35,7 @@ void strace_recv() {
 	while((result = ipc_recv(&whom, 0, 0))!=SYS_env_destroy) {
 		strace_barrier(whom);
 		recv_sysno(whom, result);
-		syscall_set_env_status(whom,ENV_NOT_RUNNABLE);
+		syscall_set_env_status(whom,ENV_RUNNABLE);
 	}
 }
 //make test lab=4_strace && make dbg
