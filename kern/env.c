@@ -147,8 +147,6 @@ int envid2env(u_int envid, struct Env **penv, int checkperm) {
  */
 void env_init(void) {
 
-	int * env_page_cnt;
-	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	int i;
 	/* Step 1: Initialize 'env_free_list' with 'LIST_INIT' and 'env_sched_list' with
 	 * 'TAILQ_INIT'. */
@@ -177,6 +175,8 @@ void env_init(void) {
 	p->pp_ref++;
 
 	base_pgdir = (Pde *)page2kva(p);
+	int *env_page_cnt;
+	env_page_cnt=(int*)((U_int)base_pgdir+PDX(KSEG0));
 	map_segment(base_pgdir, 0, PADDR(pages), UPAGES,
 		    ROUND(npage * sizeof(struct Page), PAGE_SIZE), PTE_G);
 	map_segment(base_pgdir, 0, PADDR(envs), UENVS, ROUND(NENV * sizeof(struct Env), PAGE_SIZE),
@@ -188,8 +188,6 @@ void env_init(void) {
  */
 static int env_setup_vm(struct Env *e) {
 	Pde *pgdddd;
-	int * env_page_cnt;
-	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	/* Step 1:
 	 *   Allocate a page for the page directory with 'page_alloc'.
 	 *   Increase its 'pp_ref' and assign its kernel address to 'e->env_pgdir'.
@@ -202,6 +200,8 @@ static int env_setup_vm(struct Env *e) {
 	/* Exercise 3.3: Your code here. */
 	p->pp_ref++;
 	e->env_pgdir = (Pde*)page2kva(p);	
+	int *env_page_cnt;
+	env_page_cnt=(int*)(e->env_pgdir+PDX(KSEG0));
 	env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]=1;
 	/* Step 2: Copy the template page directory 'base_pgdir' to 'e->env_pgdir'. */
 	/* Hint:
@@ -287,8 +287,6 @@ int env_clone(struct Env **new, u_int parent_id) {
 	int r;
 	struct Env *e;
 
-	int * env_page_cnt;
-	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	/* Step 1: Get a free Env from 'env_free_list' */
 	/* Exercise 3.4: Your code here. (1/4) */
 	if (LIST_EMPTY(&env_free_list)) {
@@ -300,6 +298,8 @@ int env_clone(struct Env **new, u_int parent_id) {
 	struct Env * pe;
 	try(envid2env(parent_id,&pe,0));
 	e->env_pgdir=pe->env_pgdir;
+	int *env_page_cnt;
+	env_page_cnt=(int*)(e->env_pgdir+PDX(KSEG0));
 	env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]++;
 	/* Step 3: Initialize these fields for the new Env with appropriate values:
 	 *   'env_user_tlb_mod_entry' (lab4), 'env_runs' (lab6), 'env_id' (lab3), 'env_asid' (lab3),
@@ -438,8 +438,8 @@ void env_free(struct Env *e) {
 	printk("[%08x] free env %08x\n", curenv ? curenv->env_id : 0, e->env_id);
 
 
-	int * env_page_cnt;
-	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
+	int *env_page_cnt;
+	env_page_cnt=(int*)(e->env_pgdir+PDX(KSEG0));
 	/* Hint: Flush all mapped pages in the user portion of the address space */
 	for (pdeno = 0; pdeno < PDX(UTOP); pdeno++) {
 		/* Hint: only look at mapped page tables. */

@@ -23,6 +23,7 @@ struct Env {
 	u_int env_asid;			 // ASID of this env
 	u_int env_parent_id;		 // env_id of this env's parent
 	u_int env_status;		 // status of this env
+	int cnt;
 	Pde *env_pgdir;			 // page directory
 	TAILQ_ENTRY(Env) env_sched_link; // intrusive entry in 'env_sched_list'
 	u_int env_pri;			 // schedule priority
