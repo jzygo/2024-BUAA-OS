@@ -176,7 +176,7 @@ void env_init(void) {
 
 	base_pgdir = (Pde *)page2kva(p);
 	int *env_page_cnt;
-	env_page_cnt=(int*)((U_int)base_pgdir+PDX(KSEG0));
+	env_page_cnt=(int*)(base_pgdir+PDX(KSEG0));
 	map_segment(base_pgdir, 0, PADDR(pages), UPAGES,
 		    ROUND(npage * sizeof(struct Page), PAGE_SIZE), PTE_G);
 	map_segment(base_pgdir, 0, PADDR(envs), UENVS, ROUND(NENV * sizeof(struct Env), PAGE_SIZE),
