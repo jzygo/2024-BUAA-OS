@@ -21,7 +21,7 @@ struct Page {
 
 	u_short pp_ref;
 };
-
+int env_page_cnt[npage];
 extern struct Page *pages;
 extern struct Page_list page_free_list;
 

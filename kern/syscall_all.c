@@ -46,6 +46,27 @@ u_int sys_getenvid(void) {
 	return curenv->env_id;
 }
 
+int sys_clone(void *func, void *child_stack) {
+	if (env_page_cnt[page2ppn(curenv->env_pgdir)]>=64) {
+		return -E_ACT_ENV_NUM_EXCEED;
+	}
+	struct Env *e;
+	
+	/* Step 1: Allocate a new env using 'env_alloc'. */
+	/* Exercise 4.9: Your code here. (1/4) */
+	try(env_clone(&e, curenv->env_id));
+	
+
+	/* Step 2: Copy the current Trapframe below 'KSTACKTOP' to the new env's 'env_tf'. */
+	/* Exercise 4.9: Your code here. (2/4) */
+	e->env_tf = *((struct Trapframe *)KSTACKTOP - 1);
+	e->env_tf->cp0_epc=func;
+	e->env_tf->regs[29]=child_stack;
+	e->env_status = ENV_RUNNABLE;
+	TAILQ_INSERT_TAIL(&env_sched_list, e, env_sched_link);
+	return e->env_id;
+}
+
 /* Overview:
  *   Give up remaining CPU time slice for 'curenv'.
  *
