@@ -7,7 +7,7 @@
 #include <syscall.h>
 
 extern struct Env *curenv;
-extern int env_page_cnt[npage];
+extern int *env_page_cnt;
 
 /* Overview:
  * 	This function is used to print a character on screen.
