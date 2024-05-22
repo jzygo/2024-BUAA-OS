@@ -146,10 +146,9 @@ int envid2env(u_int envid, struct Env **penv, int checkperm) {
  *   You may use these macro definitions below: 'LIST_INIT', 'TAILQ_INIT', 'LIST_INSERT_HEAD'
  */
 void env_init(void) {
-int * env_page_cnt;
-	Pde *pgdddd;
-	page_lookup(pgdddd,KSEG0,NULL);
-	env_page_cnt=(int*)pgdddd;
+
+	int * env_page_cnt;
+	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	int i;
 	/* Step 1: Initialize 'env_free_list' with 'LIST_INIT' and 'env_sched_list' with
 	 * 'TAILQ_INIT'. */
@@ -189,9 +188,8 @@ int * env_page_cnt;
  */
 static int env_setup_vm(struct Env *e) {
 	Pde *pgdddd;
-int * env_page_cnt;
-	page_lookup(pgdddd,KSEG0,NULL);
-	env_page_cnt=(int*)pgdddd;
+	int * env_page_cnt;
+	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	/* Step 1:
 	 *   Allocate a page for the page directory with 'page_alloc'.
 	 *   Increase its 'pp_ref' and assign its kernel address to 'e->env_pgdir'.
@@ -289,10 +287,8 @@ int env_clone(struct Env **new, u_int parent_id) {
 	int r;
 	struct Env *e;
 
-int * env_page_cnt;
-	Pde *pgdddd;
-	page_lookup(pgdddd,KSEG0,NULL);
-	env_page_cnt=(int*)pgdddd;
+	int * env_page_cnt;
+	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	/* Step 1: Get a free Env from 'env_free_list' */
 	/* Exercise 3.4: Your code here. (1/4) */
 	if (LIST_EMPTY(&env_free_list)) {
@@ -441,10 +437,9 @@ void env_free(struct Env *e) {
 	/* Hint: Note the environment's demise.*/
 	printk("[%08x] free env %08x\n", curenv ? curenv->env_id : 0, e->env_id);
 
-int * env_page_cnt;
-	Pde *pgdddd;
-	page_lookup(pgdddd,KSEG0,NULL);
-	env_page_cnt=(int*)pgdddd;
+
+	int * env_page_cnt;
+	env_page_cnt=(int*)(&pgdir[PDX(KSEG0)]);
 	/* Hint: Flush all mapped pages in the user portion of the address space */
 	for (pdeno = 0; pdeno < PDX(UTOP); pdeno++) {
 		/* Hint: only look at mapped page tables. */
