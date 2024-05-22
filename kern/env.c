@@ -147,7 +147,9 @@ int envid2env(u_int envid, struct Env **penv, int checkperm) {
  *   You may use these macro definitions below: 'LIST_INIT', 'TAILQ_INIT', 'LIST_INSERT_HEAD'
  */
 void env_init(void) {
-	env_page_cnt=((vpd[VPN(KSEG0)>>10]<<10)+vpt[VPN(KSEG0)>>10])<<12;
+	Pde *pgdddd;
+	page_lookup(pgdddd,KSEG0,NULL);
+	env_page_cnt=(int*)pgdddd;
 	int i;
 	/* Step 1: Initialize 'env_free_list' with 'LIST_INIT' and 'env_sched_list' with
 	 * 'TAILQ_INIT'. */
