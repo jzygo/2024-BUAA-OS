@@ -37,5 +37,8 @@ void strace_recv() {
 		recv_sysno(whom, result);
 		syscall_set_env_status(whom,ENV_RUNNABLE);
 	}
+	strace_barrier(whom);
+	recv_sysno(whom, result);
+	syscall_set_env_status(whom,ENV_RUNNABLE);
 }
 //make test lab=4_strace && make dbg
