@@ -7,6 +7,7 @@
 #include <syscall.h>
 
 extern struct Env *curenv;
+extern int env_page_cnt[npage];
 
 /* Overview:
  * 	This function is used to print a character on screen.
@@ -66,7 +67,7 @@ int sys_clone(void *func, void *child_stack) {
 	TAILQ_INSERT_TAIL(&env_sched_list, e, env_sched_link);
 	return e->env_id;
 }
-
+//make test lab=4_clone && make run
 /* Overview:
  *   Give up remaining CPU time slice for 'curenv'.
  *
