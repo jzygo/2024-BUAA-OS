@@ -61,8 +61,8 @@ int sys_clone(void *func, void *child_stack) {
 	/* Step 2: Copy the current Trapframe below 'KSTACKTOP' to the new env's 'env_tf'. */
 	/* Exercise 4.9: Your code here. (2/4) */
 	e->env_tf = *((struct Trapframe *)KSTACKTOP - 1);
-	e->env_tf->cp0_epc=func;
-	e->env_tf->regs[29]=child_stack;
+	e->env_tf.cp0_epc=func;
+	e->env_tf.regs[29]=child_stack;
 	e->env_status = ENV_RUNNABLE;
 	TAILQ_INSERT_TAIL(&env_sched_list, e, env_sched_link);
 	return e->env_id;
