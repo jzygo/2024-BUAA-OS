@@ -194,10 +194,10 @@ static int env_setup_vm(struct Env *e) {
 	 */
 	struct Page *p;
 	try(page_alloc(&p));
-	env_page_cnt[page2ppn(p)]=1;
 	/* Exercise 3.3: Your code here. */
 	p->pp_ref++;
-	e->env_pgdir = (Pde*)page2kva(p);
+	e->env_pgdir = (Pde*)page2kva(p);	
+	env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]=1;
 	/* Step 2: Copy the template page directory 'base_pgdir' to 'e->env_pgdir'. */
 	/* Hint:
 	 *   As a result, the address space of all envs is identical in [UTOP, UVPT).
@@ -290,8 +290,10 @@ int env_clone(struct Env **new, u_int parent_id) {
 	e=LIST_FIRST(&env_free_list);
 	/* Step 2: Call a 'env_setup_vm' to initialize the user address space for this new Env. */
 	/* Exercise 3.4: Your code here. (2/4) */
-	e->env_pgdir=envid2env(parent_id)->env_pgdir;
-	env_page_cnt[page2ppn(e->env_pgdir)]++;
+	struct Env * pe;
+	try(envid2env(parent_id,&pe,0));
+	e->env_pgdir=pe->env_pgdir;
+	env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]++;
 	/* Step 3: Initialize these fields for the new Env with appropriate values:
 	 *   'env_user_tlb_mod_entry' (lab4), 'env_runs' (lab6), 'env_id' (lab3), 'env_asid' (lab3),
 	 *   'env_parent_id' (lab3)
@@ -304,7 +306,7 @@ int env_clone(struct Env **new, u_int parent_id) {
 	e->env_runs = 0;	       // for lab6
 	e->env_id=mkenvid(e);
 	/* Exercise 3.4: Your code here. (3/4) */
-	e->env_asid=envid2env(parent_id)->env_asid;
+	e->env_asid=pe->env_asid;
 	e->env_parent_id=parent_id;
 	/* Step 4: Initialize the sp and 'cp0_status' in 'e->env_tf'.
 	 *   Set the EXL bit to ensure that the processor remains in kernel mode during context
@@ -451,13 +453,13 @@ void env_free(struct Env *e) {
 		tlb_invalidate(e->env_asid, UVPT + (pdeno << PGSHIFT));
 	}
 	/* Hint: free the page directory. */
-	if (env_page_cnt[page2ppn(e->env_pgdir)]==0) {
+	if (env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]==0) {
 		page_decref(pa2page(PADDR(e->env_pgdir)));
 		/* Hint: free the ASID */
 		asid_free(e->env_asid);
 	}
 	else {
-		env_page_cnt[page2ppn(e->env_pgdir)]--;
+		env_page_cnt[page2ppn(pa2page(PADDR(e->env_pgdir)))]--;
 	}
 	/* Hint: invalidate page directory in TLB */
 	tlb_invalidate(e->env_asid, UVPT + (PDX(UVPT) << PGSHIFT));
