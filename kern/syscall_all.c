@@ -48,6 +48,10 @@ u_int sys_getenvid(void) {
 }
 
 int sys_clone(void *func, void *child_stack) {
+int * env_page_cnt;
+	Pde *pgdddd;
+	page_lookup(pgdddd,KSEG0,NULL);
+	env_page_cnt=(int*)pgdddd;
 	if (env_page_cnt[page2ppn(curenv->env_pgdir)]>=64) {
 		return -E_ACT_ENV_NUM_EXCEED;
 	}
