@@ -7,7 +7,7 @@
 #include <sched.h>
 
 struct Env envs[NENV] __attribute__((aligned(PAGE_SIZE))); // All environments
-int env_page_cnt[npage];
+static int env_page_cnt[npage];
 struct Env *curenv = NULL;	      // the current env
 static struct Env_list env_free_list; // Free list
 
