@@ -10,7 +10,6 @@ struct Env envs[NENV] __attribute__((aligned(PAGE_SIZE))); // All environments
 
 struct Env *curenv = NULL;	      // the current env
 static struct Env_list env_free_list; // Free list
-
 // Invariant: 'env' in 'env_sched_list' iff. 'env->env_status' is 'RUNNABLE'.
 struct Env_sched_list env_sched_list; // Runnable list
 
@@ -147,6 +146,7 @@ int envid2env(u_int envid, struct Env **penv, int checkperm) {
  *   You may use these macro definitions below: 'LIST_INIT', 'TAILQ_INIT', 'LIST_INSERT_HEAD'
  */
 void env_init(void) {
+int * env_page_cnt;
 	Pde *pgdddd;
 	page_lookup(pgdddd,KSEG0,NULL);
 	env_page_cnt=(int*)pgdddd;
@@ -188,6 +188,10 @@ void env_init(void) {
  *   Initialize the user address space for 'e'.
  */
 static int env_setup_vm(struct Env *e) {
+	Pde *pgdddd;
+int * env_page_cnt;
+	page_lookup(pgdddd,KSEG0,NULL);
+	env_page_cnt=(int*)pgdddd;
 	/* Step 1:
 	 *   Allocate a page for the page directory with 'page_alloc'.
 	 *   Increase its 'pp_ref' and assign its kernel address to 'e->env_pgdir'.
@@ -285,6 +289,10 @@ int env_clone(struct Env **new, u_int parent_id) {
 	int r;
 	struct Env *e;
 
+int * env_page_cnt;
+	Pde *pgdddd;
+	page_lookup(pgdddd,KSEG0,NULL);
+	env_page_cnt=(int*)pgdddd;
 	/* Step 1: Get a free Env from 'env_free_list' */
 	/* Exercise 3.4: Your code here. (1/4) */
 	if (LIST_EMPTY(&env_free_list)) {
@@ -433,6 +441,10 @@ void env_free(struct Env *e) {
 	/* Hint: Note the environment's demise.*/
 	printk("[%08x] free env %08x\n", curenv ? curenv->env_id : 0, e->env_id);
 
+int * env_page_cnt;
+	Pde *pgdddd;
+	page_lookup(pgdddd,KSEG0,NULL);
+	env_page_cnt=(int*)pgdddd;
 	/* Hint: Flush all mapped pages in the user portion of the address space */
 	for (pdeno = 0; pdeno < PDX(UTOP); pdeno++) {
 		/* Hint: only look at mapped page tables. */
