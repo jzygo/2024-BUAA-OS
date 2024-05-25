@@ -62,7 +62,7 @@ void ide_read(u_int diskno, u_int secno, void *dst, u_int nsecs) {
 		panic_on(syscall_write_dev(&temp,MALTA_IDE_LBAM,1));
 		// Step 4: Write the 23:16 bits of sector number to LBAH register
 		/* Exercise 5.3: Your code here. (2/9) */
-		temp = (secno & 0xff0000)>>12;
+		temp = (secno & 0xff0000)>>16;
 		panic_on(syscall_write_dev(&temp,MALTA_IDE_LBAH,1));
 		// Step 5: Write the 27:24 bits of sector number, addressing mode
 		// and diskno to DEVICE register
@@ -129,7 +129,7 @@ void ide_write(u_int diskno, u_int secno, void *src, u_int nsecs) {
 
 		// Step 4: Write the 23:16 bits of sector number to LBAH register
 		/* Exercise 5.3: Your code here. (6/9) */
-		temp = (secno & 0xff0000)>>12;
+		temp = (secno & 0xff0000)>>16;
 		panic_on(syscall_write_dev(&temp,MALTA_IDE_LBAH,1));
 
 		// Step 5: Write the 27:24 bits of sector number, addressing mode
