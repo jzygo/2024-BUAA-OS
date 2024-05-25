@@ -149,7 +149,7 @@ void ide_write(u_int diskno, u_int secno, void *src, u_int nsecs) {
 		// Step 8: Write the data to device
 		for (int i = 0; i < SECT_SIZE / 4; i++) {
 			/* Exercise 5.3: Your code here. (9/9) */
-			panic_on(syscall_write_dev(src+i,MALTA_IDE_DATA,32));
+			panic_on(syscall_write_dev(src+offset+i*4,MALTA_IDE_DATA,4));
 		}
 
 		// Step 9: Check IDE status
