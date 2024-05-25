@@ -507,13 +507,13 @@ int sys_read_dev(u_int va, u_int pa, u_int len) {
 	switch (len)
 	{
 	case 1:
-		return *(uint8_t*)va = ioread8(pa);
+		*(uint8_t*)va = ioread8(pa);
 		break;
 	case 2:
-		return *(uint16_t*)va = ioread16(pa);
+		*(uint16_t*)va = ioread16(pa);
 		break;
 	case 3:
-		return *(uint32_t*)va = ioread32(pa);
+		*(uint32_t*)va = ioread32(pa);
 		break;
 	default:
 		break;
