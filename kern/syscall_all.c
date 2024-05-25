@@ -476,7 +476,7 @@ int sys_write_dev(u_int va, u_int pa, u_int len) {
 			break;
 		case 2:
 			iowrite16((uint16_t)(*(uint16_t*)(va)),pa);
-		case 3:
+		case 4:
 			iowrite32((uint32_t)(*(uint32_t*)(va)),pa);
 		default:
 			break;
@@ -519,7 +519,7 @@ int sys_read_dev(u_int va, u_int pa, u_int len) {
 	case 2:
 		*(uint16_t*)va = ioread16(pa);
 		break;
-	case 3:
+	case 4:
 		*(uint32_t*)va = ioread32(pa);
 		break;
 	default:
