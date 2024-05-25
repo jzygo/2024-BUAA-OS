@@ -501,7 +501,7 @@ int sys_read_dev(u_int va, u_int pa, u_int len) {
 	if(len!=1&&len!=2&&len!=4) {
 		return -E_INVAL;
 	}
-	if (is_illegal_va_range(va,len) || (pa<0x180003F8||(pa+len>=0x18000418&&pa<0x180001F0)||pa+len>=0x180001F8)) {
+	if (is_illegal_va_range(va,len) || (pa<0x180003F8||(pa+len>0x18000418&&pa<0x180001F0)||pa+len>0x180001F8)) {
 		return -E_INVAL;
 	}
 	switch (len)
