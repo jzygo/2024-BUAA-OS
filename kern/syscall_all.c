@@ -511,21 +511,21 @@ int sys_read_dev(u_int va, u_int pa, u_int len) {
 		!(pa>=0x180003F8&&pa+len<=0x18000418)) {
 			return -E_INVAL;
 	}
-	memcpy((void *)va, (void *)(KSEG1 | pa), len);
-	// switch (len)
-	// {
-	// case 1:
-	// 	*(uint8_t*)va = ioread8(pa);
-	// 	break;
-	// case 2:
-	// 	*(uint16_t*)va = ioread16(pa);
-	// 	break;
-	// case 4:
-	// 	*(uint32_t*)va = ioread32(pa);
-	// 	break;
-	// default:
-	// 	break;
-	// }
+	
+	switch (len)
+	{
+	case 1:
+		*(uint8_t*)va = ioread8(pa);
+		break;
+	case 2:
+		*(uint16_t*)va = ioread16(pa);
+		break;
+	case 4:
+		*(uint32_t*)va = ioread32(pa);
+		break;
+	default:
+		break;
+	}
 	return 0;
 }
 
