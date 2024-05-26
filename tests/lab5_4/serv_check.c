@@ -126,7 +126,7 @@ int main() {
 	// test limit of authority:
 	fdnum = r;
 	if ((n = read(fdnum, buf, 511)) >= 0) {
-		user_panic("read on a file without permission: %d", n);
+		user_panic("read on a file without permission1: %d", n);
 	}
 
 	if ((r = open("/newmotd", O_WRONLY)) < 0 || r != 0) {
@@ -135,7 +135,7 @@ int main() {
 	fdnum = r;
 
 	if ((n = read(fdnum, buf, 511)) >= 0) {
-		user_panic("read on a file without permission: %d", n);
+		user_panic("read on a file without permission2: %d", n);
 	}
 
 	if ((r = close(fdnum)) < 0) {
