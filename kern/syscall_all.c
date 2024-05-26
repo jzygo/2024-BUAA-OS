@@ -511,7 +511,6 @@ int sys_read_dev(u_int va, u_int pa, u_int len) {
 		!(pa>=0x180003F8&&pa+len<=0x18000418)) {
 			return -E_INVAL;
 	}
-	
 	switch (len)
 	{
 	case 1:
