@@ -164,7 +164,7 @@ void serve_open(u_int envid, struct Fsreq_open *rq) {
 		return;
 	}
 
-	if ((f->f_mode&rq->req_omode)!=req_omode) {
+	if ((f->f_mode&rq->req_omode)!=rq->req_omode) {
 		ipc_send(envid, -E_PERM_DENY, 0, 0);
 		return;
 	}
