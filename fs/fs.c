@@ -796,7 +796,7 @@ int file_remove(char *path) {
 	if ((r = walk_path(path, 0, &f, 0)) < 0) {
 		return r;
 	}
-	if ((f->f_mode&FMODE_W)==0) {
+	if ((f->f_dir->f_mode&FMODE_W)==0) {
 		return -E_PERM_DENY;
 	}
 
