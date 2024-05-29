@@ -40,6 +40,25 @@ void test_copy_read(char *copy_src, char *copy_dst, char *src_file, char *dst_fi
 	read(r, buf2, 8192);
 	os_assert0(strcmp(buf1, buf2) == 0, "write to dst result in src change");
 	debugf("OSTEST_OK\n");
+
+		char buf1[8192], buf2[8192];
+	int r = open("/bin/rr/test.rs", O_RDWR);
+	os_assert(r >= 0, "failed to open %s, return value: %d", src_file, r);
+	read(r, buf1, 8192);
+	close(r);
+
+	r = open("/target/rr/test.rs", O_RDWR);
+	os_assert(r >= 0, "failed to open %s, return value: %d", dst_file, r);
+	read(r, buf2, 8192);
+	os_assert(strcmp(buf1, buf2) == 0, "copy failed, buf1 = %s, buf2 = %s", buf1, buf2);
+	int len = strlen(str);
+	write(r, str, len);
+	close(r);
+	r = open(src_file, O_RDWR);
+	os_assert(r >= 0, "failed to open %s, return value: %d", src_file, r);
+	read(r, buf2, 8192);
+	os_assert0(strcmp(buf1, buf2) == 0, "write to dst result in src change");
+	debugf("OSTEST_OK\n");
 }
 
 int main() {
