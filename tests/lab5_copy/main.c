@@ -49,7 +49,7 @@ r = open("/bin/rr/test.rs", O_RDWR);
 	os_assert(r >= 0, "failed to open %s, return value: %d", dst_file, r);
 	read(r, buf2, 8192);
 	os_assert(strcmp(buf1, buf2) == 0, "copy failed, buf1 = %s, buf2 = %s", buf1, buf2);
-	int len = strlen(str);
+	len = strlen(str);
 	write(r, str, len);
 	close(r);
 	r = open(src_file, O_RDWR);
