@@ -48,7 +48,6 @@ int fsipc_open(const char *path, u_int omode, struct Fd *fd) {
 	req->req_omode = omode;
 	return fsipc(FSREQ_OPEN, req, fd, &perm);
 }
-
 // Overview:
 //  Make a map-block request to the file server. We send the fileid and
 //  the (byte) offset of the desired block in the file, and the server sends
@@ -128,6 +127,26 @@ int fsipc_remove(const char *path) {
 	/* Exercise 5.12: Your code here. (3/3) */
 	return fsipc(FSREQ_REMOVE,req,NULL,0);
 }
+
+int fsipc_copy(const char *src_path, const char *dst_path) {
+   // Lab 5-2-Exam: Your code here. (1/6)
+	struct Fsreq_copy *req;
+
+	req = (struct Fsreq_copy *)fsipcbuf;
+
+	// The path is too long.
+	if (strlen(src_path) >= MAXPATHLEN || 
+		strlen(dst_path) >= MAXPATHLEN ||
+		strlen(src_path) == 0 ||
+		strlen(dst_path) == 0) {
+		return -E_BAD_PATH;
+	}
+
+	strcpy((char *)req->req_src_path, src_path);
+	strcpy((char *)req->req_dst_path, dst_path);
+	return fsipc(FSREQ_COPY, req, NULL, 0);
+}
+
 
 // Overview:
 //  Ask the file server to update the disk by writing any dirty

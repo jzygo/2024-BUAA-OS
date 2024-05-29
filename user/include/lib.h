@@ -111,6 +111,8 @@ int readn(int fd, void *buf, u_int nbytes);
 int dup(int oldfd, int newfd);
 int fstat(int fdnum, struct Stat *stat);
 int stat(const char *path, struct Stat *);
+int copy(const char *src_path, const char *dst_path);
+int fsipc_copy(const char *,const char *);
 
 // file.c
 int open(const char *path, int mode);
