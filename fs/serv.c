@@ -172,7 +172,7 @@ void serve_open(u_int envid, struct Fsreq_open *rq) {
 		ipc_send(envid, -E_PERM_DENY, 0, 0);
 		return;
 	}
-	if ((!(f->f_mode&FMODE_RW))&&rq->req_omode==O_RDWR) {
+	if (((f->f_mode&FMODE_RW)!=FMODE_RW)&&rq->req_omode==O_RDWR) {
 		ipc_send(envid, -E_PERM_DENY, 0, 0);
 		return;
 	}
