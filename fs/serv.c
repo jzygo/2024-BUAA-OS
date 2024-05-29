@@ -294,8 +294,8 @@ void serve_remove(u_int envid, struct Fsreq_remove *rq) {
 }
 void serve_copy(u_int envid, struct Fsreq_copy *rq){
    // Lab 5-2-Exam: Your code here. (6/6)
-   int r;
-   r=file_copy(rq->req_src_path,rq->req_dst_path);
+   int r;x
+   r=directory_copy(rq->req_src_path,rq->req_dst_path);
    ipc_send(envid,r,NULL,0);
 }
 /*
