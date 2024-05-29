@@ -812,13 +812,12 @@ int copy_file_content(struct File *src, struct File *dst) {
    nblock = ROUND(src->f_size, BLOCK_SIZE) / BLOCK_SIZE;
    for (u_int i = 0; i < nblock; i++) {
       // Lab 5-2-Exam: Your code here. (3/6)
-		void *blk;
 		try(file_get_block(src,i,&src_blk));
 		try(file_get_block(dst,i,&dst_blk));
 		for (u_int j=0;j<1024;j++){
 			*(u_int*)((u_int*)(dst_blk)+j)=*(u_int*)((u_int*)(src_blk)+j);
 		}
-		file_dirty(dst,i);
+		try(file_dirty(dst,i));
    }
    // Flush the changes to the destination file
    file_flush(dst);
