@@ -164,7 +164,15 @@ void serve_open(u_int envid, struct Fsreq_open *rq) {
 		return;
 	}
 
-	if ((f->f_mode&rq->req_omode)!=rq->req_omode) {
+	if ((!(f->f_mode&FMODE_R))&&rq->req_omode==O_RDONLY) {
+		ipc_send(envid, -E_PERM_DENY, 0, 0);
+		return;
+	}
+	if ((!(f->f_mode&FMODE_W))&&rq->req_omode==O_WRONLY) {
+		ipc_send(envid, -E_PERM_DENY, 0, 0);
+		return;
+	}
+	if ((!(f->f_mode&FMODE_RW))&&rq->req_omode==O_RDWR) {
 		ipc_send(envid, -E_PERM_DENY, 0, 0);
 		return;
 	}
