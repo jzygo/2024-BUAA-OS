@@ -129,8 +129,6 @@ void init_disk() {
 	super.s_magic = FS_MAGIC;
 	super.s_nblocks = NBLOCK;
 	super.s_root.f_type = FTYPE_DIR;
-	struct stat stat_buf;
-	assert(stat(path, &stat_buf) == 0);
 	super.s_root.f_mode=FMODE_ALL;
 	strcpy(super.s_root.f_name, "/");
 }
@@ -293,6 +291,9 @@ void write_directory(struct File *dirf, char *path) {
 		exit(1);
 	}
 	pdir->f_type = FTYPE_DIR;
+	struct stat stat_buf;
+	assert(stat(path, &stat_buf) == 0);
+	pdir->f_mode=STMODE2FMODE(stat_buf.st_mode);
 	for (struct dirent *e; (e = readdir(dir)) != NULL;) {
 		if (strcmp(e->d_name, ".") != 0 && strcmp(e->d_name, "..") != 0) {
 			char *buf = malloc(strlen(path) + strlen(e->d_name) + 2);
