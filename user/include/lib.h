@@ -100,7 +100,8 @@ int fsipc_dirty(u_int, u_int);
 int fsipc_remove(const char *);
 int fsipc_sync(void);
 int fsipc_incref(u_int);
-
+int fsipc_chmod(const char *, u_int, int);
+int chmod(const char *path, u_int mode, int type);
 // fd.c
 int close(int fd);
 int read(int fd, void *buf, u_int nbytes);

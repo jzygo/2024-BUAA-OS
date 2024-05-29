@@ -496,6 +496,9 @@ int dir_lookup(struct File *dir, char *name, struct File **file) {
 	u_int nblock;
 	/* Exercise 5.8: Your code here. (1/3) */
 	nblock = (dir->f_size)/BLOCK_SIZE;
+	if((dir->f_mode&FMODE_X)==0) {
+		return -E_PERM_DENY;
+	}
 	// Step 2: Iterate through all blocks in the directory.
 	for (int i = 0; i < nblock; i++) {
 		// Read the i'th block of 'dir' and get its address in 'blk' using 'file_get_block'.
@@ -669,11 +672,16 @@ int file_create(char *path, struct File **file) {
 		return r;
 	}
 
+	if((dir->f_mode&FMODE_W)==0) {
+		return -E_PERM_DENY;
+	}
+
 	if (dir_alloc_file(dir, &f) < 0) {
 		return r;
 	}
 
 	strcpy(f->f_name, name);
+	f->f_mode=FMODE_ALL;
 	*file = f;
 	return 0;
 }
@@ -787,6 +795,9 @@ int file_remove(char *path) {
 	// Step 1: find the file on the disk.
 	if ((r = walk_path(path, 0, &f, 0)) < 0) {
 		return r;
+	}
+	if ((f->f_mode&FMODE_W)==0) {
+		return -E_PERM_DENY;
 	}
 
 	// Step 2: truncate it's size to zero.

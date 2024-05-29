@@ -129,6 +129,9 @@ void init_disk() {
 	super.s_magic = FS_MAGIC;
 	super.s_nblocks = NBLOCK;
 	super.s_root.f_type = FTYPE_DIR;
+	struct stat stat_buf;
+	assert(stat(path, &stat_buf) == 0);
+	super.s_root.f_mode=FMODE_ALL;
 	strcpy(super.s_root.f_name, "/");
 }
 
@@ -240,7 +243,6 @@ struct File *create_file(struct File *dirf) {
 void write_file(struct File *dirf, const char *path) {
 	int iblk = 0, r = 0, n = sizeof(disk[0].data);
 	struct File *target = create_file(dirf);
-
 	/* in case `create_file` is't filled */
 	if (target == NULL) {
 		return;
@@ -256,7 +258,9 @@ void write_file(struct File *dirf, const char *path) {
 		fname = path;
 	}
 	strcpy(target->f_name, fname);
-
+	struct stat stat_buf;
+	assert(stat(path, &stat_buf) == 0);
+	target->f_mode=STMODE2FMODE(stat_buf.st_mode);
 	target->f_size = lseek(fd, 0, SEEK_END);
 	target->f_type = FTYPE_REG;
 

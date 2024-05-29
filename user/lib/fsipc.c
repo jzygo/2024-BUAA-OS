@@ -128,6 +128,25 @@ int fsipc_remove(const char *path) {
 	/* Exercise 5.12: Your code here. (3/3) */
 	return fsipc(FSREQ_REMOVE,req,NULL,0);
 }
+int fsipc_chmod(const char *path, u_int mode, int type) {
+	// Step 1: Check the length of 'path' using 'strlen'.
+	// If the length of path is 0 or larger than 'MAXPATHLEN', return -E_BAD_PATH.
+	/* Exercise 5.12: Your code here. (1/3) */
+	if(strlen(path)==0||strlen(path)>MAXPATHLEN) {
+		return -E_BAD_PATH;
+	}
+	// Step 2: Use 'fsipcbuf' as a 'struct Fsreq_remove'.
+	struct Fsreq_chmod *req = (struct Fsreq_chmod *)fsipcbuf;
+
+	// Step 3: Copy 'path' into the path in 'req' using 'strcpy'.
+	/* Exercise 5.12: Your code here. (2/3) */
+	strcpy(req->req_path,path);
+	req->req_mode=mode;
+	req->req_type=type;
+	// Step 4: Send request to the server using 'fsipc'.
+	/* Exercise 5.12: Your code here. (3/3) */
+	return fsipc(FSREQ_CHMOD,req,NULL,0);
+}
 
 // Overview:
 //  Ask the file server to update the disk by writing any dirty

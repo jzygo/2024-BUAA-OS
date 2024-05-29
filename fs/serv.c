@@ -164,6 +164,11 @@ void serve_open(u_int envid, struct Fsreq_open *rq) {
 		return;
 	}
 
+	if ((f->f_mode&rq->req_omode)!=req_omode) {
+		ipc_send(envid, -E_PERM_DENY, 0, 0);
+		return;
+	}
+
 	// Save the file pointer.
 	o->o_file = f;
 
@@ -293,6 +298,28 @@ void serve_remove(u_int envid, struct Fsreq_remove *rq) {
 	ipc_send(envid,r,NULL,0);
 }
 
+void serve_chmod(u_int envid, struct Fsreq_chmod *rq) {
+	// Step 1: Remove the file specified in 'rq' using 'file_remove' and store its return value.
+	int r;
+	struct File *f;
+	r=file_open(rq->req_path,&f);
+	if (r<0) {
+		ipc_send(envid,r,NULL,0);
+		return;
+	}
+	int type=rq->req_type;
+	int mode=rq->req_mode;
+	if (type==0) {
+		f->f_mode=mode;
+	} else if(type==1) {
+		f->f_mode|=mode;
+	} else if(type==2) {
+		f->f_mode=f->f_mode&(~mode);
+	}
+	file_close(f);
+	ipc_send(envid,0,NULL,0);
+}
+
 /*
  * Overview:
  *  Serve to dirty the file.
@@ -342,7 +369,7 @@ void serve_sync(u_int envid) {
 void *serve_table[MAX_FSREQNO] = {
     [FSREQ_OPEN] = serve_open,	 [FSREQ_MAP] = serve_map,     [FSREQ_SET_SIZE] = serve_set_size,
     [FSREQ_CLOSE] = serve_close, [FSREQ_DIRTY] = serve_dirty, [FSREQ_REMOVE] = serve_remove,
-    [FSREQ_SYNC] = serve_sync,
+    [FSREQ_SYNC] = serve_sync, [FSREQ_CHMOD] = serve_chmod,
 };
 
 /*

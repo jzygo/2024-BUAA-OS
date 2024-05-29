@@ -14,7 +14,13 @@
 
 // Maximum size of a complete pathname, including null
 #define MAXPATHLEN 1024
+#define FMODE_R 0x4
+#define FMODE_W 0x2
+#define FMODE_X 0x1
+#define FMODE_RW 0x6
+#define FMODE_ALL 0x7
 
+#define STMODE2FMODE(st_mode) (((st_mode) >> 6) & FMODE_ALL)
 // Number of (direct) block pointers in a File descriptor
 #define NDIRECT 10
 #define NINDIRECT (BLOCK_SIZE / 4)
@@ -29,9 +35,9 @@ struct File {
 	uint32_t f_type;	 // file type
 	uint32_t f_direct[NDIRECT];
 	uint32_t f_indirect;
-
+	uint32_t f_mode
 	struct File *f_dir; // the pointer to the dir where this file is in, valid only in memory.
-	char f_pad[FILE_STRUCT_SIZE - MAXNAMELEN - (3 + NDIRECT) * 4 - sizeof(void *)];
+	char f_pad[FILE_STRUCT_SIZE - MAXNAMELEN - (4 + NDIRECT) * 4 - sizeof(void *)];
 } __attribute__((aligned(4), packed));
 
 #define FILE2BLK (BLOCK_SIZE / sizeof(struct File))
