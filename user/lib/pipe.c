@@ -151,7 +151,7 @@ static int pipe_read(struct Fd *fd, void *vbuf, u_int n, u_int offset) {
 				syscall_yield();
 			}
 		}
-		rbuf[i] = p->p_buf[p->p_rpos % BY2PIPE];
+		rbuf[i] = p->p_buf[p->p_rpos % PIPE_SIZE];
 		p->p_rpos++;
 	}
 	user_panic("pipe_read not implemented");
