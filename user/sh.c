@@ -195,6 +195,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				return argc;
 			}  else if (son > 0) {
 				tag=0;
+				int result=0;
 				// int result=ipc_recv(NULL,0,0);
 				if(*rightpipe == 0){
 					dup(1, 0);
