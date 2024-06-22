@@ -253,6 +253,14 @@ char *strcat(char *dest, const char *src) {
 	*p = '\0';
 	return dest;
 }
+char *strcpy(char *dest, const char *src) {
+	char *p = dest;
+	while (*src) {
+		*p++ = *src++;
+	}
+	*p = '\0';
+	return dest;
+}
 
 void runcmd(char *s) {
 	gettoken(s, 0);
@@ -264,8 +272,11 @@ void runcmd(char *s) {
 		return;
 	}
 	debugf("runcmd: %s\n", argv[0]);
+	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
+	char p[128];
+	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
-		strcat(argv[0], ".b\0");
+		strcat(p, ".b");
 		// 在最后加上\0
 	}
 	debugf("runcmd: %s\n", argv[0]);
@@ -285,7 +296,7 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	int child = spawn(argv[0], argv);
+	int child = spawn(p, argv);
 	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
