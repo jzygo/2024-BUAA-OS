@@ -10,6 +10,13 @@ mkdir <dir>：若目录已存在则输出 mkdir: cannot create directory '<dir>'
 mkdir -p <dir>：当使用 -p 选项时忽略错误，若目录已存在则直接退出，若创建目录的父目录不存在则递归创建目录。
 
 */
+// realize strncpy without any other function
+void strncpy(char *dst, char *src, int n) {
+	for (int i = 0; i < n; i++) {
+		dst[i] = src[i];
+	}
+}
+
 int main(int argc, char *argv[]) {
 	int r;
 	int rt = 0;
