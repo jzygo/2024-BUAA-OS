@@ -165,11 +165,11 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=1;
 				return argc;
 			}  else if (son > 0) {
-				debugf("son=%d, || \n",son);
 				int result=ipc_recv(NULL,0,0);
 				tag=0;
 				wait(son);
 				if(result==0) {
+					debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
 				return parsecmd(argv, rightpipe);
@@ -183,11 +183,11 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=1;
 				return argc;
 			}  else if (son > 0) {
-				debugf("son=%d, && \n",son);
 				tag=0;
 				int result=ipc_recv(NULL,0,0);
 				wait(son);
 				if(result!=0) {
+					debugf("son=%d, && \n",son);
 					lazy=1;
 				}
 				return parsecmd(argv, rightpipe);
