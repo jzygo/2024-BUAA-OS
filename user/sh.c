@@ -290,8 +290,8 @@ void runcmd(char *s) {
 	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
-	if (child >= 0) {
 			debugf("start ipc_send1 \n");
+	if (child >= 0) {
 		int res = ipc_recv(NULL,0,0);
 		if (tag==1) {
 			debugf("start ipc_send2 \n");
