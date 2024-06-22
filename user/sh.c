@@ -190,16 +190,28 @@ int parsecmd(char **argv, int *rightpipe) {
 }
 
 char *strstr(const char *haystack, const char *needle) {
-	int needle_len = strlen(needle);
-	while (*haystack) {
-		if (strncmp(haystack, needle, needle_len) == 0) {
-			return (char *)haystack;
+	if (*needle == '\0') {
+		return (char *) haystack;
+	}
+	
+	while (*haystack != '\0') {
+		const char *h = haystack;
+		const char *n = needle;
+		
+		while (*n != '\0' && *h == *n) {
+			h++;
+			n++;
 		}
+		
+		if (*n == '\0') {
+			return (char *) haystack;
+		}
+		
 		haystack++;
 	}
+	
 	return NULL;
 }
-
 char *strcat(char *dest, const char *src) {
 	char *p = dest;
 	while (*p) {
