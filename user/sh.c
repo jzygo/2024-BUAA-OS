@@ -246,10 +246,7 @@ void runcmd(char *s) {
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
 	if (child >= 0) {
-		debugf("asdf");
 		wait(child);
-		debugf("asdf");
-		ipc_recv(NULL,0,0);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
 	}
