@@ -238,6 +238,7 @@ void runcmd(char *s) {
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(argv[0], ".b");
 	}
+		debugf("asdf");
 	argv[argc] = 0;
 	
 	int child = spawn(argv[0], argv);
@@ -245,6 +246,7 @@ void runcmd(char *s) {
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
 	if (child >= 0) {
+		debugf("asdf");
 		wait(child);
 		debugf("asdf");
 		ipc_recv(NULL,0,0);
