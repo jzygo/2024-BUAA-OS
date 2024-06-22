@@ -168,7 +168,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				}
 				return parsecmd(argv, rightpipe);
 			}
-		}
 		case 76:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
@@ -183,6 +182,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				}
 				return parsecmd(argv, rightpipe);
 			}
+		}
 
 	}
 
