@@ -70,6 +70,7 @@ int gettoken(char *s, char **p1) {
 #define MAXARGS 128
 
 int tag=0;
+int lazy=0;
 
 int parsecmd(char **argv, int *rightpipe) {
 	int argc = 0;
@@ -160,6 +161,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
+			debugf("son=%d\n, && ",son);
 			if (son == 0) {
 				tag=1;
 				return argc;
@@ -168,8 +170,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=0;
 				wait(son);
 				if(result==0) {
-					parsecmd(argv, rightpipe)
-					return 0;
+					lazy=-1;
 				}
 				return parsecmd(argv, rightpipe);
 			}
@@ -178,6 +179,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
+			debugf("son=%d\n, || ",son);
 			if (son == 0) {
 				tag=1;
 				return argc;
@@ -186,8 +188,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				int result=ipc_recv(NULL,0,0);
 				wait(son);
 				if(result!=0) {
-					parsecmd(argv, rightpipe)
-					return 0;
+					lazy=1;
 				}
 				return parsecmd(argv, rightpipe);
 			}
@@ -247,7 +248,19 @@ void runcmd(char *s) {
 		strcat(argv[0], ".b");
 	}
 	argv[argc] = 0;
-	
+	if (lazy!=0) {
+		if (lazy==1) {
+			if (tag==1) {
+				ipc_send(syscall_get_parent(),1,NULL,0);
+			}
+		}
+		else {
+			if (tag==1) {
+				ipc_send(syscall_get_parent(),0,NULL,0);
+			}
+		}
+		exit();
+	}
 	int child = spawn(argv[0], argv);
 	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
