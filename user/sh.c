@@ -168,6 +168,11 @@ int parsecmd(char **argv, int *rightpipe) {
 			}  else if (son > 0) {
 				int result=ipc_recv(NULL,0,0);
 				tag=0;
+				if(*rightpipe == 0){
+					dup(1, 0);
+				} else if(*rightpipe == 1) {
+					dup(0, 1);
+				}
 				wait(son);
 				if(result==0) {
 					// debugf("son=%d, || \n",son);
@@ -190,6 +195,11 @@ int parsecmd(char **argv, int *rightpipe) {
 			}  else if (son > 0) {
 				tag=0;
 				int result=ipc_recv(NULL,0,0);
+				if(*rightpipe == 0){
+					dup(1, 0);
+				} else if(*rightpipe == 1) {
+					dup(0, 1);
+				}
 				wait(son);
 				if(result!=0) {
 					// debugf("son=%d, && \n",son);
