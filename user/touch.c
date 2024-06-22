@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
 		usage();
 	}
     if ((fd = open(argv[1], O_RDONLY)) >= 0) {
+        debugf("adfad");
         close(fd);
     }
     else {        
