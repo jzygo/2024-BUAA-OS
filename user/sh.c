@@ -172,6 +172,9 @@ int parsecmd(char **argv, int *rightpipe) {
 					debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
+				else {
+					lazy=0;
+				}
 				debugf("son=%d,lazy=%d,tag=%d start exe. || \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
@@ -190,6 +193,9 @@ int parsecmd(char **argv, int *rightpipe) {
 				if(result!=0) {
 					debugf("son=%d, && \n",son);
 					lazy=1;
+				}
+				else {
+					lazy=0;
 				}
 					debugf("son=%d,lazy=%d,tag=%d start exe. && \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
@@ -261,6 +267,7 @@ void runcmd(char *s) {
 				ipc_send(syscall_get_parent(),0,NULL,0);
 			}
 		}
+		lazy = 0;
 		exit();
 	}
 	int child = spawn(argv[0], argv);
