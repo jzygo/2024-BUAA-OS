@@ -189,6 +189,29 @@ int parsecmd(char **argv, int *rightpipe) {
 	return argc;
 }
 
+char *strstr(const char *haystack, const char *needle) {
+	int needle_len = strlen(needle);
+	while (*haystack) {
+		if (strncmp(haystack, needle, needle_len) == 0) {
+			return (char *)haystack;
+		}
+		haystack++;
+	}
+	return NULL;
+}
+
+char *strcat(char *dest, const char *src) {
+	char *p = dest;
+	while (*p) {
+		p++;
+	}
+	while (*src) {
+		*p++ = *src++;
+	}
+	*p = '\0';
+	return dest;
+}
+
 void runcmd(char *s) {
 	gettoken(s, 0);
 
