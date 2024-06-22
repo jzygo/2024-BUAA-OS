@@ -161,8 +161,8 @@ int parsecmd(char **argv, int *rightpipe) {
 			if (son == 0) {
 				return argc;
 			}  else if (son > 0) {
-				wait(son);
 				int result=ipc_recv(NULL,0,0);
+				wait(son);
 				if(result==0) {
 					return 0;
 				}
@@ -176,8 +176,8 @@ int parsecmd(char **argv, int *rightpipe) {
 			if (son == 0) {
 				return argc;
 			}  else if (son > 0) {
-				wait(son);
 				int result=ipc_recv(NULL,0,0);
+				wait(son);
 				if(result!=0) {
 					return 0;
 				}
@@ -245,7 +245,7 @@ void runcmd(char *s) {
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
 	if (child >= 0) {
-		ipc_recv(NULL,0,0);
+		int res = ipc_recv(NULL,0,0);
 		wait(child);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
