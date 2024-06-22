@@ -166,6 +166,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=1;
 				return argc;
 			}  else if (son > 0) {
+				          int result=0;
 				// int result=ipc_recv(NULL,0,0);
 				tag=0;
 				if(*rightpipe == 0){
