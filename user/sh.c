@@ -265,7 +265,8 @@ void runcmd(char *s) {
 	}
 	debugf("runcmd: %s\n", argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
-		strcat(argv[0], ".b");
+		strcat(argv[0], ".b\0");
+		// 在最后加上\0
 	}
 	debugf("runcmd: %s\n", argv[0]);
 	argv[argc] = 0;
