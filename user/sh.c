@@ -160,6 +160,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		case 248:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
+			debugf("|| \n");
 			son = fork();
 			if (son == 0) {
 				tag=1;
