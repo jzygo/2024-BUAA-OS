@@ -246,6 +246,7 @@ void runcmd(char *s) {
 	close_all();
 	if (child >= 0) {
 		wait(child);
+		debugf("asdf");
 		ipc_recv(NULL,0,0);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
