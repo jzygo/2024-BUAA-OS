@@ -268,9 +268,7 @@ void runcmd(char *s) {
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
-		// 在最后加上\0
 	}
-	debugf("runcmd: %s\n", argv[0]);
 	argv[argc] = 0;
 	if (lazy!=0) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
@@ -287,6 +285,7 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
+	debugf("runcmd: %s\n", p);
 	int child = spawn(p, argv);
 	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
