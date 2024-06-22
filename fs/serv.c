@@ -184,6 +184,27 @@ void serve_open(u_int envid, struct Fsreq_open *rq) {
 	ipc_send(envid, 0, o->o_ff, PTE_D | PTE_LIBRARY);
 }
 
+void serve_create(u_int envid, struct Fsreq_create *rq) {
+	struct File *f;
+	struct Filefd *ff;
+	int r;
+	struct Open *o;
+
+	// Find a file id.
+	if ((r = open_alloc(&o)) < 0) {
+		ipc_send(envid, r, 0, 0);
+		return;
+	}
+
+	if ((r = file_create(rq->req_path, &f)) < 0) {
+		ipc_send(envid, r, 0, 0);
+		return;
+	}
+
+	f->f_type=rq->f_type;
+	// Fill out the Filefd structure
+	ipc_send(envid, r, NULL, 0);
+}
 /*
  * Overview:
  *  Serve to map the file specified by the fileid in `rq`.
@@ -293,6 +314,33 @@ void serve_remove(u_int envid, struct Fsreq_remove *rq) {
 	ipc_send(envid,r,NULL,0);
 }
 
+void serve_rm(u_int envid, struct Fsreq_rm *rq) {
+	
+	int r;
+	struct File *f;
+
+	// Step 1: find the file on the disk.
+	if ((r = walk_path(path, 0, &f, 0)) < 0) {
+		ipc_send(envid, r, 0, 0);
+	}
+	if (rq->mode==0 && f->f_type == FTYPE_DIR) {
+		ipc_send(envid, -E_NOT_DIR, 0, 0);
+	}
+	// Step 2: truncate it's size to zero.
+	file_truncate(f, 0);
+
+	// Step 3: clear it's name.
+	f->f_name[0] = '\0';
+
+	// Step 4: flush the file.
+	file_flush(f);
+	if (f->f_dir) {
+		file_flush(f->f_dir);
+	}
+	ipc_send(envid, 0, 0, 0);
+	return;
+}
+
 /*
  * Overview:
  *  Serve to dirty the file.
@@ -342,7 +390,7 @@ void serve_sync(u_int envid) {
 void *serve_table[MAX_FSREQNO] = {
     [FSREQ_OPEN] = serve_open,	 [FSREQ_MAP] = serve_map,     [FSREQ_SET_SIZE] = serve_set_size,
     [FSREQ_CLOSE] = serve_close, [FSREQ_DIRTY] = serve_dirty, [FSREQ_REMOVE] = serve_remove,
-    [FSREQ_SYNC] = serve_sync,
+    [FSREQ_SYNC] = serve_sync, [FSREQ_CREATE] = serve_create, [FSREQ_RM] = serve_rm
 };
 
 /*

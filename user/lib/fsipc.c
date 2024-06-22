@@ -49,6 +49,22 @@ int fsipc_open(const char *path, u_int omode, struct Fd *fd) {
 	return fsipc(FSREQ_OPEN, req, fd, &perm);
 }
 
+int fsipc_create(const char *path, u_int type) {
+	u_int perm;
+	struct Fsreq_create *req;
+
+	req = (struct Fsreq_create *)fsipcbuf;
+
+	// The path is too long.
+	if (strlen(path) >= MAXPATHLEN) {
+		return -E_BAD_PATH;
+	}
+
+	strcpy((char *)req->req_path, path);
+	req->f_type = type;
+	return fsipc(FSREQ_CREATE, req, 0, 0);
+}
+
 // Overview:
 //  Make a map-block request to the file server. We send the fileid and
 //  the (byte) offset of the desired block in the file, and the server sends
@@ -127,6 +143,26 @@ int fsipc_remove(const char *path) {
 	// Step 4: Send request to the server using 'fsipc'.
 	/* Exercise 5.12: Your code here. (3/3) */
 	return fsipc(FSREQ_REMOVE,req,NULL,0);
+}
+
+int fsipc_rm(const char *path, u_int mode) {
+	// Step 1: Check the length of 'path' using 'strlen'.
+	// If the length of path is 0 or larger than 'MAXPATHLEN', return -E_BAD_PATH.
+	/* Exercise 5.12: Your code here. (1/3) */
+	if(strlen(path)==0||strlen(path)>MAXPATHLEN) {
+		return -E_BAD_PATH;
+	}
+	// Step 2: Use 'fsipcbuf' as a 'struct Fsreq_rm'.
+	struct Fsreq_rm *req = (struct Fsreq_rm *)fsipcbuf;
+
+	// Step 3: Copy 'path' into the path in 'req' using 'strcpy'.
+	/* Exercise 5.12: Your code here. (2/3) */
+	strcpy(req->req_path,path);
+	req->mode = mode;
+	// Step 4: Send request to the server using 'fsipc'.
+	/* Exercise 5.12: Your code here. (3/3) */
+	return fsipc(FSREQ_RM,req,NULL,0);
+
 }
 
 // Overview:
