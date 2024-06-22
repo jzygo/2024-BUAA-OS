@@ -69,6 +69,8 @@ int gettoken(char *s, char **p1) {
 
 #define MAXARGS 128
 
+int tag=0;
+
 int parsecmd(char **argv, int *rightpipe) {
 	int argc = 0;
 	while (1) {
@@ -159,9 +161,11 @@ int parsecmd(char **argv, int *rightpipe) {
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
 			if (son == 0) {
+				tag=1;
 				return argc;
 			}  else if (son > 0) {
 				int result=ipc_recv(NULL,0,0);
+				tag=0;
 				wait(son);
 				if(result==0) {
 					return 0;
@@ -174,8 +178,10 @@ int parsecmd(char **argv, int *rightpipe) {
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
 			if (son == 0) {
+				tag=1;
 				return argc;
 			}  else if (son > 0) {
+				tag=0;
 				int result=ipc_recv(NULL,0,0);
 				wait(son);
 				if(result!=0) {
@@ -246,6 +252,9 @@ void runcmd(char *s) {
 	close_all();
 	if (child >= 0) {
 		int res = ipc_recv(NULL,0,0);
+		if (tag==1) {
+			ipc_send(syscall_get_parent(),res,NULL,0);
+		}
 		wait(child);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
