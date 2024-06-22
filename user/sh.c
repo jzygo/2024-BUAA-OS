@@ -172,7 +172,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		case 76:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
-			int son = fork();
+			son = fork();
 			if (son == 0) {
 				return argc;
 			}  else if (son > 0) {
