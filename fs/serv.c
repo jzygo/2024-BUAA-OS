@@ -320,7 +320,7 @@ void serve_rm(u_int envid, struct Fsreq_rm *rq) {
 	struct File *f;
 
 	// Step 1: find the file on the disk.
-	if ((r = walk_path(path, 0, &f, 0)) < 0) {
+	if ((r = walk_path(rq->req_path, 0, &f, 0)) < 0) {
 		ipc_send(envid, r, 0, 0);
 	}
 	if (rq->mode==0 && f->f_type == FTYPE_DIR) {
