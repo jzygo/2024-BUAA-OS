@@ -161,7 +161,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
-			debugf("son=%d\n, && ",son);
+			debugf("son=%d\n, || ",son);
 			if (son == 0) {
 				tag=1;
 				return argc;
@@ -179,7 +179,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
-			debugf("son=%d\n, || ",son);
+			debugf("son=%d\n, && ",son);
 			if (son == 0) {
 				tag=1;
 				return argc;
