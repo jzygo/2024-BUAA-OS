@@ -169,13 +169,13 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=0;
 				wait(son);
 				if(result==0) {
-					debugf("son=%d, || \n",son);
+					// debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
 				else {
 					lazy=0;
 				}
-				debugf("son=%d,lazy=%d,tag=%d start exe. || \n",son,lazy,tag);
+				// debugf("son=%d,lazy=%d,tag=%d start exe. || \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -191,13 +191,13 @@ int parsecmd(char **argv, int *rightpipe) {
 				int result=ipc_recv(NULL,0,0);
 				wait(son);
 				if(result!=0) {
-					debugf("son=%d, && \n",son);
+					// debugf("son=%d, && \n",son);
 					lazy=1;
 				}
 				else {
 					lazy=0;
 				}
-					debugf("son=%d,lazy=%d,tag=%d start exe. && \n",son,lazy,tag);
+					// debugf("son=%d,lazy=%d,tag=%d start exe. && \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
