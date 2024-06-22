@@ -46,7 +46,7 @@ u_int sys_getenvid(void) {
 	return curenv->env_id;
 }
 
-u_int SYS_get_parent(void) {
+u_int sys_get_parent(void) {
 	return curenv->env_parent_id;
 }
 
