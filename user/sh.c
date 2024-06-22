@@ -285,7 +285,7 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	debugf("runcmd: %s\n", p);
+	debugf("runcmd: %s\n,envid=%d", p,syscall_getenvid());
 	int child = spawn(p, argv);
 	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
