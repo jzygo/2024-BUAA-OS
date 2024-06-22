@@ -168,6 +168,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=0;
 				wait(son);
 				if(result==0) {
+					parsecmd(argv, rightpipe)
 					return 0;
 				}
 				return parsecmd(argv, rightpipe);
@@ -185,6 +186,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				int result=ipc_recv(NULL,0,0);
 				wait(son);
 				if(result!=0) {
+					parsecmd(argv, rightpipe)
 					return 0;
 				}
 				return parsecmd(argv, rightpipe);
