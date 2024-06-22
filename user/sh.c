@@ -262,7 +262,6 @@ void runcmd(char *s) {
 	if (argc == 0) {
 		return;
 	}
-	debugf("runcmd: %s\n", argv[0]);
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
 	strcpy(p, argv[0]);
@@ -286,11 +285,9 @@ void runcmd(char *s) {
 		exit();
 	}
 	debugf("runcmd: %s\n,envid=%d\n", p,syscall_getenvid());
-	int child = spawn(p, argv);
-	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
-	// Check if argv[0] contains ".b", if not, append ".b" to the end
-	close_all();
 			debugf("start ipc_send1 \n");
+	int child = spawn(p, argv);
+	close_all();
 	if (child >= 0) {
 		int res = ipc_recv(NULL,0,0);
 		if (tag==1) {
