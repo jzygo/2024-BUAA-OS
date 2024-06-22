@@ -172,7 +172,7 @@ int parsecmd(char **argv, int *rightpipe) {
 					debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
-				debugf("son=%d, start exe. || \n",son);
+				debugf("son=%d,lazy=%d,tag=%d start exe. || \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -191,7 +191,7 @@ int parsecmd(char **argv, int *rightpipe) {
 					debugf("son=%d, && \n",son);
 					lazy=1;
 				}
-					debugf("son=%d, start exe. && \n",son);
+					debugf("son=%d,lazy=%d,tag=%d start exe. && \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
