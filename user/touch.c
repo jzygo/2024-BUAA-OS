@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
 	if (argc < 2) {
 		usage();
 	}
-    if ((fd = open(argv[1], O_RDONLY)) >= 0) {
         debugf("adfad");
+    if ((fd = open(argv[1], O_RDONLY)) >= 0) {
         close(fd);
     }
     else {        
