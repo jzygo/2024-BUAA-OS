@@ -40,11 +40,11 @@ int main(int argc, char *argv[]) {
 		while (*p == '/') {
 			p++;
 		}
+		char dir[128];
 		while (*p != '\0') {
 			while (*p != '/' && *p != '\0') {
 				p++;
 			}
-			char *dir = (char *)malloc(p - path + 1);
 			strncpy(dir, path, p - path);
 			dir[p - path] = '\0';
 			int r = fsipc_create(dir, 1);
