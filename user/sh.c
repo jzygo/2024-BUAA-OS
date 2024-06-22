@@ -182,7 +182,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				}
 				return parsecmd(argv, rightpipe);
 			}
-		}
 
 	}
 
