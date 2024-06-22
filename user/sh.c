@@ -258,6 +258,7 @@ void runcmd(char *s) {
 	}
 	argv[argc] = 0;
 	if (lazy!=0) {
+		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
 		if (lazy==1) {
 			if (tag==1) {
 				ipc_send(syscall_get_parent(),1,NULL,0);
@@ -278,6 +279,7 @@ void runcmd(char *s) {
 	if (child >= 0) {
 		int res = ipc_recv(NULL,0,0);
 		if (tag==1) {
+			debugf("start ipc_send \n");
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
 		wait(child);
