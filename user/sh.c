@@ -153,7 +153,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			user_panic("| not implemented");
 			break;
-		case '|'*2:
+		case 248:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			int son = fork();
@@ -168,7 +168,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				return parsecmd(argv, rightpipe);
 			}
 		}
-		case '&'*2:
+		case 76:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
 			int son = fork();
