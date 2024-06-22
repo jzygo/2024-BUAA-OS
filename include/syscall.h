@@ -7,6 +7,7 @@ enum {
 	SYS_putchar,
 	SYS_print_cons,
 	SYS_getenvid,
+	SYS_get_parent,
 	SYS_yield,
 	SYS_env_destroy,
 	SYS_set_tlb_mod_entry,

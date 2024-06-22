@@ -37,6 +37,10 @@ int _gettoken(char *s, char **p1, char **p2) {
 		int t = *s;
 		*p1 = s;
 		*s++ = 0;
+		if (strchr(SYMBOLS, *s)) {
+			t+=*s;
+			*s++ = 0;
+		}
 		*p2 = s;
 		return t;
 	}
@@ -149,7 +153,37 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			user_panic("| not implemented");
 			break;
+		case '|'*2:
+		// realize || and && in bash
+			/* Exercise 6.5: Your code here. (3/3) */
+			int son = fork();
+			if (son == 0) {
+				return argc;
+			}  else if (son > 0) {
+				wait(son);
+				int result=ipc_recv(NULL,0,0);
+				if(result==0) {
+					return 0;
+				}
+				return parsecmd(argv, rightpipe);
+			}
 		}
+		case '&'*2:
+		// realize || and && in bash
+			/* Exercise 6.5: Your code here. (3/3) */
+			int son = fork();
+			if (son == 0) {
+				return argc;
+			}  else if (son > 0) {
+				wait(son);
+				int result=ipc_recv(NULL,0,0);
+				if(result!=0) {
+					return 0;
+				}
+				return parsecmd(argv, rightpipe);
+			}
+		}
+
 	}
 
 	return argc;
@@ -165,8 +199,13 @@ void runcmd(char *s) {
 		return;
 	}
 	argv[argc] = 0;
-
+	
 	int child = spawn(argv[0], argv);
+	//检查argv[0]中是否有.b，如果没有则在末尾加上.b
+	// Check if argv[0] contains ".b", if not, append ".b" to the end
+	if (strstr(argv[0], ".b") == NULL) {
+		strcat(argv[0], ".b");
+	}
 	close_all();
 	if (child >= 0) {
 		wait(child);

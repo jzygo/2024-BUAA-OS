@@ -7,7 +7,6 @@ void exit(void) {
 #if !defined(LAB) || LAB >= 5
 	close_all();
 #endif
-
 	syscall_env_destroy(0);
 	user_panic("unreachable code");
 }
@@ -20,8 +19,8 @@ void libmain(int argc, char **argv) {
 	env = &envs[ENVX(syscall_getenvid())];
 
 	// call user main routine
-	main(argc, argv);
-
+	int res = main(argc, argv);
+	ipc_send(syscall_get_parent(),res,NULL,0);
 	// exit gracefully
 	exit();
 }
