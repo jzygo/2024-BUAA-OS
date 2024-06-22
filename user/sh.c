@@ -253,15 +253,6 @@ char *strcat(char *dest, const char *src) {
 	*p = '\0';
 	return dest;
 }
-char *strcpy(char *dest, const char *src) {
-	char *p = dest;
-	while (*src) {
-		*p++ = *src++;
-	}
-	*p = '\0';
-	return dest;
-}
-
 void runcmd(char *s) {
 	gettoken(s, 0);
 
