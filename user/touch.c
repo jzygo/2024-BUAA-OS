@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         close(fd);
     }
     else {        
-        if((fd=open(t, O_CREAT | O_WRONLY))<0) {
+        if((fd=open(argv[1], O_CREAT | O_WRONLY))<0) {
             debugf("touch: cannot touch '%s': No such file or directory",argv[1]);
         }
         else {
