@@ -277,11 +277,13 @@ void runcmd(char *s) {
 	// Check if argv[0] contains ".b", if not, append ".b" to the end
 	close_all();
 	if (child >= 0) {
+			debugf("start ipc_send1 \n");
 		int res = ipc_recv(NULL,0,0);
 		if (tag==1) {
-			debugf("start ipc_send \n");
+			debugf("start ipc_send2 \n");
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
+			debugf("start ipc_send3 \n");
 		wait(child);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
