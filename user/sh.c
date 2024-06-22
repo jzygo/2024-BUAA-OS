@@ -166,7 +166,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				tag=1;
 				return argc;
 			}  else if (son > 0) {
-				int result=ipc_recv(NULL,0,0);
+				// int result=ipc_recv(NULL,0,0);
 				tag=0;
 				if(*rightpipe == 0){
 					dup(1, 0);
@@ -194,7 +194,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				return argc;
 			}  else if (son > 0) {
 				tag=0;
-				int result=ipc_recv(NULL,0,0);
+				// int result=ipc_recv(NULL,0,0);
 				if(*rightpipe == 0){
 					dup(1, 0);
 				} else if(*rightpipe == 1) {
@@ -273,12 +273,12 @@ void runcmd(char *s) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
 		if (lazy==1) {
 			if (tag==1) {
-				ipc_send(syscall_get_parent(),1,NULL,0);
+				// ipc_send(syscall_get_parent(),1,NULL,0);
 			}
 		}
 		else {
 			if (tag==1) {
-				ipc_send(syscall_get_parent(),0,NULL,0);
+				// ipc_send(syscall_get_parent(),0,NULL,0);
 			}
 		}
 		lazy = 0;
@@ -289,10 +289,10 @@ void runcmd(char *s) {
 	int child = spawn(p, argv);
 	close_all();
 	if (child >= 0) {
-		int res = ipc_recv(NULL,0,0);
+		// int res = ipc_recv(NULL,0,0);
 		if (tag==1) {
 			debugf("start ipc_send2 \n");
-			ipc_send(syscall_get_parent(),res,NULL,0);
+			// ipc_send(syscall_get_parent(),res,NULL,0);
 		}
 			debugf("start ipc_send3 \n");
 		wait(child);
