@@ -20,7 +20,9 @@ void libmain(int argc, char **argv) {
 
 	// call user main routine
 	int res = main(argc, argv);
-	ipc_send(syscall_get_parent(),res,NULL,0);
+	int parent = syscall_get_parent();
+	debugf("%d",parent);
+	ipc_send(parent,res,NULL,0);
 	// exit gracefully
 	exit();
 }
