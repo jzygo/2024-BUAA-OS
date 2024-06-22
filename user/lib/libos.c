@@ -21,7 +21,7 @@ void libmain(int argc, char **argv) {
 	// call user main routine
 	int res = main(argc, argv);
 	int parent = syscall_get_parent();
-	debugf("libmain: argc=%d;res=%d;parent=%d", argc,res,parent);
+	debugf("libmain: argc=%d;res=%d;parent=%d\n", argc,res,parent);
 	ipc_send(parent,res,NULL,0);
 	// exit gracefully
 	exit();
