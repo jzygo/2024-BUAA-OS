@@ -263,9 +263,11 @@ void runcmd(char *s) {
 	if (argc == 0) {
 		return;
 	}
+	debugf("runcmd: %s\n", argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(argv[0], ".b");
 	}
+	debugf("runcmd: %s\n", argv[0]);
 	argv[argc] = 0;
 	if (lazy!=0) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
