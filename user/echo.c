@@ -18,5 +18,5 @@ int main(int argc, char **argv) {
 	if (!nflag) {
 		printf("\n");
 	}
-	return 1;
+	return 0;
 }
