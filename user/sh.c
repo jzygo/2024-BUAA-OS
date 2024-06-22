@@ -172,6 +172,7 @@ int parsecmd(char **argv, int *rightpipe) {
 					debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
+				debugf("son=%d, start exe. || \n",son);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -190,6 +191,7 @@ int parsecmd(char **argv, int *rightpipe) {
 					debugf("son=%d, && \n",son);
 					lazy=1;
 				}
+					debugf("son=%d, start exe. && \n",son);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
