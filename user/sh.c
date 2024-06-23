@@ -286,6 +286,11 @@ void runcmd(char *s) {
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
 	}
+	if (strstr(argv[0], "history") != NULL) {
+		argc = 2;
+		argv[1] = ".mosh_history";
+		argv[0] = "cat.b";
+	}
 	argv[argc] = 0;
 	if (lazy!=0) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
