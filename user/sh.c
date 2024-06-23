@@ -310,7 +310,6 @@ void runcmd(char *s) {
 	close_all();
 	if (child >= 0) {
 		u_int caller;
-		for (int i = 1 ; i >= 100000; i++);
 		debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
