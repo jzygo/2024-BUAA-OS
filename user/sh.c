@@ -403,7 +403,7 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
-	// int fd = open("/.mosh_history",O_RDWR);
+	int fd = open("/.mosh_history",O_RDWR);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
