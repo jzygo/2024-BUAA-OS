@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
 		usage();
 	}
     if (argc == 2) {
+		debugf("path=%s;path lenth=%d",argv[1],strlen(argv[1]));
 		int r = fsipc_create(argv[1], 1);
 		if (r == -E_FILE_EXISTS) {
 			debugf("mkdir: cannot create directory '%s': File exists\n", argv[1]);
@@ -38,9 +39,6 @@ int main(int argc, char *argv[]) {
 	// 将目录按照/拆解，循环创建
 	else if (argc == 3 && strcmp(argv[1], "-p") == 0) {
 		// 循环输出argv[2]的每个字符，一个字符一行
-		for (int i = 0; i < strlen(argv[2]); i++) {
-			debugf("%c\n", argv[2][i]);
-		}
 		char *path = argv[2];
 		char *p = path;
 		while (*p == '/') {
@@ -53,6 +51,7 @@ int main(int argc, char *argv[]) {
 			if (argv[2][i] == '/') {
 				strncpy(dir, argv[2], i);
 				dir[i] = '\0';
+				debugf("path=%s;path lenth=%d",dir,strlen(dir));
 				int r = fsipc_create(dir, 1);
 				if (r == -E_FILE_EXISTS) {
 					debugf("mkdir: cannot create directory '%s': File exists\n", dir);
