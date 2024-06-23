@@ -288,11 +288,10 @@ void runcmd(char *s) {
 	if (strstr(argv[0], "history")!=NULL) {
 		argc = 2;
 		argv[0] = "echo.b";
-		int cnt = 0;
-		for (int i = 0; i < top; i++) {
-			for (int j = 0; history[i][j]; j++) {
-				argv[1][cnt++] = history[i][j];
-			}
+		// 将所有的history拼接为一个字符串赋值给argv[1]
+		strcpy(argv[1],history[0]);
+		for (int i = 1; i < top; i++) {
+			strcat(argv[1],history[i]);
 		}
 	}
 	strcpy(p, argv[0]);
