@@ -404,7 +404,6 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
-	// int fd = open("/.mosh_history",O_RDWR);
 	top = 0;
 	for (;;) {
 		if (interactive) {
@@ -416,6 +415,8 @@ int main(int argc, char **argv) {
 		// top++;
 		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
+		int fd = open("/.mosh_history",O_WRONLY);
+		close(fd);
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
 
