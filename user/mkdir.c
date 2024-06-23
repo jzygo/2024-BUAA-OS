@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
 			p++;
 		}
 		char dir[128];
+		debugf("path=%s;path lenth=%d",argv[2],strlen(argv[2]));
 			// int r = fsipc_create(dir, 1);
 			//用strlen实现建立argv[2]中的每个目录
 		for (int i = 0; i < strlen(argv[2]); i++) {
