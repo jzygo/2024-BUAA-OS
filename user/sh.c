@@ -271,6 +271,9 @@ char *strcat(char *dest, const char *src) {
 	*p = '\0';
 	return dest;
 }
+
+char *history[21];
+int top = 0;
 void runcmd(char *s) {
 	gettoken(s, 0);
 
@@ -363,8 +366,6 @@ void readline(char *buf, u_int n) {
 }
 
 char buf[1024];
-char *history[21];
-int top = 0;
 
 void usage(void) {
 	printf("usage: sh [-ix] [script-file]\n");
