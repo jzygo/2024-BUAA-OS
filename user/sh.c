@@ -402,8 +402,8 @@ int main(int argc, char **argv) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		write(fdnum,buf,strlen(buf));
-		write(fdnum,"\n",1);
+		// write(fdnum,buf,strlen(buf));
+		// write(fdnum,"\n",1);
 
 		if (buf[0] == '#') {
 			continue;
