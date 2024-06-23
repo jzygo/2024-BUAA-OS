@@ -62,7 +62,7 @@ int fsipc_create(const char *path, u_int type) {
 
 	strcpy((char *)req->req_path, path);
 	req->f_type = type;
-	return fsipc(FSREQ_CREATE, req, 0, 0);
+	return fsipc(FSREQ_CREATE, req, NULL, 0);
 }
 
 // Overview:
