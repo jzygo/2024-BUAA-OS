@@ -412,10 +412,9 @@ int main(int argc, char **argv) {
 		}
 		readline(buf, sizeof buf);
 		// history[top++] = buf;
-		// for (int i = 0; i < strlen(buf); i++) {
-		// 	history[top][i] = buf[i];
-		// }
-		// // 将history[top]的最后一个字符替换为\n
+		history[top] = 0;
+		strcat(history[top],buf);
+		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
