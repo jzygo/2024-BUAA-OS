@@ -282,14 +282,14 @@ void runcmd(char *s) {
 	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
-	strcpy(p, argv[0]);
-	if (strstr(argv[0], ".b") == NULL) {
-		strcat(p, ".b");
-	}
 	if (strstr(argv[0], "history") != NULL) {
 		argc = 2;
 		argv[1] = ".mosh_history\0";
 		argv[0] = "cat.b\0";
+	}
+	strcpy(p, argv[0]);
+	if (strstr(argv[0], ".b") == NULL) {
+		strcat(p, ".b");
 	}
 	argv[argc] = 0;
 	if (lazy!=0) {
