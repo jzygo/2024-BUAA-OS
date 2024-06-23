@@ -390,11 +390,14 @@ int main(int argc, char **argv) {
 		}
 		user_assert(r == 0);
 	}
+	int fdnum = open(".mosh_history",O_CREAT|O_RDWR);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
+		write(fdnum,buf,strlen(buf));
+		write(fdnum,"\n",1);
 
 		if (buf[0] == '#') {
 			continue;
