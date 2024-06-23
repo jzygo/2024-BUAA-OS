@@ -311,6 +311,7 @@ void runcmd(char *s) {
 	close_all();
 	if (child >= 0) {
 		u_int caller;
+		for (int i = 1 ; i >= 100000; i++);
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
