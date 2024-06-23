@@ -193,8 +193,8 @@ void serve_create(u_int envid, struct Fsreq_create *rq) {
 		return;
 	}
 
-	debugf("create %s\n", rq->req_path);
 	f->f_type=rq->f_type;
+	debugf("create %s\n", rq->req_path);
 	// Fill out the Filefd structure
 	ipc_send(envid, r, NULL, 0);
 }
