@@ -62,6 +62,7 @@ int main(int argc, char *argv[]) {
 				}
 			}
 		}
+		int r = fsipc_create(argv[2], 1);
 	}
 	else {
 		usage();
