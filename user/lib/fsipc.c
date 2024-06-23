@@ -24,7 +24,6 @@ static int fsipc(u_int type, void *fsreq, void *dstva, u_int *perm) {
 	// Our file system server must be the 2nd env.
 	ipc_send(envs[1].env_id, type, fsreq, PTE_D);
 	int result = ipc_recv(&whom, dstva, perm);
-	debugf("create %d\n", result);
 	return result;
 }
 
