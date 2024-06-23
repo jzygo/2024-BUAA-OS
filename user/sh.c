@@ -2,7 +2,7 @@
 #include <lib.h>
 
 #define WHITESPACE " \t\r\n"
-#define SYMBOLS "<|>&;()"
+#define SYMBOLS "<|>&;()#`"
 
 /* Overview:
  *   Parse the next token from the string at s.
@@ -71,8 +71,11 @@ int gettoken(char *s, char **p1) {
 
 int tag=0;
 int lazy=0;
+int echoFlag=0;
 
-int parsecmd(char **argv, int *rightpipe) {
+
+
+int parsecmd(char **argv, int *rightpiper) {
 	int argc = 0;
 	while (1) {
 		char *t;
@@ -88,6 +91,16 @@ int parsecmd(char **argv, int *rightpipe) {
 				exit();
 			}
 			argv[argc++] = t;
+			break;
+		case '`':
+			if (echoFlag==0) {
+				echoFlag=1;
+				argc--;
+			}
+			else {
+				echoFlag=0;
+				return argc;
+			}
 			break;
 		case '<':
 			if (gettoken(0, &t) != 'w') {
@@ -124,6 +137,9 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
+		case '#' :
+			// ignore the rest of the line
+			return argc;
 		case '|':;
 			/*
 			 * First, allocate a pipe.
