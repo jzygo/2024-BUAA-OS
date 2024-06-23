@@ -391,7 +391,7 @@ int main(int argc, char **argv) {
 		}
 		user_assert(r == 0);
 	}
-	int fdnum = open(".mosh_history",O_CREAT|O_RDWR);
+	fsipc_create("/.mosh_history",0);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
