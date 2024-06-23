@@ -37,6 +37,10 @@ int main(int argc, char *argv[]) {
     }
 	// 将目录按照/拆解，循环创建
 	else if (argc == 3 && strcmp(argv[1], "-p") == 0) {
+		// 循环输出argv[2]的每个字符，一个字符一行
+		for (int i = 0; i < strlen(argv[2]); i++) {
+			debugf("%c\n", argv[2][i]);
+		}
 		char *path = argv[2];
 		char *p = path;
 		while (*p == '/') {
