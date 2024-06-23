@@ -282,15 +282,15 @@ void runcmd(char *s) {
 	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
-	if (strstr(argv[0], "history") != NULL) {
-		argc = 2;
-		argv[1] = ".mosh_history";
-		argv[0] = "cat.b";
-	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
 	}
+	// if (strstr(argv[0], "history") != NULL) {
+	// 	argc = 2;
+	// 	argv[1] = ".mosh_history\0";
+	// 	argv[0] = "cat.b\0";
+	// }
 	argv[argc] = 0;
 	if (lazy!=0) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
@@ -397,7 +397,7 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	fsipc_create(".mosh_history", 0);
-	int fdnum=open(".mosh_history", O_RDWR);
+	int fdnum=open(".mosh_history", O_RDWR, 0);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
