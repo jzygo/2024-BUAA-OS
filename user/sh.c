@@ -286,18 +286,15 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	debugf("runcmd: %s\n,envid=%d\n", p,syscall_getenvid());
-			debugf("start ipc_send1 \n");
+	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
 	close_all();
 	if (child >= 0) {
 		u_int caller;
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
-			debugf("start ipc_send2 \n");
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
-			debugf("start ipc_send3 \n");
 		wait(child);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
