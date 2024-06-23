@@ -43,13 +43,13 @@ int main(int argc, char *argv[]) {
 			p++;
 		}
 		char dir[128];
-		while (strchr(WHITESPACE SYMBOLS, *p)) {
+		while (!strchr(WHITESPACE SYMBOLS, *p)) {
 			while (*p != '/' && *p != '\0') {
 				p++;
 			}
 			strncpy(dir, path, p - path);
 			dir[p - path] = '\0';
-			// int r = fsipc_create(dir, 1);
+			int r = fsipc_create(dir, 1);
 			debugf("dir: %s; result:%d\n", dir, r);
 			p++;
 		}
