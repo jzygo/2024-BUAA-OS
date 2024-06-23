@@ -285,15 +285,16 @@ void runcmd(char *s) {
 	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
-	// if (strstr(argv[0], "history")!=NULL) {
-	// 	argc = 2;
-	// 	argv[0] = "echo.b";
-	// 	// 将所有的history拼接为一个字符串赋值给argv[1]
-	// 	strcpy(argv[1],history[0]);
-	// 	for (int i = 1; i < top; i++) {
-	// 		strcat(argv[1],history[i]);
-	// 	}
-	// }
+	if (strstr(argv[0], "history")!=NULL) {
+		argc = 2;
+		argv[0] = "echo.b";
+		// 将所有的history拼接为一个字符串赋值给argv[1]
+		strcpy(argv[1],history[0]);
+		for (int i = 1; i < top; i++) {
+			strcat(argv[1],history[i]);
+		}
+		strcat(argv[1],"\0");
+	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
@@ -409,10 +410,12 @@ int main(int argc, char **argv) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		history[top++] = buf;
-		// 将history[top-1]的最后一个字符替换为\n
-		history[top-1][strlen(buf)] = '\n';
-		history[top-1][strlen(buf)+1] = '\0';
+		// history[top++] = buf;
+		for (int i = 0; i < strlen(buf); i++) {
+			history[top][i] = buf[i];
+		}
+		// 将history[top]的最后一个字符替换为\n
+		history[top][strlen(buf)] = '\n';
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
 
