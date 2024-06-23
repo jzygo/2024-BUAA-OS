@@ -404,17 +404,16 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
-	// int fd = open("/.mosh_history",O_RDWR);
+	int fd = open("/.mosh_history",O_RDWR);
 	top = 0;
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		// history[top++] = buf;
-		history[top] = 0;
-		strcat(history[top],buf);
-		top++;
+		// history[top] = 0;
+		// strcat(history[top],buf);
+		// top++;
 		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
 		// write(fdnum,buf,strlen(buf));
