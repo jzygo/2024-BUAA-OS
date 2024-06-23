@@ -176,6 +176,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		case 248:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
+			debugf("|| \n");
 			son = fork();
 			if (son == 0) {
 				tag=1;
@@ -285,11 +286,6 @@ void runcmd(char *s) {
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
 	}
-	// if (strstr(argv[0], "history") != NULL) {
-	// 	argc = 2;
-	// 	argv[1] = ".mosh_history\0";
-	// 	argv[0] = "cat.b\0";
-	// }
 	argv[argc] = 0;
 	if (lazy!=0) {
 		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
@@ -306,11 +302,11 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
+	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
 	close_all();
 	if (child >= 0) {
 		u_int caller;
-		debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
@@ -354,7 +350,6 @@ void readline(char *buf, u_int n) {
 		;
 	}
 	buf[0] = 0;
-
 }
 
 char buf[1024];
@@ -384,7 +379,7 @@ int main(int argc, char **argv) {
 		usage();
 	}
 	ARGEND
-	
+
 	if (argc > 1) {
 		usage();
 	}
@@ -395,15 +390,11 @@ int main(int argc, char **argv) {
 		}
 		user_assert(r == 0);
 	}
-	fsipc_create(".mosh_history", 0);
-	int fdnum=open(".mosh_history", O_RDWR);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		write(fdnum, buf, strlen(buf));
-		write(fdnum, "\n", 1);
 
 		if (buf[0] == '#') {
 			continue;
