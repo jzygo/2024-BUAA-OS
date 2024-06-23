@@ -287,13 +287,8 @@ void runcmd(char *s) {
 	char p[128];
 	if (strstr(argv[0], "history")!=NULL) {
 		argc = 2;
-		argv[0] = "echo.b";
-		// 将所有的history拼接为一个字符串赋值给argv[1]
-		strcpy(argv[1],history[0]);
-		for (int i = 1; i < top; i++) {
-			strcat(argv[1],history[i]);
-		}
-		strcat(argv[1],"\0");
+		argv[0] = "cat.b";
+		argv[1] = "/.mosh_history";
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
@@ -416,9 +411,9 @@ int main(int argc, char **argv) {
 		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
 		int fd = open("/.mosh_history",O_WRONLY);
+		write(fd,buf,strlen(buf));
+		write(fd,"\n",1);
 		close(fd);
-		// write(fdnum,buf,strlen(buf));
-		// write(fdnum,"\n",1);
 
 		if (buf[0] == '#') {
 			continue;
