@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	else if (argc == 3 && strcmp(argv[1], "-rf") == 0) {
-		int r = fsipc_rm(argv[2], 0);
+		int r = fsipc_rm(argv[2], 2);
 	}
 	else {
 		usage();

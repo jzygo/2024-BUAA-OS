@@ -322,9 +322,11 @@ void serve_rm(u_int envid, struct Fsreq_rm *rq) {
 	// Step 1: find the file on the disk.
 	if ((r = walk_path(rq->req_path, 0, &f, 0)) < 0) {
 		ipc_send(envid, r, 0, 0);
+		return;
 	}
 	if (rq->mode==0 && f->f_type == FTYPE_DIR) {
 		ipc_send(envid, -E_NOT_DIR, 0, 0);
+		return;
 	}
 	// Step 2: truncate it's size to zero.
 	file_truncate(f, 0);
