@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 		usage();
 	}
     if (argc == 2) {
-		debugf("path=%s;path lenth=%d",argv[1],strlen(argv[1]));
+		debugf("path=%s;path lenth=%d\n",argv[1],strlen(argv[1]));
 		int r = fsipc_create(argv[1], 1);
 		if (r == -E_FILE_EXISTS) {
 			debugf("mkdir: cannot create directory '%s': File exists\n", argv[1]);
@@ -45,14 +45,14 @@ int main(int argc, char *argv[]) {
 			p++;
 		}
 		char dir[128];
-		debugf("path=%s;path lenth=%d",argv[2],strlen(argv[2]));
+		debugf("path=%s;path lenth=%d\n",argv[2],strlen(argv[2]));
 			// int r = fsipc_create(dir, 1);
 			//用strlen实现建立argv[2]中的每个目录
 		for (int i = 0; i < strlen(argv[2]); i++) {
 			if (argv[2][i] == '/') {
 				strncpy(dir, argv[2], i);
 				dir[i] = '\0';
-				debugf("path=%s;path lenth=%d",dir,strlen(dir));
+				debugf("path=%s;path lenth=%d\n",dir,strlen(dir));
 				int r = fsipc_create(dir, 1);
 				if (r == -E_FILE_EXISTS) {
 					debugf("mkdir: cannot create directory '%s': File exists\n", dir);
@@ -68,6 +68,9 @@ int main(int argc, char *argv[]) {
 				}
 				else if (r < 0) {
 					debugf("mkdir: cannot create directory '%s': No such file or directory\n", dir);
+				}
+				else {
+					debugf("sucess\n");
 				}
 	}
 	else {
