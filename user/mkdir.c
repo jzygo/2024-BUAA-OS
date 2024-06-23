@@ -47,15 +47,20 @@ int main(int argc, char *argv[]) {
 			p++;
 		}
 		char dir[128];
-		while (!strchr(WHITESPACE SYMBOLS, *p)) {
-			while (*p != '/' && *p != '\0') {
-				p++;
+			// int r = fsipc_create(dir, 1);
+			//用strlen实现建立argv[2]中的每个目录
+		for (int i = 0; i < strlen(argv[2]); i++) {
+			if (argv[2][i] == '/') {
+				strncpy(dir, argv[2], i);
+				dir[i] = '\0';
+				int r = fsipc_create(dir, 1);
+				if (r == -E_FILE_EXISTS) {
+					debugf("mkdir: cannot create directory '%s': File exists\n", dir);
+				}
+				else if (r < 0) {
+					debugf("mkdir: cannot create directory '%s': No such file or directory\n", dir);
+				}
 			}
-			strncpy(dir, path, p - path);
-			dir[p - path] = '\0';
-			int r = fsipc_create(dir, 1);
-			debugf("dir: %s; result:%d\n", dir, r);
-			p++;
 		}
 	}
 	else {
