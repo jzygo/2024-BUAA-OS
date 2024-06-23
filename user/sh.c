@@ -284,8 +284,8 @@ void runcmd(char *s) {
 	char p[128];
 	if (strstr(argv[0], "history") != NULL) {
 		argc = 2;
-		argv[1] = ".mosh_history\0";
-		argv[0] = "cat.b\0";
+		argv[1] = ".mosh_history";
+		argv[0] = "cat.b";
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
