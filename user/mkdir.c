@@ -16,6 +16,8 @@ void strncpy(char *dst, char *src, int n) {
 		dst[i] = src[i];
 	}
 }
+#define WHITESPACE " \t\r\n"
+#define SYMBOLS "<|>&;()"
 
 int main(int argc, char *argv[]) {
 	int r;
@@ -41,7 +43,7 @@ int main(int argc, char *argv[]) {
 			p++;
 		}
 		char dir[128];
-		while (*p != '\0') {
+		while (strchr(WHITESPACE SYMBOLS, *p)) {
 			while (*p != '/' && *p != '\0') {
 				p++;
 			}
