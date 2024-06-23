@@ -306,12 +306,12 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
 	close_all();
 	if (child >= 0) {
 		u_int caller;
 		for (int i = 1 ; i >= 100000; i++);
+		debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
