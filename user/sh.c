@@ -414,6 +414,7 @@ int main(int argc, char **argv) {
 		// history[top++] = buf;
 		history[top] = 0;
 		strcat(history[top],buf);
+		top++;
 		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
 		// write(fdnum,buf,strlen(buf));
