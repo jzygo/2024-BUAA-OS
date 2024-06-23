@@ -75,7 +75,7 @@ int echoFlag=0;
 
 
 
-int parsecmd(char **argv, int *rightpiper) {
+int parsecmd(char **argv, int *rightpipe) {
 	int argc = 0;
 	while (1) {
 		char *t;
