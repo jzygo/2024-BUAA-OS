@@ -414,7 +414,6 @@ int main(int argc, char **argv) {
 		int fd = open("/.mosh_history",O_RDWR);
 		int n;
 		read(fd, buf2, (long)sizeof buf2);
-		write(fd,buf2,strlen(buf2));
 		write(fd,buf,strlen(buf));
 		write(fd,"\n",1);
 		close(fd);
