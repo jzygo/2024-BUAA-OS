@@ -353,6 +353,7 @@ void readline(char *buf, u_int n) {
 }
 
 char buf[1024];
+char *history[21];
 
 void usage(void) {
 	printf("usage: sh [-ix] [script-file]\n");
@@ -396,8 +397,8 @@ int main(int argc, char **argv) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		write(fdnum,buf,strlen(buf));
-		write(fdnum,"\n",1);
+		// write(fdnum,buf,strlen(buf));
+		// write(fdnum,"\n",1);
 
 		if (buf[0] == '#') {
 			continue;
