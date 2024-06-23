@@ -284,8 +284,13 @@ void runcmd(char *s) {
 	char p[128];
 	if (strstr(argv[0], "history")!=NULL) {
 		argc = 2;
-		argv[1]  = ".mosh_history";
-		argv[0] = "cat.b";
+		argv[0] = "echo.b";
+		int cnt = 0;
+		for (int i = 0; i < top; i++) {
+			for (int j = 0; history[i][j]; j++) {
+				argv[1][cnt++] = history[i][j];
+			}
+		}
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
@@ -359,6 +364,7 @@ void readline(char *buf, u_int n) {
 
 char buf[1024];
 char *history[21];
+int top = 0;
 
 void usage(void) {
 	printf("usage: sh [-ix] [script-file]\n");
@@ -396,12 +402,15 @@ int main(int argc, char **argv) {
 		}
 		user_assert(r == 0);
 	}
-	int fdnum = open("/.mosh_history",O_CREAT|O_RDWR);
+	int fdnum = fsipc_create("/.mosh_history",0);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
+		history[top++] = buf;
+		// 将history[top-1]的最后一个字符替换为\n
+		history[top-1][strlen(history[top-1])] = '\n';
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
 
