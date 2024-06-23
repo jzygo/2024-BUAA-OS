@@ -288,8 +288,8 @@ void runcmd(char *s) {
 	}
 	if (strstr(argv[0], "history") != NULL) {
 		argc = 2;
-		argv[1] = ".mosh_history";
-		argv[0] = "cat.b";
+		argv[1] = ".mosh_history\0";
+		argv[0] = "cat.b\0";
 	}
 	argv[argc] = 0;
 	if (lazy!=0) {
