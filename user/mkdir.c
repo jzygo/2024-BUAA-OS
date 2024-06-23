@@ -49,6 +49,7 @@ int main(int argc, char *argv[]) {
 			}
 			strncpy(dir, path, p - path);
 			dir[p - path] = '\0';
+			debugf("dir: %s\n", dir);
 			int r = fsipc_create(dir, 1);
 			p++;
 		}
