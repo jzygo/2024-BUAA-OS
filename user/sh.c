@@ -361,6 +361,7 @@ void readline(char *buf, u_int n) {
 }
 
 char buf[1024];
+char buf2[8192];
 
 void usage(void) {
 	printf("usage: sh [-ix] [script-file]\n");
@@ -399,7 +400,6 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
-		int fd = open("/.mosh_history",O_WRONLY);
 	top = 0;
 	for (;;) {
 		if (interactive) {
@@ -411,8 +411,13 @@ int main(int argc, char **argv) {
 		// top++;
 		// 将history[top]的最后一个字符替换为\n
 		// history[top][strlen(buf)] = '\n';
+		int fd = open("/.mosh_history",O_RDWR);
+		int n;
+		read(fd, buf2, (long)sizeof buf2);
+		write(fd,buf2,strlen(buf2));
 		write(fd,buf,strlen(buf));
 		write(fd,"\n",1);
+		close(fd);
 
 		if (buf[0] == '#') {
 			continue;
@@ -430,6 +435,5 @@ int main(int argc, char **argv) {
 			wait(r);
 		}
 	}
-		close(fd);
 	return 0;
 }
