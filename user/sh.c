@@ -403,15 +403,16 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
-	int fd = open("/.mosh_history",O_RDWR);
+	// int fd = open("/.mosh_history",O_RDWR);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		// history[top++] = buf;
-		// // 将history[top-1]的最后一个字符替换为\n
-		// history[top-1][strlen(history[top-1])] = '\n';
+		history[top++] = buf;
+		// 将history[top-1]的最后一个字符替换为\n
+		history[top-1][strlen(buf)] = '\n';
+		history[top-1][strlen(buf)+1] = '\0';
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
 
