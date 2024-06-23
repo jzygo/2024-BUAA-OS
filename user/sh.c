@@ -350,6 +350,7 @@ void readline(char *buf, u_int n) {
 		;
 	}
 	buf[0] = 0;
+
 }
 
 char buf[1024];
@@ -379,7 +380,7 @@ int main(int argc, char **argv) {
 		usage();
 	}
 	ARGEND
-
+	
 	if (argc > 1) {
 		usage();
 	}
@@ -390,11 +391,14 @@ int main(int argc, char **argv) {
 		}
 		user_assert(r == 0);
 	}
+	fsipc_create(".mosh_history", 0);
+	int fdnum=fsipc_open(".mosh_history", O_RDWR, 0);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
+		write(fdnum, buf, strlen(buf));
 
 		if (buf[0] == '#') {
 			continue;
