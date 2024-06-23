@@ -63,6 +63,12 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		int r = fsipc_create(argv[2], 1);
+				if (r == -E_FILE_EXISTS) {
+					debugf("mkdir: cannot create directory '%s': File exists\n", dir);
+				}
+				else if (r < 0) {
+					debugf("mkdir: cannot create directory '%s': No such file or directory\n", dir);
+				}
 	}
 	else {
 		usage();
