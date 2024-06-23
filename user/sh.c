@@ -285,15 +285,15 @@ void runcmd(char *s) {
 	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
-	if (strstr(argv[0], "history")!=NULL) {
-		argc = 2;
-		argv[0] = "echo.b";
-		// 将所有的history拼接为一个字符串赋值给argv[1]
-		strcpy(argv[1],history[0]);
-		for (int i = 1; i < top; i++) {
-			strcat(argv[1],history[i]);
-		}
-	}
+	// if (strstr(argv[0], "history")!=NULL) {
+	// 	argc = 2;
+	// 	argv[0] = "echo.b";
+	// 	// 将所有的history拼接为一个字符串赋值给argv[1]
+	// 	strcpy(argv[1],history[0]);
+	// 	for (int i = 1; i < top; i++) {
+	// 		strcat(argv[1],history[i]);
+	// 	}
+	// }
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
@@ -403,14 +403,15 @@ int main(int argc, char **argv) {
 		user_assert(r == 0);
 	}
 	int fdnum = fsipc_create("/.mosh_history",0);
+	int fd = open("/.mosh_history",O_RDWR);
 	for (;;) {
 		if (interactive) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
-		history[top++] = buf;
-		// 将history[top-1]的最后一个字符替换为\n
-		history[top-1][strlen(history[top-1])] = '\n';
+		// history[top++] = buf;
+		// // 将history[top-1]的最后一个字符替换为\n
+		// history[top-1][strlen(history[top-1])] = '\n';
 		// write(fdnum,buf,strlen(buf));
 		// write(fdnum,"\n",1);
 
