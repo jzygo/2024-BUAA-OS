@@ -188,14 +188,7 @@ void serve_create(u_int envid, struct Fsreq_create *rq) {
 	struct File *f;
 	struct Filefd *ff;
 	int r;
-	struct Open *o;
-
-	// Find a file id.
-	if ((r = open_alloc(&o)) < 0) {
-		ipc_send(envid, r, 0, 0);
-		return;
-	}
-
+	debugf("create %s\n", rq->req_path);
 	if ((r = file_create(rq->req_path, &f)) < 0) {
 		ipc_send(envid, r, 0, 0);
 		return;
