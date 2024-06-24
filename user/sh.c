@@ -230,8 +230,8 @@ int parsecmd(char **argv, int *rightpipe) {
 		case '&':
 			son = fork();
 			if(son==0) {
-				return argc;
 				waitNew=0;
+				return argc;
 			} 
 			else {
 				if(*rightpipe == 0){
