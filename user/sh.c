@@ -230,10 +230,12 @@ int parsecmd(char **argv, int *rightpipe) {
 		case '&':
 			son = fork();
 			if(son==0) {
+				debugf("son=%d, & \n",son);
 				waitNew=1;
 				return argc;
 			} 
 			else {
+				debugf("son=%d, & \n",son);
 				if(*rightpipe == 0){
 					dup(1, 0);
 				} else if(*rightpipe == 1) {
