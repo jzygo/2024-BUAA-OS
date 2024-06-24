@@ -216,7 +216,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				debugf("instr:%s\n",buf);
-				int fdMy = open(strcat("abcde",itoa(jobCnt)),O_CREAT|O_WRONLY);
+				int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
 				write(fdMy,buf,strlen(buf));
 				strcpy(job_name[jobCnt],buf);
 				jobCnt++;
@@ -416,7 +416,7 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				cnt++;
 				debugf("%s\n",job_name[0]);
-				int fdMy = open(strcat("abcde",itoa(i)),O_RDONLY);
+				int fdMy = open(itoa(i),O_RDONLY);
 				read(fdMy,buf_before,(long)sizeof buf_before);
 				if (syscall_query_job(i)==0) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf_before);
