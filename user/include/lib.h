@@ -50,7 +50,7 @@ void syscall_putchar(int ch);
 int syscall_print_cons(const void *str, u_int num);
 u_int syscall_getenvid(void);
 u_int syscall_get_parent(void);
-u_int syscall_add_job(void);
+u_int syscall_add_job(char *name);
 u_int syscall_get_jobs(int *a);
 u_int syscall_done_job(int envid);
 u_int syscall_remove_job(int id);
