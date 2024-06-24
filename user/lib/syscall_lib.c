@@ -40,8 +40,8 @@ u_int syscall_query_job(int id) {
 	return msyscall(SYS_query_job, id);
 }
 
-char * syscall_get_job_name(int id) {
-	return msyscall(SYS_get_job_name, id);
+char syscall_get_job_name(int id,int index) {
+	return msyscall(SYS_get_job_name, id,index);
 }
 
 void syscall_yield(void) {
