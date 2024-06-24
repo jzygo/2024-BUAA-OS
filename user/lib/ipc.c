@@ -17,6 +17,7 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 		syscall_yield();
 		cnt++;
 		if (cnt > 1000) {
+			r=0;
 			break;
 		}
 	}
