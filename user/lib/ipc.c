@@ -18,6 +18,7 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 		cnt++;
 		if (cnt > 1000) {
 			r=0;
+			debugf("shut down. envid:%d\n;parentid:%d",syscall_getenvid(),syscall_get_parent());
 			break;
 		}
 	}
