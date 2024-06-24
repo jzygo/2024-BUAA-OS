@@ -9,7 +9,7 @@
 extern struct Env *curenv;
 int jobs[1024];
 int done_jobs[1024];
-char *job_name[1024];
+char job_name[16][128];
 int job_num = 0;
 
 /* Overview:
