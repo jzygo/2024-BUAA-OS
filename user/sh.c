@@ -19,6 +19,9 @@
  *   The buffer is modified to turn the spaces after words into zero bytes ('\0'), so that the
  *   returned token is a null-terminated string.
  */
+
+char buf[1024];
+char buf2[8192];
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
 	*p2 = 0;
@@ -374,8 +377,6 @@ void readline(char *buf, u_int n) {
 	buf[0] = 0;
 }
 
-char buf[1024];
-char buf2[8192];
 
 void usage(void) {
 	printf("usage: sh [-ix] [script-file]\n");
