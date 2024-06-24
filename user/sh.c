@@ -22,6 +22,8 @@
 
 char buf[1024];
 char buf2[8192];
+int jobIndex[1024];
+int jobNum=0;
 int waitNew=1;
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
@@ -378,13 +380,10 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
-	debugf("parent: %d\n",syscall_get_parent());
-	debugf("sender start=%d\n", child);
-	debugf("reicever start=%d\n",syscall_getenvid());
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);
+	debugf("res=%d\n",res);
 	close_all();
 	if (child >= 0) {
 		if (tag==1) {
@@ -392,6 +391,9 @@ void runcmd(char *s) {
 		}
 		if (waitNew==1) {
 			wait(child);
+		}
+		else {
+
 		}
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
