@@ -64,7 +64,6 @@ u_int sys_add_job(char *name) {
 u_int sys_add_job_name(int index,char a) {
 	for (int i =0;i<job_num; i++) {
 		if (jobs[i] == curenv->env_id) {
-			printk("i:%d,index:%d,a:%c\n",i,index,a);
 			job_name[i][index]=a;
 		}
 	}
@@ -107,7 +106,6 @@ char sys_get_job_name(int id,int index) {
 	if (id >= job_num) {
 		return -1;
 	}
-	printk("job_name:%s,id:%d\n",job_name[id],id);
 	return job_name[id][index];
 	
 }
