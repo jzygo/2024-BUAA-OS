@@ -487,5 +487,8 @@ int main(int argc, char **argv) {
 			wait(r);
 		}
 	}
+	if (syscall_get_parent() != 8195) {
+		ipc_send(syscall_get_parent(),0,NULL,0);
+	}
 	return 0;
 }
