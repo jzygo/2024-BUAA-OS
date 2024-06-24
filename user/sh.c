@@ -381,7 +381,7 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}	
-	debugf("child=%d,wait=%d;argc=%d;p=%s\n",child,waitNew,argc,p);
+	debugf("child,wait=%d;argc=%d;p=%s\n",waitNew,argc,p);
 	int child = spawn(p, argv);	
 
 	u_int caller;
