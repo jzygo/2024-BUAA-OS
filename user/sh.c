@@ -393,7 +393,8 @@ void runcmd(char *s) {
 			wait(child);
 		}
 		else {
-
+			// 添加到job列表
+			jobIndex[jobNum++]=child;
 		}
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
