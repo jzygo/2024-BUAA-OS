@@ -24,6 +24,10 @@ u_int syscall_add_job(char *name) {
 	return msyscall(SYS_add_job,name);
 }
 
+u_int syscall_add_job_name(int index, char a) {
+	return msyscall(SYS_add_job_name, index, a);
+}
+
 u_int syscall_get_job_id(void) {
 	return msyscall(SYS_get_job_id);
 }

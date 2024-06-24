@@ -220,9 +220,12 @@ int parsecmd(char **argv, int *rightpipe) {
 				waitNew=0;
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
+				for (int i = 0;i<=strlen(buf);i++) {
+					syscall_add_job_name(i,buf[i]);
+				}
 				debugf("instr:%s\n",buf);
-				debugf("%s\n",itoa(jobCnt));
-				int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
+				// debugf("%s\n",itoa(jobCnt));
+				// int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
 				write(fdMy,buf,strlen(buf));
 				close(fdMy);
 				strcpy(job_name[jobCnt],buf);
@@ -422,17 +425,23 @@ void runcmd(char *s) {
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
 				cnt++;
-				debugf("%s\n",job_name[0]);
-				int fdMy = open(itoa(i),O_RDONLY);
-				debugf("%s\n",itoa(i));
-				read(fdMy,buf_before,(long)sizeof buf_before);
-				close(fdMy);
+				// debugf("%s\n",job_name[0]);
+				// int fdMy = open(itoa(i),O_RDONLY);
+				// debugf("%s\n",itoa(i));
+				// read(fdMy,buf_before,(long)sizeof buf_before);
+				// close(fdMy);
 				if (syscall_query_job(i)==0) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf_before);
+					printf("[%d] %-10s 0x%08x ", cnt, "RUNNING", a[i]);
 				}
 				else if (syscall_query_job(i)==1) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf_before);
+					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
 				}
+				int num = 0;
+				while (syscall_get_job_name(i,num)) {
+					printf("%c",syscall_get_job_name(i,num));
+					num++;
+				}
+				printf("\n");
 			}
 		}
 		exit();

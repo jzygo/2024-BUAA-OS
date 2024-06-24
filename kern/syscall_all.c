@@ -61,6 +61,15 @@ u_int sys_add_job(char *name) {
 	return 0;
 }
 
+u_int sys_add_job_name(int index,char a) {
+	for (int i =0 i<job_num; i++) {
+		if (jobs[i] == curenv->env_id) {
+			job_name[i][index]=a;
+		}
+	}
+	return 0;
+}
+
 u_int sys_get_job_id() {
 	for (int i = 0; i < job_num; i++) {
 		if (jobs[i] == curenv->env_id) {
@@ -596,6 +605,7 @@ void *syscall_table[MAX_SYSNO] = {
     [SYS_getenvid] = sys_getenvid,
 	[SYS_get_parent] = sys_get_parent,
 	[SYS_add_job] = sys_add_job,
+	[SYS_add_job_name] = sys_add_job_name,
 	[SYS_get_job_id] = sys_get_job_id,
 	[SYS_get_jobs] = sys_get_jobs,
 	[SYS_done_job] = sys_done_job,
