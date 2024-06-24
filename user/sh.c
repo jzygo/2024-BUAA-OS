@@ -169,7 +169,9 @@ int parsecmd(char **argv, int *rightpipe) {
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
 			struct Fd *f;
 			f=(struct Fd *)INDEX2FD(fd);
+			struct Filefd *filefd=(struct Filefd *)f;
 			debugf("fd->fd_offset=%d\n",f->fd_offset);
+			f->fd_offset=filefd->f_file.f_size;
 			r=dup(fd, 1);
 			close(fd);
 			if (r < 0) {
