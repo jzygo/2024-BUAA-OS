@@ -364,6 +364,7 @@ void runcmd(char *s) {
 	}
 	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
+	debugf("parent: %d\n",syscall_get_parent());
 	debugf("sender start=%d\n", child);
 	debugf("reicever start=%d\n",syscall_getenvid());
 	u_int caller;
