@@ -506,9 +506,7 @@ int main(int argc, char **argv) {
 			runcmd(buf);
 			exit();
 		} else {
-			if (!strchr(buf, '&')) {
-				wait(r);
-			}
+			wait(r);
 		}
 	}
 	return 0;
