@@ -368,31 +368,42 @@ void runcmd(char *s) {
 	if (strstr(argv[0], "fg")!=NULL) {
 		int a[64];
 		int n = syscall_get_jobs(a);
-		if (atoi(argv[1])>n) {
-			printf("fg: job (%d) do not exist\n", atoi(argv[1]));
-			exit();
+		int cnt = 0;
+		for (int i = 0; i < n; i++) {
+			if (a[i]>0) {
+				cnt++;
+				if (cnt==atoi(argv[1])) {
+					if (syscall_query_job(i)>0) {
+						printf("fg: (0x%08x) not running\n", syscall_getenvid());
+						exit();
+					}
+					wait(a[i]);
+					syscall_remove_job(i);
+					exit();
+				}
+			}
 		}
-		if (syscall_query_job(atoi(argv[1])-1)>0) {
-			printf("fg: (0x%08x) not running\n", syscall_getenvid());
-			exit();
-		}
-		wait(a[atoi(argv[1])-1]);
-		syscall_remove_job(atoi(argv[1])-1);
 		exit();
 	}
 	if (strstr(argv[0],"kill") != NULL) {
 		int a[64];
 		int n = syscall_get_jobs(a);
-		if (atoi(argv[1])>n) {
-			printf("fg: job (%d) do not exist\n", atoi(argv[1]));
-			exit();
+		int cnt = 0;
+		for (int i = 0; i < n; i++) {
+			if (a[i]>0) {
+				cnt++;
+				if (cnt==atoi(argv[1])) {
+					if (syscall_query_job(i)>0) {
+						printf("fg: (0x%08x) not running\n", syscall_getenvid());
+						exit();
+					}
+					syscall_env_destroy(a[i]);
+					syscall_remove_job(i);
+					exit();
+				}
+			}
 		}
-		if (syscall_query_job(atoi(argv[1])-1)>0) {
-			printf("fg: (0x%08x) not running\n", syscall_getenvid());
-			exit();
-		}
-		syscall_env_destroy(a[atoi(argv[1])-1]);
-		syscall_remove_job(atoi(argv[1])-1);
+		printf("fg: job (%d) do not exist\n", atoi(argv[1]));
 		exit();
 	}
 	strcpy(p, argv[0]);
