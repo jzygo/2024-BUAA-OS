@@ -492,6 +492,7 @@ int sys_ipc_try_send(u_int envid, u_int value, u_int srcva, u_int perm) {
 int sys_cgetc(void) {
 	int ch;
 	while ((ch = scancharc()) == 0) {
+		sys_yield();
 	}
 	return ch;
 }
