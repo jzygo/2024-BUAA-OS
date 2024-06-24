@@ -351,7 +351,9 @@ void runcmd(char *s) {
 				printf("\n");
 			}
 		}
-		return;
+		argc=2;
+		argv[0]="echo";
+		argv[1]="";
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
