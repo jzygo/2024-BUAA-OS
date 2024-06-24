@@ -56,7 +56,9 @@ u_int sys_get_parent(void) {
 
 u_int sys_add_job(char *name) {
 	done_jobs[job_num] = 0;
-	job_name[job_num] = name;
+	for (int i = 0; i < strlen(name); i++) {
+		job_name[job_num][i] = name[i];
+	}
 	printk("job_name:%s,job_num:%d\n",job_name[job_num],job_num);
 	jobs[job_num++] = curenv->env_id;
 
