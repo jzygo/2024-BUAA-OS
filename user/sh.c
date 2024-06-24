@@ -177,7 +177,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			if(son==0) {
 				// debugf("son=%d, & \n",son);
 				waitNew=0;
-				syscall_add_job();
+				// syscall_add_job();
 				return argc;
 			} 
 			else {
@@ -427,10 +427,10 @@ void runcmd(char *s) {
 	if (rightpipe) {
 		wait(rightpipe);
 	}
-	if (waitNew==0) {
-		syscall_done_job(syscall_getenvid());
-		debugf("test\n");
-	}
+	// if (waitNew==0) {
+	// 	syscall_done_job(syscall_getenvid());
+	// 	debugf("test\n");
+	// }
 	exit();
 }
 
