@@ -97,7 +97,7 @@ int echoFlag=0;
 
 //实现以下函数：输入一个整数，返回转化成的字符串，不得使用其他库函数
 char *itoa(int num) {
-	static char str[12];
+	static char str[13];
 	int i = 0;
 	int sign = 0;
 
@@ -127,6 +127,11 @@ char *itoa(int num) {
 		start++;
 		end--;
 	}
+	// 在str的最开头加上一个'/'
+	char new_str[128];
+	new_str[0] = '/';
+	strcpy(new_str + 1, str);
+	strcpy(str, new_str);
 
 	return str;
 }
