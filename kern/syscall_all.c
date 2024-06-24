@@ -56,11 +56,16 @@ u_int sys_get_parent(void) {
 
 u_int sys_add_job(char *name) {
 	done_jobs[job_num] = 0;
-	strcpy(job_name[job_num],name);
-	printk("job_name:%s,job_num:%d\n",job_name[job_num],job_num);
-	jobs[job_num++] = curenv->env_id;
-
 	return 0;
+}
+
+u_int sys_get_job_id() {
+	for (int i = 0; i < job_num; i++) {
+		if (jobs[i] == curenv->env_id) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 u_int sys_query_job(int id) {
@@ -589,6 +594,7 @@ void *syscall_table[MAX_SYSNO] = {
     [SYS_getenvid] = sys_getenvid,
 	[SYS_get_parent] = sys_get_parent,
 	[SYS_add_job] = sys_add_job,
+	[SYS_get_job_id] = sys_get_job_id,
 	[SYS_get_jobs] = sys_get_jobs,
 	[SYS_done_job] = sys_done_job,
 	[SYS_remove_job] = sys_remove_job,

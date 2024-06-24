@@ -23,7 +23,7 @@
 char buf[1024];
 char buf2[8192];
 char buf_before[1024];
-int jobIndex[1024];
+char job_name[16][128];
 int jobNum=0;
 int waitNew=1;
 int _gettoken(char *s, char **p1, char **p2) {
@@ -181,6 +181,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				debugf("instr:%s\n",buf);
+				strcpy(job_name[jobNum],buf);
 				return argc;
 			} 
 			else {
@@ -190,7 +191,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				} else if(*rightpipe == 1) {
 					dup(0, 1);
 				}
-				// jobIndex[jobNum++] = son;
 				waitNew=1;
 				return parsecmd(argv, rightpipe);
 			}
@@ -382,12 +382,12 @@ void runcmd(char *s) {
 				else if (syscall_query_job(i)==1) {
 					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
 				}
-				int nnn=0;
-				while(syscall_get_job_name(i,nnn)) {
-					printf("%c", syscall_get_job_name(i,nnn));
-					nnn++;
-				}
-				printf("\n");
+				// int nnn=0;
+				// while(syscall_get_job_name(i,nnn)) {
+				// 	printf("%c", syscall_get_job_name(i,nnn));
+				// 	nnn++;
+				// }
+				// printf("\n");
 			}
 		}
 		exit();

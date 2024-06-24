@@ -9,6 +9,7 @@ enum {
 	SYS_getenvid,
 	SYS_get_parent,
 	SYS_add_job,
+	SYS_get_job_id,
 	SYS_get_jobs,
 	SYS_done_job,
 	SYS_remove_job,
