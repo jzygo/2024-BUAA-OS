@@ -388,6 +388,7 @@ void runcmd(char *s) {
 			}
 		}
 		debugf("test,n=%d\n",n);
+		exit();
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
