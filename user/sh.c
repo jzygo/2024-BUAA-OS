@@ -376,7 +376,7 @@ void runcmd(char *s) {
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
 				cnt++;
-				deugf("%s\n",job_name[0]);
+				debugf("%s\n",job_name[0]);
 				if (syscall_query_job(i)==0) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], job_name[i]);
 				}
