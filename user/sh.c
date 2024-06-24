@@ -321,10 +321,6 @@ void runcmd(char *s) {
 	if (argc == 0) {
 		return;
 	}
-	if (waitNew==0) {
-		debugf("waitNew=%d\n",waitNew);
-		syscall_done_job(syscall_getenvid());
-	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
 	if (strstr(argv[0], "history")!=NULL) {
@@ -376,7 +372,12 @@ void runcmd(char *s) {
 		}
 		lazy = 0;
 		exit();
-	}	
+	}
+	
+	if (waitNew==0) {
+		debugf("waitNew=%d\n",waitNew);
+		syscall_done_job(syscall_getenvid());
+	}
 	int child = spawn(p, argv);	
 	debugf("child,wait=%d;argc=%d;p=%s\n",waitNew,argc,p);
 
