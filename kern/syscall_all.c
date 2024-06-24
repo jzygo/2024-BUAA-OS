@@ -55,7 +55,7 @@ u_int sys_get_parent(void) {
 
 u_int sys_add_job() {
 	done_jobs[job_num] = 0;
-	jobs[job_num+=] = curenv->env_id;
+	jobs[job_num++] = curenv->env_id;
 	return 0;
 }
 
