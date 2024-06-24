@@ -374,10 +374,6 @@ void runcmd(char *s) {
 		exit();
 	}
 	
-	if (waitNew==0) {
-		debugf("waitNew=%d\n",waitNew);
-		syscall_done_job(syscall_getenvid());
-	}
 	int child = spawn(p, argv);	
 	debugf("child,wait=%d;argc=%d;p=%s\n",waitNew,argc,p);
 
@@ -385,6 +381,10 @@ void runcmd(char *s) {
 	int res = ipc_recv(&caller,0,0);
 	debugf("res=%d\n",res);
 	close_all();
+	if (waitNew==0) {
+		debugf("waitNew=%d\n",waitNew);
+		syscall_done_job(syscall_getenvid());
+	}
 	if (child >= 0) {
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
