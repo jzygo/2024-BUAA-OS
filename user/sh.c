@@ -51,6 +51,18 @@ int _gettoken(char *s, char **p1, char **p2) {
 		*p2 = s;
 		return t;
 	}
+	if (strchr("\"", *s)) {
+		*p1 = s;
+		s++;
+		while (*s && *s != '\"') {
+			s++;
+		}
+		*p2 = s;
+		if (*s) {
+			*s++ = 0;
+		}
+		return 'w';
+	}
 
 	*p1 = s;
 	while (*s && !strchr(WHITESPACE SYMBOLS, *s)) {
@@ -145,13 +157,11 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
-		case 126:
-			debugf("t=%s\n",t);
+		case 126://>>
 			if (gettoken(0, &t) != 'w') {
-				debugf("syntax error: << not followed by word\n");
+				debugf("syntax error: >> not followed by word\n");
 				exit();
 			}
-			debugf("t=%s\n",t);
 			fd = open(t, O_WRONLY);
 			int n;
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
