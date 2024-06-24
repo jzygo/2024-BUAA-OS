@@ -89,7 +89,9 @@ u_int sys_get_job_name(int id, char *name) {
 	if (id >= job_num) {
 		return -1;
 	}
-	strcpy(name, job_name[id]);
+	for (int i = 0; job_name[id][i] != '\0'; i++) {
+		name[i] = job_name[id][i];
+	}
 	return 0;
 }
 
