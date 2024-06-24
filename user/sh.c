@@ -375,21 +375,14 @@ void runcmd(char *s) {
 		int cnt = 0;
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
-				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
 				cnt++;
-				
+				deugf("%s\n",job_name[0]);
 				if (syscall_query_job(i)==0) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], job_name[i]);
 				}
 				else if (syscall_query_job(i)==1) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], job_name[i]);
 				}
-				// int nnn=0;
-				// while(syscall_get_job_name(i,nnn)) {
-				// 	printf("%c", syscall_get_job_name(i,nnn));
-				// 	nnn++;
-				// }
-				// printf("\n");
 			}
 		}
 		exit();
