@@ -137,6 +137,20 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
+		case '124': //>>
+			if (gettoken(0, &t) != 'w') {
+				debugf("syntax error: << not followed by word\n");
+				exit();
+			}
+			fd = open(t, O_WRONLY);
+			int n;
+			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
+			r=dup(fd, 1);
+			close(fd);
+			if (r < 0) {
+				user_panic(">> redirection not implemented");
+			}
+			break;
 		case '#' :
 			// ignore the rest of the line
 			return argc;
