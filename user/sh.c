@@ -366,6 +366,8 @@ void runcmd(char *s) {
 	int child = spawn(p, argv);
 	close_all();
 	if (child >= 0) {
+		debugf("spawn %s: %d\n", p, child);
+		debugf("nowenv=%d\n",syscall_getenvid());
 		u_int caller;
 		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
