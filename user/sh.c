@@ -372,13 +372,13 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
 				cnt++;
-				*buf = 0;
-				//把argv拼接起来，以空格分开
-				for (int j = 0; j < argc; j++) {
-					strcat(buf, argv[j]);
-					if (j<argc-1)
-						strcat(buf, " ");
-				}
+				// *buf = 0;
+				// //把argv拼接起来，以空格分开
+				// for (int j = 0; j < argc; j++) {
+				// 	strcat(buf, argv[j]);
+				// 	if (j<argc-1)
+				// 		strcat(buf, " ");
+				// }
 				if (syscall_query_job(i)>0) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf);
 				}
