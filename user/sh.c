@@ -181,7 +181,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				debugf("instr:%s\n",buf);
-				strcpy(job_name[jobNum],buf);
+				strcpy(job_name[syscall_get_job_id()],buf);
 				return argc;
 			} 
 			else {
