@@ -61,7 +61,7 @@ int _gettoken(char *s, char **p1, char **p2) {
 		}
 		*p2 = s;
 		s++;
-		debugf("s_string=%s\n",s);
+		debugf("s_string=%c\n",*s);
 		return 'w';
 	}
 
