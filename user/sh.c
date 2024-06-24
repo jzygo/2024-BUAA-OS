@@ -167,6 +167,11 @@ int parsecmd(char **argv, int *rightpipe) {
 				waitNew=0;
 				syscall_add_job(buf);
 				debugf("job_name=%s\n",buf);
+				int thisCnt = 0;
+				for (int i = 0; i < strlen(buf_before); i++) {
+					syscall_add_job_name(thisCnt,buf_before[i]);
+					thisCnt++;
+				}
 				jobCnt++;
 				return argc;
 			} 
@@ -328,28 +333,28 @@ void runcmd(char *s) {
 	char *argv[MAXARGS];
 	int rightpipe = 0;
 	int argc = parsecmd(argv, &rightpipe);
-	if (waitNew==0) {
-		int nownowcnt=0;
-		debugf("argc=%d\n",argc);
-		for (int i = 0; i < argc; i++) {
-			for (int j = 0;j<=strlen(argv[i]);j++) {
-				syscall_add_job_name(nownowcnt,argv[i][j]);
-				debugf("%c",argv[i][j]);
-				nownowcnt++;
-			}
-			if (i!=argc-1) {
-				syscall_add_job_name(nownowcnt,' ');
-				nownowcnt++;
-			}
-			else {
-				debugf("&\n");
-				syscall_add_job_name(nownowcnt,'&');
-				nownowcnt++;
-				syscall_add_job_name(nownowcnt,'\0');
-				nownowcnt++;
-			}
-		}
-	}
+	// if (waitNew==0) {
+	// 	int nownowcnt=0;
+	// 	debugf("argc=%d\n",argc);
+	// 	for (int i = 0; i < argc; i++) {
+	// 		for (int j = 0;j<=strlen(argv[i]);j++) {
+	// 			syscall_add_job_name(nownowcnt,argv[i][j]);
+	// 			debugf("%c",argv[i][j]);
+	// 			nownowcnt++;
+	// 		}
+	// 		if (i!=argc-1) {
+	// 			syscall_add_job_name(nownowcnt,' ');
+	// 			nownowcnt++;
+	// 		}
+	// 		else {
+	// 			debugf("&\n");
+	// 			syscall_add_job_name(nownowcnt,'&');
+	// 			nownowcnt++;
+	// 			syscall_add_job_name(nownowcnt,'\0');
+	// 			nownowcnt++;
+	// 		}
+	// 	}
+	// }
 	if (argc == 0) {
 		return;
 	}
@@ -381,7 +386,7 @@ void runcmd(char *s) {
 					num++;
 					debugf("num=%d,job_name=%c\n",num,syscall_get_job_name(i,num));
 				}
-				printf("\n");
+				debugf("&\n");
 			}
 		}
 		exit();
@@ -545,6 +550,7 @@ int main(int argc, char **argv) {
 			printf("\n$ ");
 		}
 		readline(buf, sizeof buf);
+		strcpy(buf_before,buf);
 		// history[top] = 0;
 		// strcat(history[top],buf);
 		// top++;
@@ -571,10 +577,6 @@ int main(int argc, char **argv) {
 			runcmd(buf);
 			exit();
 		} else {
-			//复制buf到buf_before
-			for (int i = 0; i <= strlen(buf); i++) {
-				buf_before[i] = buf[i];
-			}
 			wait(r);
 		}
 	}
