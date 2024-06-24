@@ -167,9 +167,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				waitNew=0;
 				syscall_add_job(buf);
 				debugf("job_name=%s\n",buf);
-				for (int i = 0;i<=strlen(buf);i++) {
-					syscall_add_job_name(i,buf[i]);
-				}
 				jobCnt++;
 				return argc;
 			} 
@@ -331,6 +328,19 @@ void runcmd(char *s) {
 	char *argv[MAXARGS];
 	int rightpipe = 0;
 	int argc = parsecmd(argv, &rightpipe);
+	if (waitNew==0) {
+		int nownowcnt=0;
+		for (int i = 0; i < argc; i++) {
+			for (int j = 0;j<=strlen(argv[i]);j++) {
+				syscall_add_job_name(nownowcnt,argv[i][j]);
+				nownowcnt++;
+			}
+			if (i!=argc-1) {
+				syscall_add_job_name(nownowcnt,' ');
+				nownowcnt++;
+			}
+		}
+	}
 	if (argc == 0) {
 		return;
 	}
