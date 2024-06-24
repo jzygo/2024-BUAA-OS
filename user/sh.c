@@ -22,7 +22,7 @@
 
 char buf[1024];
 char buf2[8192];
-int wait=0;
+int waitNew=0;
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
 	*p2 = 0;
