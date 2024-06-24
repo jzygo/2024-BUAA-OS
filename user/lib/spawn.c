@@ -217,11 +217,14 @@ int spawn(char *prog, char **argv) {
 	return child;
 
 err2:
+	debugf("spawn: err2\n");
 	syscall_env_destroy(child);
 	return r;
 err1:
+	debugf("spawn: err1\n");
 	syscall_env_destroy(child);
 err:
+	debugf("spawn: err\n");
 	close(fd);
 	return r;
 }
