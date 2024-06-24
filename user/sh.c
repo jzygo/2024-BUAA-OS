@@ -60,9 +60,7 @@ int _gettoken(char *s, char **p1, char **p2) {
 			s++;
 		}
 		*p2 = s;
-		if (*s) {
-			*s++ = 0;
-		}
+		s++;
 		return 'w';
 	}
 
@@ -180,7 +178,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("syntax error: >> not followed by word\n");
 				exit();
 			}
-			
+
 			debugf("t_string=%s\n",t);
 			fd = open(t, O_WRONLY);
 			int n;
