@@ -111,8 +111,7 @@ char sys_get_job_name(int id,int index) {
 }
 
 u_int sys_remove_job(int id) {
-	jobs[id] = -1;
-	done_jobs[id] = -1;
+	done_jobs[id] = 1;
 	return 0;
 }
 
