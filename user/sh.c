@@ -159,6 +159,21 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
+		case ';':
+			int child = fork();
+			if(child==0) {
+				return argc;
+			} 
+			else {
+				if(*rightpipe == 0){
+					dup(1, 0);
+				} else if(*rightpipe == 1) {
+					dup(0, 1);
+				}
+				wait(child);
+				return parsecmd(argv, rightpipe);
+			}
+			break;
 		case 126://>>
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: >> not followed by word\n");
