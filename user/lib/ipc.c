@@ -17,12 +17,12 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 	int cnt =0;
 	while ((r = syscall_ipc_try_send(whom, val, srcva, perm)) == -E_IPC_NOT_RECV) {
 		syscall_yield();
-		cnt++;
-		if (cnt > 1000) {
-			r=0;
-			debugf("shut down. envid:%d;parentid:%d\n",syscall_getenvid(),syscall_get_parent());
-			break;
-		}
+		// cnt++;
+		// if (cnt > 1000) {
+		// 	r=0;
+		// 	debugf("shut down. envid:%d;parentid:%d\n",syscall_getenvid(),syscall_get_parent());
+		// 	break;
+		// }
 	}
 	user_assert(r == 0);
 }
