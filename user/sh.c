@@ -125,7 +125,6 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			break;
 		case '>':
-			debugf(">> \n");
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: > not followed by word\n");
 				exit();
@@ -144,10 +143,12 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			break;
 		case '124': //>>
+			debugf("t=%s\n",t);
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: << not followed by word\n");
 				exit();
 			}
+			debugf("t=%s\n",t);
 			fd = open(t, O_WRONLY);
 			int n;
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
