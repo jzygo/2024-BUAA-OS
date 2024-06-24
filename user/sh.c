@@ -22,7 +22,7 @@
 
 char buf[1024];
 char buf2[8192];
-int waitNew=0;
+int waitNew=1;
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
 	*p2 = 0;
@@ -225,6 +225,22 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			user_panic("| not implemented");
 			break;
+		case '&':
+			son = fork();
+			if(son==0) {
+				return argc;
+				waitNew=0;
+			} 
+			else {
+				if(*rightpipe == 0){
+					dup(1, 0);
+				} else if(*rightpipe == 1) {
+					dup(0, 1);
+				}
+				waitNew=1;
+				return parsecmd(argv, rightpipe);
+			}
+			break;
 		case 248:
 		// realize || and && in bash
 			/* Exercise 6.5: Your code here. (3/3) */
@@ -374,7 +390,9 @@ void runcmd(char *s) {
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
-		wait(child);
+		if (waitNew==1) {
+			wait(child);
+		}
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
 	}
