@@ -50,6 +50,7 @@ void syscall_putchar(int ch);
 int syscall_print_cons(const void *str, u_int num);
 u_int syscall_getenvid(void);
 u_int syscall_get_parent(void);
+u_int syscall_set_parent(u_int parent);
 void syscall_yield(void);
 int syscall_env_destroy(u_int envid);
 int syscall_set_tlb_mod_entry(u_int envid, void (*func)(struct Trapframe *));

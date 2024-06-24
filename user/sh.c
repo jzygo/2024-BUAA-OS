@@ -176,6 +176,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			son = fork();
 			if(son==0) {
 				debugf("son=%d, & \n",son);
+				waitNew=0;
 				return argc;
 			} 
 			else {
@@ -186,7 +187,8 @@ int parsecmd(char **argv, int *rightpipe) {
 					dup(0, 1);
 				}
 				// jobIndex[jobNum++] = son;
-				// wait(son);
+				wait(son);
+				waitNew=1;
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -496,16 +498,14 @@ int main(int argc, char **argv) {
 		if (echocmds) {
 			printf("# %s\n", buf);
 		}
-		runcmd(buf);
-		// if ((r = fork()) < 0) {
-		// 	user_panic("fork: %d", r);
-		// }
-		// if (r == 0) {
-		// 	runcmd(buf);
-		// 	exit();
-		// } else {
-		// 	wait(r);
-		// }
+		if ((r = fork()) < 0) {
+			user_panic("fork: %d", r);
+		}
+		if (r == 0) {
+			runcmd(buf);
+			exit();
+		} else {
+		}
 	}
 	return 0;
 }

@@ -20,6 +20,10 @@ u_int syscall_get_parent (void) {
 	return msyscall(SYS_get_parent);
 }
 
+u_int syscall_set_parent(u_int parent) {
+	return msyscall(SYS_set_parent, parent);
+}
+
 void syscall_yield(void) {
 	msyscall(SYS_yield);
 }
