@@ -342,13 +342,13 @@ void runcmd(char *s) {
 				nownowcnt++;
 			}
 			else {
+				debugf("&\n");
 				syscall_add_job_name(nownowcnt,'&');
 				nownowcnt++;
 				syscall_add_job_name(nownowcnt,'\0');
 				nownowcnt++;
 			}
 		}
-		debugf("\n");
 	}
 	if (argc == 0) {
 		return;
