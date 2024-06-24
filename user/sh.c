@@ -22,6 +22,7 @@
 
 char buf[1024];
 char buf2[8192];
+int wait=0;
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
 	*p2 = 0;
@@ -166,6 +167,9 @@ int parsecmd(char **argv, int *rightpipe) {
 			fd = open(t, O_WRONLY);
 			int n;
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
+			struct *Fd f;
+			f=(struct Fd *)INDEX2FD(fd);
+			debugf("fd->fd_offset=%d\n",f->fd_offset);
 			r=dup(fd, 1);
 			close(fd);
 			if (r < 0) {
