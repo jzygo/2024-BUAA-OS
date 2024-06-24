@@ -108,7 +108,6 @@ static int spawn_mapper(void *data, u_long va, size_t offset, u_int perm, const 
  *   CPUs! QEMU doesn't simulate caching, allowing the OS to function correctly.
  */
 int spawn(char *prog, char **argv) {
-	debugf("spawn: %x\n", 11);
 	// Step 1: Open the file 'prog' (the path of the program).
 	// Return the error if 'open' fails.
 	int fd;
@@ -126,6 +125,7 @@ int spawn(char *prog, char **argv) {
 	if ((r=readn(fd, elfbuf,sizeof(Elf32_Ehdr)))<0||r!=sizeof(Elf32_Ehdr)) {
 		goto err;
 	}
+	debugf("spawn: %x\n", 11);
 	const Elf32_Ehdr *ehdr = elf_from(elfbuf, sizeof(Elf32_Ehdr));
 	if (!ehdr) {
 		r = -E_NOT_EXEC;
