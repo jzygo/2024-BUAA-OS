@@ -40,7 +40,7 @@ u_int syscall_query_job(int id) {
 	return msyscall(SYS_query_job, id);
 }
 
-u_int syscall_get_job_name(int id, char *name) {
+char * syscall_get_job_name(int id) {
 	return msyscall(SYS_get_job_name, id, name);
 }
 

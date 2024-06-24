@@ -85,14 +85,11 @@ u_int sys_done_job(int envid) {
 	return -1;
 }
 
-u_int sys_get_job_name(int id, char *name) {
+char * sys_get_job_name(int id) {
 	if (id >= job_num) {
 		return -1;
 	}
-	for (int i = 0; job_name[id][i] != '\0'; i++) {
-		name[i] = job_name[id][i];
-	}
-	return 0;
+	return job_name[id];
 }
 
 u_int sys_remove_job(int id) {

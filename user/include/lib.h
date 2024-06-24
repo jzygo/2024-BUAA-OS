@@ -55,7 +55,7 @@ u_int syscall_get_jobs(int *a);
 u_int syscall_done_job(int envid);
 u_int syscall_remove_job(int id);
 u_int syscall_query_job(int id);
-u_int syscall_get_job_name(int id, char *name);
+char * syscall_get_job_name(int id);
 void syscall_yield(void);
 int syscall_env_destroy(u_int envid);
 int syscall_set_tlb_mod_entry(u_int envid, void (*func)(struct Trapframe *));
