@@ -374,10 +374,10 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				cnt++;
 				if (syscall_query_job(i)==0) {
-					printf("[%d] %-10s 0x%08x ", cnt, "RUNNING", a[i]);
+					printf("[%d] %-10s 0x%08x ", cnt, "Running", a[i]);
 				}
 				else if (syscall_query_job(i)==1) {
-					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
+					printf("[%d] %-10s 0x%08x ", cnt, "Done", a[i]);
 				}
 				int num = 0;
 				while (syscall_get_job_name(i,num)!='&') {
