@@ -20,8 +20,24 @@ u_int syscall_get_parent (void) {
 	return msyscall(SYS_get_parent);
 }
 
-u_int syscall_set_parent(u_int parent) {
-	return msyscall(SYS_set_parent, parent);
+u_int syscall_add_job(void) {
+	return msyscall(SYS_add_job, parent);
+}
+
+u_int syscall_get_jobs(int *a) {
+	return msyscall(SYS_get_jobs, a);
+}
+
+u_int syscall_done_job(int envid) {
+	return msyscall(SYS_done_job, envid);
+}
+
+u_int syscall_remove_job(int id) {
+	return msyscall(SYS_remove_job, id);
+}
+
+u_int syscall_query_job(int id) {
+	return msyscall(SYS_query_job, id);
 }
 
 void syscall_yield(void) {

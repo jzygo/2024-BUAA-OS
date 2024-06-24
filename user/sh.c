@@ -177,6 +177,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			if(son==0) {
 				// debugf("son=%d, & \n",son);
 				waitNew=0;
+				syscall_add_job();
 				return argc;
 			} 
 			else {
@@ -363,6 +364,31 @@ void runcmd(char *s) {
 		argv[0] = "cat.b";
 		argv[1] = "/.mosh_history";
 	}
+	if (strstr(argv[0], "jobs")!=NULL) {
+		int a[64];
+		int n = syscall_get_jobs(a);
+		int cnt = 0;
+		for (int i = 0; i < n; i++) {
+			if (a[i]>0) {
+				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
+				cnt++;
+				char *instr;
+				*instr = 0;
+				//把argv拼接起来，以空格分开
+				for (int j = 0; j < argc; j++) {
+					strcat(instr, argv[j]);
+					if (j<argc-1)
+						strcat(instr, " ");
+				}
+				if (syscall_query_job(i)>0) {
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], instr);
+				}
+				else {
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], instr);
+				}
+			}
+		}
+	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
 		strcat(p, ".b");
@@ -400,6 +426,9 @@ void runcmd(char *s) {
 	}
 	if (rightpipe) {
 		wait(rightpipe);
+	}
+	if (waitNew==0) {
+		syscall_done_job(syscall_getenvid());
 	}
 	exit();
 }

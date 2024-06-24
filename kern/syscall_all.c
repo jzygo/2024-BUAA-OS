@@ -7,6 +7,9 @@
 #include <syscall.h>
 
 extern struct Env *curenv;
+int jobs[1024];
+int done_jobs[1024];
+int job_num = 0;
 
 /* Overview:
  * 	This function is used to print a character on screen.
@@ -50,8 +53,38 @@ u_int sys_get_parent(void) {
 	return curenv->env_parent_id;
 }
 
-u_int sys_set_parent(u_int parent) {
-	curenv->env_parent_id = parent;
+u_int sys_add_job() {
+	done_jobs[job_num] = 0;
+	jobs[job_num+=] = curenv->env_id;
+	return 0;
+}
+
+u_int sys_query_job(int id) {
+	return done_jobs[id];
+}
+
+u_int sys_get_jobs(int *a) {
+	int i;
+	for (i = 0; i < job_num; i++) {
+		a[i] = jobs[i];
+	}
+	return job_num;
+}
+
+u_int sys_done_job(int envid) {
+	int i;
+	for (i = 0; i < job_num; i++) {
+		if (jobs[i] == envid) {
+			done_jobs[i] = 1;
+			return 0;
+		}
+	}
+	return -1;
+}
+
+u_int sys_remove_job(int id) {
+	jobs[id] = -1;
+	done_jobs[id] = -1;
 	return 0;
 }
 
@@ -542,7 +575,11 @@ void *syscall_table[MAX_SYSNO] = {
     [SYS_print_cons] = sys_print_cons,
     [SYS_getenvid] = sys_getenvid,
 	[SYS_get_parent] = sys_get_parent,
-	[SYS_set_parent] = sys_set_parent,
+	[SYS_add_job] = sys_add_job,
+	[SYS_get_jobs] = sys_get_jobs,
+	[SYS_done_job] = sys_done_job,
+	[SYS_remove_job] = sys_remove_job,
+	[SYS_query_job] = sys_query_job,
     [SYS_yield] = sys_yield,
     [SYS_env_destroy] = sys_env_destroy,
     [SYS_set_tlb_mod_entry] = sys_set_tlb_mod_entry,
