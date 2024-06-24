@@ -312,6 +312,18 @@ char *strcat(char *dest, const char *src) {
 
 char *history[21];
 int top;
+
+//realize atoi without any other function
+
+int atoi(char *s) {
+	int n = 0;
+	while (*s >= '0' && *s <= '9') {
+		n = n * 10 + *s - '0';
+		s++;
+	}
+	return n;
+}
+
 void runcmd(char *s) {
 	gettoken(s, 0);
 
@@ -351,9 +363,21 @@ void runcmd(char *s) {
 				printf("\n");
 			}
 		}
-		argc=2;
-		argv[0]="echo";
-		argv[1]="";
+		exit();
+	}
+	if (strstr(argv[0], "fg")!=NULL) {
+		int a[64];
+		int n = syscall_get_jobs(a);
+		wait(a[atoi(argv[1])-1]);
+		syscall_remove_job(atoi(argv[1])-1);
+		exit();
+	}
+	if (strstr(argv[0],"kill") != NULL) {
+		int a[64];
+		int n = syscall_get_jobs(a);
+		syscall_env_destroy(a[atoi(argv[1])-1]);
+		syscall_remove_job(atoi(argv[1])-1);
+		exit();
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
