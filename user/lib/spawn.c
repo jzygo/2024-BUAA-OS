@@ -121,11 +121,11 @@ int spawn(char *prog, char **argv) {
 	// set 'r' and 'goto err' to close the file and return the error.
 	int r;
 	u_char elfbuf[512];
+	debugf("spawn: %x\n", 11);
 	/* Exercise 6.4: Your code here. (1/6) */
 	if ((r=readn(fd, elfbuf,sizeof(Elf32_Ehdr)))<0||r!=sizeof(Elf32_Ehdr)) {
 		goto err;
 	}
-	debugf("spawn: %x\n", 11);
 	const Elf32_Ehdr *ehdr = elf_from(elfbuf, sizeof(Elf32_Ehdr));
 	if (!ehdr) {
 		r = -E_NOT_EXEC;

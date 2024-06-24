@@ -172,6 +172,24 @@ int parsecmd(char **argv, int *rightpipe) {
 				return parsecmd(argv, rightpipe);
 			}
 			break;
+		case '&':
+			son = fork();
+			if(son==0) {
+				debugf("son=%d, & \n",son);
+				return argc;
+			} 
+			else {
+				debugf("son=%d, & \n",son);
+				if(*rightpipe == 0){
+					dup(1, 0);
+				} else if(*rightpipe == 1) {
+					dup(0, 1);
+				}
+				jobIndex[jobNum++] = son;
+				wait(son);
+				return parsecmd(argv, rightpipe);
+			}
+			break;
 		case 126://>>
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: >> not followed by word\n");
@@ -226,23 +244,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				return argc;
 			}
 			user_panic("| not implemented");
-			break;
-		case '&':
-			son = fork();
-			if(son==0) {
-				debugf("son=%d, & \n",son);
-				return argc;
-			} 
-			else {
-				debugf("son=%d, & \n",son);
-				if(*rightpipe == 0){
-					dup(1, 0);
-				} else if(*rightpipe == 1) {
-					dup(0, 1);
-				}
-				jobIndex[jobNum++] = son;
-				return parsecmd(argv, rightpipe);
-			}
 			break;
 		case 248:
 		// realize || and && in bash
