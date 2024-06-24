@@ -428,8 +428,8 @@ void runcmd(char *s) {
 		wait(rightpipe);
 	}
 	if (waitNew==0) {
-		debugf("test\n");
 		syscall_done_job(syscall_getenvid());
+		debugf("test\n");
 	}
 	exit();
 }
