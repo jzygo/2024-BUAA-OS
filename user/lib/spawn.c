@@ -110,8 +110,8 @@ static int spawn_mapper(void *data, u_long va, size_t offset, u_int perm, const 
 int spawn(char *prog, char **argv) {
 	// Step 1: Open the file 'prog' (the path of the program).
 	// Return the error if 'open' fails.
+	debugf("spawn");
 	int fd;
-	debugf("spawn: %x\n", 11);
 	if ((fd = open(prog, O_RDONLY)) < 0) {
 		return fd;
 	}
