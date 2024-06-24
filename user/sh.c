@@ -176,7 +176,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				exit();
 			}
 
-			fd = open(t, O_WRONLY);
+			fd = open(t, O_WRONLY | O_CREAT);
 			int n;
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
 			struct Fd *f;
