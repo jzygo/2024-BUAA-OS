@@ -361,7 +361,6 @@ void runcmd(char *s) {
 	}
 	argv[argc] = 0;
 	if (lazy!=0) {
-		debugf("lazy=%d,tag=%d, start exe. \n",lazy,tag);
 		if (lazy==1) {
 			if (tag==1) {
 				ipc_send(syscall_get_parent(),1,NULL,0);
@@ -377,11 +376,9 @@ void runcmd(char *s) {
 	}
 	
 	int child = spawn(p, argv);	
-	debugf("child,wait=%d;argc=%d;p=%s\n",waitNew,argc,p);
 
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);
-	debugf("res=%d\n",res);
 	close_all();
 	if (child >= 0) {
 		if (tag==1) {
@@ -389,7 +386,6 @@ void runcmd(char *s) {
 		}
 		wait(child);
 		if (waitNew==0) {
-			debugf("waitNew=%d\n",waitNew);
 			syscall_done_job(syscall_getenvid());
 		}
 	} else {
@@ -397,10 +393,6 @@ void runcmd(char *s) {
 	}
 	if (rightpipe) {
 		wait(rightpipe);
-	}
-	if (waitNew==0) {
-		debugf("waitNew=%d\n",waitNew);
-		syscall_done_job(syscall_getenvid());
 	}
 	exit();
 }
