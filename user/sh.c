@@ -339,6 +339,10 @@ void runcmd(char *s) {
 				syscall_add_job_name(nownowcnt,' ');
 				nownowcnt++;
 			}
+			else {
+				syscall_add_job_name(nownowcnt,'\0');
+				nownowcnt++;
+			}
 		}
 	}
 	if (argc == 0) {
@@ -367,7 +371,7 @@ void runcmd(char *s) {
 					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
 				}
 				int num = 0;
-				while (syscall_get_job_name(i,num)) {
+				while (syscall_get_job_name(i,num)!='\0') {
 					printf("%c",syscall_get_job_name(i,num));
 					num++;
 				}
