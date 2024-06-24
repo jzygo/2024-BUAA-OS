@@ -379,6 +379,7 @@ void runcmd(char *s) {
 				while (syscall_get_job_name(i,num)!='\0') {
 					printf("%c",syscall_get_job_name(i,num));
 					num++;
+					debugf("num=%d,job_name=%c\n",num,syscall_get_job_name(i,num));
 				}
 				printf("\n");
 			}
