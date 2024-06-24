@@ -374,7 +374,7 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
 				cnt++;
-				syscall_get_job_name(a[i], buf);
+				syscall_get_job_name(a[i], &buf);
 				if (syscall_query_job(i)==0) {
 					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf);
 				}
