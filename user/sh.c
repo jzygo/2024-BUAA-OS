@@ -145,7 +145,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
-		case '126': //>>
+		case '126':
 			debugf("t=%s\n",t);
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: << not followed by word\n");
