@@ -13,6 +13,7 @@ enum {
 	SYS_done_job,
 	SYS_remove_job,
 	SYS_query_job,
+	SYS_get_job_name,
 	SYS_yield,
 	SYS_env_destroy,
 	SYS_set_tlb_mod_entry,

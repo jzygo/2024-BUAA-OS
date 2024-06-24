@@ -9,6 +9,7 @@
 extern struct Env *curenv;
 int jobs[1024];
 int done_jobs[1024];
+char *job_name[1024];
 int job_num = 0;
 
 /* Overview:
@@ -53,9 +54,11 @@ u_int sys_get_parent(void) {
 	return curenv->env_parent_id;
 }
 
-u_int sys_add_job() {
+u_int sys_add_job(char *name) {
 	done_jobs[job_num] = 0;
+	job_name[job_num] = name;
 	jobs[job_num++] = curenv->env_id;
+
 	return 0;
 }
 
@@ -80,6 +83,14 @@ u_int sys_done_job(int envid) {
 		}
 	}
 	return -1;
+}
+
+u_int sys_get_job_name(int id, char *name) {
+	if (id >= job_num) {
+		return -1;
+	}
+	strcpy(name, job_name[id]);
+	return 0;
 }
 
 u_int sys_remove_job(int id) {
@@ -580,6 +591,7 @@ void *syscall_table[MAX_SYSNO] = {
 	[SYS_done_job] = sys_done_job,
 	[SYS_remove_job] = sys_remove_job,
 	[SYS_query_job] = sys_query_job,
+	[SYS_get_job_name] = sys_get_job_name,
     [SYS_yield] = sys_yield,
     [SYS_env_destroy] = sys_env_destroy,
     [SYS_set_tlb_mod_entry] = sys_set_tlb_mod_entry,

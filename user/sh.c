@@ -178,7 +178,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			if(son==0) {
 				// debugf("son=%d, & \n",son);
 				waitNew=0;
-				syscall_add_job();
+				syscall_add_job(buf_before);
 				return argc;
 			} 
 			else {
@@ -373,18 +373,12 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
 				cnt++;
-				// *buf = 0;
-				// //把argv拼接起来，以空格分开
-				// for (int j = 0; j < argc; j++) {
-				// 	strcat(buf, argv[j]);
-				// 	if (j<argc-1)
-				// 		strcat(buf, " ");
-				// }
-				if (syscall_query_job(i)>0) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf_before);
+				syscall_get_job_name(a[i], buf);
+				if (syscall_query_job(i)==0) {
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf);
 				}
-				else {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf_before);
+				else if (syscall_query_job(i)==1) {
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf);
 				}
 			}
 		}
@@ -536,7 +530,10 @@ int main(int argc, char **argv) {
 			runcmd(buf);
 			exit();
 		} else {
-			strcat(buf_before,buf);
+			//复制buf到buf_before
+			for (int i = 0; i <= strlen(buf); i++) {
+				buf_before[i] = buf[i];
+			}
 			wait(r);
 		}
 	}
