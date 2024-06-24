@@ -166,7 +166,6 @@ int parsecmd(char **argv, int *rightpipe) {
 			if(son==0) {
 				waitNew=0;
 				syscall_add_job(buf);
-				debugf("job_name=%s\n",buf);
 				int thisCnt = 0;
 				for (int i = 0; i < strlen(buf_before); i++) {
 					syscall_add_job_name(thisCnt,buf_before[i]);
@@ -384,7 +383,7 @@ void runcmd(char *s) {
 				while (syscall_get_job_name(i,num)!='&') {
 					printf("%c",syscall_get_job_name(i,num));
 					num++;
-					debugf("num=%d,job_name=%c\n",num,syscall_get_job_name(i,num));
+					// debugf("num=%d,job_name=%c\n",num,syscall_get_job_name(i,num));
 				}
 				debugf("&\n");
 			}
