@@ -42,8 +42,8 @@ int _gettoken(char *s, char **p1, char **p2) {
 		*s++ = 0;
 		if (strchr(SYMBOLS, *s)) {
 			t+=*s;
-			if (t==124)
-			{
+			if (t==124) {
+				debugf("t_num=%d\n",t);
 				t=126;
 			}
 			*s++ = 0;
