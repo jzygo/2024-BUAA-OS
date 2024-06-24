@@ -56,7 +56,7 @@ u_int sys_get_parent(void) {
 
 u_int sys_add_job(char *name) {
 	done_jobs[job_num] = 0;
-	jobs_num++;
+	job_num++;
 	return 0;
 }
 
