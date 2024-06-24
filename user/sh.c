@@ -226,8 +226,8 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				// debugf("%s\n",itoa(jobCnt));
 				// int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
-				write(fdMy,buf,strlen(buf));
-				close(fdMy);
+				// write(fdMy,buf,strlen(buf));
+				// close(fdMy);
 				strcpy(job_name[jobCnt],buf);
 				jobCnt++;
 				*buf=0;
