@@ -43,7 +43,6 @@ int _gettoken(char *s, char **p1, char **p2) {
 		if (strchr(SYMBOLS, *s)) {
 			t+=*s;
 			*s++ = 0;
-			debugf("t=%d\n",t);
 		}
 		*p2 = s;
 		return t;
@@ -68,7 +67,6 @@ int gettoken(char *s, char **p1) {
 	c = nc;
 	*p1 = np1;
 	nc = _gettoken(np2, &np1, &np2);
-	debugf("c=%d\n",c);
 	return c;
 }
 
