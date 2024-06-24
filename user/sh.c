@@ -187,7 +187,6 @@ int parsecmd(char **argv, int *rightpipe) {
 					dup(0, 1);
 				}
 				// jobIndex[jobNum++] = son;
-				wait(son);
 				waitNew=1;
 				return parsecmd(argv, rightpipe);
 			}
