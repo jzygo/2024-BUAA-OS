@@ -43,8 +43,8 @@ int _gettoken(char *s, char **p1, char **p2) {
 		if (strchr(SYMBOLS, *s)) {
 			t+=*s;
 			if (t==124) {
-				debugf("t_num=%d\n",t);
 				t=126;
+				debugf("t_num=%d\n",t);
 			}
 			*s++ = 0;
 		}
@@ -90,6 +90,7 @@ int parsecmd(char **argv, int *rightpipe) {
 		int c = gettoken(0, &t);
 		int son;
 		switch (c) {
+			debugf("c_num=%d\n",c);
 		case 0:
 			return argc;
 		case 'w':
