@@ -58,10 +58,10 @@ int _gettoken(char *s, char **p1, char **p2) {
 		s++;
 		while (*s && *s != '\"') {
 			s++;
+			debugf("s_string=%c\n",*s);
 		}
 		*p2 = s;
 		s++;
-		debugf("s_string=%c\n",*s);
 		return 'w';
 	}
 
