@@ -330,6 +330,7 @@ void runcmd(char *s) {
 	int argc = parsecmd(argv, &rightpipe);
 	if (waitNew==0) {
 		int nownowcnt=0;
+		debugf("argc=%d\n",argc);
 		for (int i = 0; i < argc; i++) {
 			for (int j = 0;j<=strlen(argv[i]);j++) {
 				syscall_add_job_name(nownowcnt,argv[i][j]);
