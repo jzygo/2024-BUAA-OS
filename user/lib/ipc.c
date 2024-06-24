@@ -13,6 +13,7 @@ void ipc_send(u_int whom, u_int val, const void *srcva, u_int perm) {
 	int r;
 	while ((r = syscall_ipc_try_send(whom, val, srcva, perm)) == -E_IPC_NOT_RECV) {
 		syscall_yield();
+		debugf("ipc_send_yield,envid:%d\n",syscall_getenvid());
 	}
 	user_assert(r == 0);
 }
