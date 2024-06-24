@@ -376,7 +376,7 @@ void runcmd(char *s) {
 					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
 				}
 				int num = 0;
-				while (syscall_get_job_name(i,num)!='\0') {
+				while (syscall_get_job_name(i,num)!='&') {
 					printf("%c",syscall_get_job_name(i,num));
 					num++;
 					debugf("num=%d,job_name=%c\n",num,syscall_get_job_name(i,num));
