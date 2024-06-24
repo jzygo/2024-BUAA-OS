@@ -501,10 +501,14 @@ int main(int argc, char **argv) {
 		if ((r = fork()) < 0) {
 			user_panic("fork: %d", r);
 		}
+		// 如果buf中有&
 		if (r == 0) {
 			runcmd(buf);
 			exit();
 		} else {
+			if (!strchr(buf, '&')) {
+				wait(r);
+			}
 		}
 	}
 	return 0;
