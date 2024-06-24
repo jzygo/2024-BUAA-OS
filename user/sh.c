@@ -230,7 +230,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				// close(fdMy);
 				strcpy(job_name[jobCnt],buf);
 				jobCnt++;
-				*buf=0;
 				debugf("job_id:%d,job_name:%s\n",syscall_get_job_id(),job_name[0]);
 				return argc;
 			} 
