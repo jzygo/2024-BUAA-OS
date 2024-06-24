@@ -221,6 +221,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				debugf("instr:%s\n",buf);
+				debugf("%s\n",itoa(jobCnt));
 				int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
 				write(fdMy,buf,strlen(buf));
 				close(fdMy);
