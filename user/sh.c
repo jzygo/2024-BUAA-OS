@@ -52,6 +52,7 @@ int _gettoken(char *s, char **p1, char **p2) {
 		return t;
 	}
 	if (strchr("\"", *s)) {
+		s++;
 		*p1 = s;
 		s++;
 		while (*s && *s != '\"') {
