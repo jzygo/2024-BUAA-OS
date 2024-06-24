@@ -95,47 +95,6 @@ int tag=0;
 int lazy=0;
 int echoFlag=0;
 
-//实现以下函数：输入一个整数，返回转化成的字符串，不得使用其他库函数
-char *itoa(int num) {
-	static char str[13];
-	int i = 0;
-	int sign = 0;
-
-	if (num < 0) {
-		sign = 1;
-		num = -num;
-	}
-
-	do {
-		str[i++] = num % 10 + '0';
-		num /= 10;
-	} while (num > 0);
-
-	if (sign) {
-		str[i++] = '-';
-	}
-
-	str[i] = '\0';
-
-	// Reverse the string
-	int start = 0;
-	int end = i - 1;
-	while (start < end) {
-		char temp = str[start];
-		str[start] = str[end];
-		str[end] = temp;
-		start++;
-		end--;
-	}
-	// 在str的最开头加上一个'/'
-	char new_str[128];
-	new_str[0] = 'a';
-	strcpy(new_str + 1, str);
-	strcpy(str, new_str);
-
-	return str;
-}
-
 int parsecmd(char **argv, int *rightpipe) {
 	int argc = 0;
 	while (1) {
@@ -168,11 +127,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("syntax error: < not followed by word\n");
 				exit();
 			}
-			// Open 't' for reading, dup it onto fd 0, and then close the original fd.
-			// If the 'open' function encounters an error,
-			// utilize 'debugf' to print relevant messages,
-			// and subsequently terminate the process using 'exit'.
-			/* Exercise 6.5: Your code here. (1/3) */
 			fd = open(t, O_RDONLY);
 			r=dup(fd, 0);
 			close(fd);
@@ -185,12 +139,6 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("syntax error: > not followed by word\n");
 				exit();
 			}
-			// Open 't' for writing, create it if not exist and trunc it if exist, dup
-			// it onto fd 1, and then close the original fd.
-			// If the 'open' function encounters an error,
-			// utilize 'debugf' to print relevant messages,
-			// and subsequently terminate the process using 'exit'.
-			/* Exercise 6.5: Your code here. (2/3) */
 			fd = open(t, O_WRONLY);
 			r=dup(fd, 1);
 			close(fd);
@@ -216,25 +164,15 @@ int parsecmd(char **argv, int *rightpipe) {
 		case '&':
 			son = fork();
 			if(son==0) {
-				// debugf("son=%d, & \n",son);
 				waitNew=0;
-				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				for (int i = 0;i<=strlen(buf);i++) {
 					syscall_add_job_name(i,buf[i]);
 				}
-				debugf("instr:%s\n",buf);
-				// debugf("%s\n",itoa(jobCnt));
-				// int fdMy = open(itoa(jobCnt),O_CREAT|O_WRONLY);
-				// write(fdMy,buf,strlen(buf));
-				// close(fdMy);
-				strcpy(job_name[jobCnt],buf);
 				jobCnt++;
-				debugf("job_id:%d,job_name:%s\n",syscall_get_job_id(),job_name[0]);
 				return argc;
 			} 
 			else {
-				// debugf("son=%d, & \n",son);
 				if(*rightpipe == 0){
 					dup(1, 0);
 				} else if(*rightpipe == 1) {
@@ -264,26 +202,9 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			break;
 		case '#' :
-			// ignore the rest of the line
 			return argc;
 		case '|':;
-			/*
-			 * First, allocate a pipe.
-			 * Then fork, set '*rightpipe' to the returned child envid or zero.
-			 * The child runs the right side of the pipe:
-			 * - dup the read end of the pipe onto 0
-			 * - close the read end of the pipe
-			 * - close the write end of the pipe
-			 * - and 'return parsecmd(argv, rightpipe)' again, to parse the rest of the
-			 *   command line.
-			 * The parent runs the left side of the pipe:
-			 * - dup the write end of the pipe onto 1
-			 * - close the write end of the pipe
-			 * - close the read end of the pipe
-			 * - and 'return argc', to execute the left of the pipeline.
-			 */
 			int p[2];
-			/* Exercise 6.5: Your code here. (3/3) */
 			pipe(p);
 			*rightpipe = fork();
 			if (*rightpipe == 0) {
@@ -300,15 +221,12 @@ int parsecmd(char **argv, int *rightpipe) {
 			user_panic("| not implemented");
 			break;
 		case 248:
-		// realize || and && in bash
-			/* Exercise 6.5: Your code here. (3/3) */
 			debugf("|| \n");
 			son = fork();
 			if (son == 0) {
 				tag=1;
 				return argc;
 			}  else if (son > 0) {
-				        //   int result=0;
 				int result=ipc_recv(NULL,0,0);
 				tag=0;
 				if(*rightpipe == 0){
@@ -318,19 +236,15 @@ int parsecmd(char **argv, int *rightpipe) {
 				}
 				wait(son);
 				if(result==0) {
-					// debugf("son=%d, || \n",son);
 					lazy=-1;
 				}
 				else {
 					lazy=0;
 				}
-				// debugf("son=%d,lazy=%d,tag=%d start exe. || \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
 		case 76:
-		// realize || and && in bash
-			/* Exercise 6.5: Your code here. (3/3) */
 			son = fork();
 			if (son == 0) {
 				tag=1;
@@ -346,13 +260,11 @@ int parsecmd(char **argv, int *rightpipe) {
 				}
 				wait(son);
 				if(result!=0) {
-					// debugf("son=%d, && \n",son);
 					lazy=1;
 				}
 				else {
 					lazy=0;
 				}
-					// debugf("son=%d,lazy=%d,tag=%d start exe. && \n",son,lazy,tag);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -409,6 +321,10 @@ void runcmd(char *s) {
 	if (argc == 0) {
 		return;
 	}
+	if (waitNew==0) {
+		debugf("waitNew=%d\n",waitNew);
+		syscall_done_job(syscall_getenvid());
+	}
 	// 创建一个新的字符串指针，用于存放argv[0]的内容。按值复制
 	char p[128];
 	if (strstr(argv[0], "history")!=NULL) {
@@ -424,11 +340,6 @@ void runcmd(char *s) {
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
 				cnt++;
-				// debugf("%s\n",job_name[0]);
-				// int fdMy = open(itoa(i),O_RDONLY);
-				// debugf("%s\n",itoa(i));
-				// read(fdMy,buf_before,(long)sizeof buf_before);
-				// close(fdMy);
 				if (syscall_query_job(i)==0) {
 					printf("[%d] %-10s 0x%08x ", cnt, "RUNNING", a[i]);
 				}
