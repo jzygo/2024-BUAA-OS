@@ -180,6 +180,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				waitNew=0;
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
+				debugf("instr:%s\n",buf);
 				return argc;
 			} 
 			else {
@@ -376,10 +377,10 @@ void runcmd(char *s) {
 				cnt++;
 				
 				if (syscall_query_job(i)==0) {
-					printf("[%d] %-10s 0x%08x", cnt, "RUNNING", a[i]);
+					printf("[%d] %-10s 0x%08x ", cnt, "RUNNING", a[i]);
 				}
 				else if (syscall_query_job(i)==1) {
-					printf("[%d] %-10s 0x%08x", cnt, "DONE", a[i]);
+					printf("[%d] %-10s 0x%08x ", cnt, "DONE", a[i]);
 				}
 				int nnn=0;
 				while(syscall_get_job_name(i,nnn)) {
