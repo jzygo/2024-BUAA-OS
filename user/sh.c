@@ -484,6 +484,7 @@ void runcmd(char *s) {
 		wait(rightpipe);
 	}
 	if (waitNew==0) {
+		debugf("waitNew=%d\n",waitNew);
 		syscall_done_job(syscall_getenvid());
 	}
 	exit();
