@@ -424,6 +424,7 @@ void runcmd(char *s) {
 				cnt++;
 				debugf("%s\n",job_name[0]);
 				int fdMy = open(itoa(i),O_RDONLY);
+				debugf("%s\n",itoa(i));
 				read(fdMy,buf_before,(long)sizeof buf_before);
 				close(fdMy);
 				if (syscall_query_job(i)==0) {
