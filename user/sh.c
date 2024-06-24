@@ -342,6 +342,8 @@ void runcmd(char *s) {
 				nownowcnt++;
 			}
 			else {
+				syscall_add_job_name(nownowcnt,'&');
+				nownowcnt++;
 				syscall_add_job_name(nownowcnt,'\0');
 				nownowcnt++;
 			}
