@@ -160,8 +160,8 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			break;
 		case ';':
-			int child = fork();
-			if(child==0) {
+			son = fork();
+			if(son==0) {
 				return argc;
 			} 
 			else {
@@ -170,7 +170,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				} else if(*rightpipe == 1) {
 					dup(0, 1);
 				}
-				wait(child);
+				wait(son);
 				return parsecmd(argv, rightpipe);
 			}
 			break;
