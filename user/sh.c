@@ -22,6 +22,7 @@
 
 char buf[1024];
 char buf2[8192];
+char buf_before[1024];
 int jobIndex[1024];
 int jobNum=0;
 int waitNew=1;
@@ -380,10 +381,10 @@ void runcmd(char *s) {
 				// 		strcat(buf, " ");
 				// }
 				if (syscall_query_job(i)>0) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf);
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf_before);
 				}
 				else {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf);
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf_before);
 				}
 			}
 		}
@@ -535,6 +536,7 @@ int main(int argc, char **argv) {
 			runcmd(buf);
 			exit();
 		} else {
+			strcat(buf_before,buf);
 			wait(r);
 		}
 	}
