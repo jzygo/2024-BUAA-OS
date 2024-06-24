@@ -25,6 +25,7 @@ char buf2[8192];
 char buf_before[1024];
 char job_name[16][128];
 int jobNum=0;
+int jobCnt=0;
 int waitNew=1;
 int _gettoken(char *s, char **p1, char **p2) {
 	*p1 = 0;
@@ -94,7 +95,41 @@ int tag=0;
 int lazy=0;
 int echoFlag=0;
 
+//实现以下函数：输入一个整数，返回转化成的字符串，不得使用其他库函数
+char *itoa(int num) {
+	static char str[12];
+	int i = 0;
+	int sign = 0;
 
+	if (num < 0) {
+		sign = 1;
+		num = -num;
+	}
+
+	do {
+		str[i++] = num % 10 + '0';
+		num /= 10;
+	} while (num > 0);
+
+	if (sign) {
+		str[i++] = '-';
+	}
+
+	str[i] = '\0';
+
+	// Reverse the string
+	int start = 0;
+	int end = i - 1;
+	while (start < end) {
+		char temp = str[start];
+		str[start] = str[end];
+		str[end] = temp;
+		start++;
+		end--;
+	}
+
+	return str;
+}
 
 int parsecmd(char **argv, int *rightpipe) {
 	int argc = 0;
@@ -181,7 +216,10 @@ int parsecmd(char **argv, int *rightpipe) {
 				debugf("instr:%s\n",buf);
 				syscall_add_job(buf);
 				debugf("instr:%s\n",buf);
-				strcpy(job_name[syscall_get_job_id()],buf);
+				int fdMy = open(strcat("abcde",itoa(jobCnt)),O_CREAT|O_WRONLY);
+				write(fdMy,buf,strlen(buf));
+				strcpy(job_name[jobCnt],buf);
+				jobCnt++;
 				*buf=0;
 				debugf("job_id:%d,job_name:%s\n",syscall_get_job_id(),job_name[0]);
 				return argc;
@@ -378,11 +416,13 @@ void runcmd(char *s) {
 			if (a[i]>0) {
 				cnt++;
 				debugf("%s\n",job_name[0]);
+				int fdMy = open(strcat("abcde",itoa(i)),O_RDONLY);
+				read(fdMy,buf_before,(long)sizeof buf_before);
 				if (syscall_query_job(i)==0) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], job_name[i]);
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "RUNNING", a[i], buf_before);
 				}
 				else if (syscall_query_job(i)==1) {
-					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], job_name[i]);
+					printf("[%d] %-10s 0x%08x %s\n", cnt, "DONE", a[i], buf_before);
 				}
 			}
 		}
