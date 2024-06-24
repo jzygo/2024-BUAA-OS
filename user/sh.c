@@ -238,7 +238,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				} else if(*rightpipe == 1) {
 					dup(0, 1);
 				}
-				jobIndex[jobNum++]=son;
+				jobIndex[jobNum++] = son;
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -379,8 +379,8 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
+	debugf("child,wait=%d;argvc=%d\n;p=%s",waitNew,argc,p);
 	int child = spawn(p, argv);
-	debugf("child,wait=%d\n",waitNew);
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);
 	debugf("res=%d\n",res);
