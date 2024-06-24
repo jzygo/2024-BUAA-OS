@@ -333,6 +333,7 @@ void runcmd(char *s) {
 		for (int i = 0; i < argc; i++) {
 			for (int j = 0;j<=strlen(argv[i]);j++) {
 				syscall_add_job_name(nownowcnt,argv[i][j]);
+				debugf("%c",argv[i][j]);
 				nownowcnt++;
 			}
 			if (i!=argc-1) {
@@ -344,6 +345,7 @@ void runcmd(char *s) {
 				nownowcnt++;
 			}
 		}
+		debugf("\n");
 	}
 	if (argc == 0) {
 		return;
