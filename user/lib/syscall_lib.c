@@ -20,8 +20,8 @@ u_int syscall_get_parent (void) {
 	return msyscall(SYS_get_parent);
 }
 
-u_int syscall_add_job(void) {
-	return msyscall(SYS_add_job);
+u_int syscall_add_job(char *name) {
+	return msyscall(SYS_add_job,name);
 }
 
 u_int syscall_get_jobs(int *a) {
