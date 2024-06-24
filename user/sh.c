@@ -332,6 +332,7 @@ void runcmd(char *s) {
 		argv[0] = "cat.b";
 		argv[1] = "/.mosh_history";
 	}
+	int flagJob=0;
 	if (strstr(argv[0], "jobs")!=NULL) {
 		int a[64];
 		int n = syscall_get_jobs(a);\
@@ -354,7 +355,7 @@ void runcmd(char *s) {
 				printf("\n");
 			}
 		}
-		exit();
+		return;
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
