@@ -45,7 +45,6 @@ int _gettoken(char *s, char **p1, char **p2) {
 			t+=*s;
 			if (t==124) {
 				t=126;
-				debugf("t_num=%d\n",t);
 			}
 			*s++ = 0;
 		}
@@ -58,7 +57,6 @@ int _gettoken(char *s, char **p1, char **p2) {
 		*p1 = s;
 		while (*s && *s != '\"') {
 			s++;
-			debugf("s_string=%c\n",*s);
 		}
 		*s++=0;
 		*p2 = s;
@@ -102,7 +100,6 @@ int parsecmd(char **argv, int *rightpipe) {
 		int fd, r;
 		int c = gettoken(0, &t);
 		int son;
-			debugf("c_num=%d\n",c);
 		switch (c) {
 		case 0:
 			return argc;
@@ -174,22 +171,18 @@ int parsecmd(char **argv, int *rightpipe) {
 			}
 			break;
 		case 126://>>
-			debugf(">> \n");
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: >> not followed by word\n");
 				exit();
 			}
 
-			debugf("t_string=%s\n",t);
 			fd = open(t, O_WRONLY);
 			int n;
 			while ((n = read(fd, buf, (long)sizeof buf)) > 0);
 			struct Fd *f;
 			f=(struct Fd *)INDEX2FD(fd);
 			struct Filefd *filefd=(struct Filefd *)f;
-			debugf("fd->fd_offset=%d\n",f->fd_offset);
 			f->fd_offset=filefd->f_file.f_size;
-			debugf("fd->fd_offset=%d\n",f->fd_offset);
 			r=dup(fd, 1);
 			close(fd);
 			if (r < 0) {
