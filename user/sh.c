@@ -381,6 +381,7 @@ void runcmd(char *s) {
 		exit();
 	}
 	int child = spawn(p, argv);
+	debugf("child=%d\n",child);
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);
 	debugf("res=%d\n",res);
