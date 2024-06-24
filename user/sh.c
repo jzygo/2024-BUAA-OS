@@ -230,18 +230,15 @@ int parsecmd(char **argv, int *rightpipe) {
 		case '&':
 			son = fork();
 			if(son==0) {
-				debugf("son=%d, & \n",son);
-				waitNew=1;
 				return argc;
 			} 
 			else {
-				debugf("son=%d, & \n",son);
 				if(*rightpipe == 0){
 					dup(1, 0);
 				} else if(*rightpipe == 1) {
 					dup(0, 1);
 				}
-				waitNew=0;
+				jobIndex[jobNum++]=son;
 				return parsecmd(argv, rightpipe);
 			}
 			break;
@@ -392,13 +389,7 @@ void runcmd(char *s) {
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
-		if (waitNew==1) {
-			wait(child);
-		}
-		else {
-			// 添加到job列表
-			jobIndex[jobNum++]=child;
-		}
+		wait(child);
 	} else {
 		debugf("spawn %s: %d\n", argv[0], child);
 	}
@@ -510,9 +501,6 @@ int main(int argc, char **argv) {
 		} else {
 			wait(r);
 		}
-	}
-	if (syscall_get_parent() != 8195) {
-		ipc_send(syscall_get_parent(),0,NULL,0);
 	}
 	return 0;
 }
