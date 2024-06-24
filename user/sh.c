@@ -368,7 +368,6 @@ void runcmd(char *s) {
 		int a[64];
 		int n = syscall_get_jobs(a);
 		int cnt = 0;
-		debugf("test,n=%d\n",n);
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
 				//printf("[%d] %-10s 0x%08x %s", job_id, status, env_id, cmd) 
@@ -388,6 +387,7 @@ void runcmd(char *s) {
 				}
 			}
 		}
+		debugf("test,n=%d\n",n);
 	}
 	strcpy(p, argv[0]);
 	if (strstr(argv[0], ".b") == NULL) {
