@@ -90,6 +90,7 @@ char sys_get_job_name(int id,int index) {
 	if (id >= job_num) {
 		return -1;
 	}
+	printk("job_name:%s\n",job_name[id]);
 	return job_name[id][index];
 	
 }
