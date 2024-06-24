@@ -128,10 +128,10 @@ char *itoa(int num) {
 		end--;
 	}
 	// 在str的最开头加上一个'/'
-	char new_str[128];
-	new_str[0] = '/';
-	strcpy(new_str + 1, str);
-	strcpy(str, new_str);
+	// char new_str[128];
+	// new_str[0] = '/';
+	// strcpy(new_str + 1, str);
+	// strcpy(str, new_str);
 
 	return str;
 }
