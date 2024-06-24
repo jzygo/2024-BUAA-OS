@@ -21,7 +21,7 @@ u_int syscall_get_parent (void) {
 }
 
 u_int syscall_add_job(void) {
-	return msyscall(SYS_add_job, parent);
+	return msyscall(SYS_add_job);
 }
 
 u_int syscall_get_jobs(int *a) {
