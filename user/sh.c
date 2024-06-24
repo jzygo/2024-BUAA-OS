@@ -42,6 +42,10 @@ int _gettoken(char *s, char **p1, char **p2) {
 		*s++ = 0;
 		if (strchr(SYMBOLS, *s)) {
 			t+=*s;
+			if (t==124)
+			{
+				t=126;
+			}
 			*s++ = 0;
 		}
 		*p2 = s;
@@ -140,7 +144,7 @@ int parsecmd(char **argv, int *rightpipe) {
 				user_panic("> redirection not implemented");
 			}
 			break;
-		case '124': //>>
+		case '126': //>>
 			debugf("t=%s\n",t);
 			if (gettoken(0, &t) != 'w') {
 				debugf("syntax error: << not followed by word\n");
