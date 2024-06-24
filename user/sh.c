@@ -379,8 +379,9 @@ void runcmd(char *s) {
 		lazy = 0;
 		exit();
 	}
-	debugf("child,wait=%d;argc=%d;p=%s\n",waitNew,argc,p);
-	int child = spawn(p, argv);
+	int child = spawn(p, argv);	
+	debugf("child=%d,wait=%d;argc=%d;p=%s\n",child,waitNew,argc,p);
+
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);
 	debugf("res=%d\n",res);
