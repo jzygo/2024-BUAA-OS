@@ -369,7 +369,8 @@ void runcmd(char *s) {
 	}
 	if (strstr(argv[0], "jobs")!=NULL) {
 		int a[64];
-		int n = syscall_get_jobs(a);
+		int n = syscall_get_jobs(a);\
+		debugf("n=%d\n",n);
 		int cnt = 0;
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
