@@ -392,6 +392,7 @@ void runcmd(char *s) {
 		for (int i = 0; i < n; i++) {
 			if (a[i]>0) {
 				cnt++;
+				debugf("cnt=%d\n",cnt);
 				if (cnt==atoi(argv[1])) {
 					if (syscall_query_job(i)>0) {
 						printf("fg: (0x%08x) not running\n", syscall_getenvid());
