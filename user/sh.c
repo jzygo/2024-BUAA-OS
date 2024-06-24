@@ -230,9 +230,11 @@ int parsecmd(char **argv, int *rightpipe) {
 		case '&':
 			son = fork();
 			if(son==0) {
+				debugf("son=%d, & \n",son);
 				return argc;
 			} 
 			else {
+				debugf("son=%d, & \n",son);
 				if(*rightpipe == 0){
 					dup(1, 0);
 				} else if(*rightpipe == 1) {
@@ -378,9 +380,9 @@ void runcmd(char *s) {
 		}
 		lazy = 0;
 		exit();
-	}
-	int child = spawn(p, argv);	
+	}	
 	debugf("child=%d,wait=%d;argc=%d;p=%s\n",child,waitNew,argc,p);
+	int child = spawn(p, argv);	
 
 	u_int caller;
 	int res = ipc_recv(&caller,0,0);

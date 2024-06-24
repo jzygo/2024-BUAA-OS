@@ -108,6 +108,7 @@ static int spawn_mapper(void *data, u_long va, size_t offset, u_int perm, const 
  *   CPUs! QEMU doesn't simulate caching, allowing the OS to function correctly.
  */
 int spawn(char *prog, char **argv) {
+	debugf("spawn: %x\n", child);
 	// Step 1: Open the file 'prog' (the path of the program).
 	// Return the error if 'open' fails.
 	int fd;
@@ -214,7 +215,6 @@ int spawn(char *prog, char **argv) {
 		debugf("spawn: syscall_set_env_status %x: %d\n", child, r);
 		goto err2;
 	}
-	debugf("spawn: %x\n", child);
 	return child;
 
 err2:
