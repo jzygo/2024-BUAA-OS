@@ -68,6 +68,7 @@ int gettoken(char *s, char **p1) {
 	c = nc;
 	*p1 = np1;
 	nc = _gettoken(np2, &np1, &np2);
+	debugf("c=%d\n",c);
 	return c;
 }
 
