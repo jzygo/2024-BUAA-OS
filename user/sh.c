@@ -178,6 +178,7 @@ int parsecmd(char **argv, int *rightpipe) {
 			if(son==0) {
 				// debugf("son=%d, & \n",son);
 				waitNew=0;
+				debugf("instr:%s\n",buf_before);
 				syscall_add_job(buf_before);
 				return argc;
 			} 
