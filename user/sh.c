@@ -89,8 +89,8 @@ int parsecmd(char **argv, int *rightpipe) {
 		int fd, r;
 		int c = gettoken(0, &t);
 		int son;
-		switch (c) {
 			debugf("c_num=%d\n",c);
+		switch (c) {
 		case 0:
 			return argc;
 		case 'w':
