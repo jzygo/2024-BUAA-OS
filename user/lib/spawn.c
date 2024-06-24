@@ -111,6 +111,7 @@ int spawn(char *prog, char **argv) {
 	// Step 1: Open the file 'prog' (the path of the program).
 	// Return the error if 'open' fails.
 	int fd;
+	debugf("spawn: %x\n", 11);
 	if ((fd = open(prog, O_RDONLY)) < 0) {
 		return fd;
 	}
@@ -121,7 +122,6 @@ int spawn(char *prog, char **argv) {
 	// set 'r' and 'goto err' to close the file and return the error.
 	int r;
 	u_char elfbuf[512];
-	debugf("spawn: %x\n", 11);
 	/* Exercise 6.4: Your code here. (1/6) */
 	if ((r=readn(fd, elfbuf,sizeof(Elf32_Ehdr)))<0||r!=sizeof(Elf32_Ehdr)) {
 		goto err;
