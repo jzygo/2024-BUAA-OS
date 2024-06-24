@@ -364,12 +364,12 @@ void runcmd(char *s) {
 	}
 	debugf("runcmd: %s,envid=%d\n", p,syscall_getenvid());
 	int child = spawn(p, argv);
+	u_int caller;
+	int res = ipc_recv(&caller,0,0);
 	close_all();
 	if (child >= 0) {
 		debugf("sender start=%d\n", child);
 		debugf("reicever start=%d\n",syscall_getenvid());
-		u_int caller;
-		int res = ipc_recv(&caller,0,0);
 		if (tag==1) {
 			ipc_send(syscall_get_parent(),res,NULL,0);
 		}
