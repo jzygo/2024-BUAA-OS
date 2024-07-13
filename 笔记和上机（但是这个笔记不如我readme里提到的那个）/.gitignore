@@ -1,0 +1,8 @@
+racing
+ignore
+temp
+.vscode
+*.mp4
+*.drawio
+*.code-workspace
+*.txt
